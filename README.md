@@ -24,8 +24,8 @@
 ## 三十天教學目錄
 
 * 起源
-    * Day1 讓技術為你服務(說明專案目標，所涉及的技術領域)
-    * Day2 前置環境設定(windows/mac)需要分開說明，並簡述各個工具的功能
+    * [Day1 讓技術為你服務(說明專案目標，所涉及的技術領域)](/day1/README.md)
+    * [Day2 前置環境設定(windows/mac)需要分開說明，並簡述各個工具的功能](/day2/README.md)
 
 * nodejs
     * Day3 nodejs起手式(只要做到Hello world)，package.json的script說明，並解釋最基礎函式執行邏輯
