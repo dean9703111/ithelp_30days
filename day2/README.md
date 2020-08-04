@@ -52,7 +52,8 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 
 nodejs [官網](https://nodejs.org/en/about/)
 ----
-![image](./article_img/nodejs.png)
+<img src="./article_img/nodejs.png" data-canonical-src="./img/stock4.png" width="120" height="80"/>
+
 可以在server端執行的javascript，前端工程師的福音  
 
 nvm [官網](https://github.com/nvm-sh/nvm)
@@ -78,7 +79,8 @@ nvm install 14.7
 
 git [官網](https://git-scm.com/)
 ----
-![image](./article_img/git.png)
+<img src="./article_img/git.png" data-canonical-src="./img/stock4.png" width="200" height="80"/>
+
 這是對於程式版本控制的工具，透過他你可以輕鬆回到過去，並且在多人協作時也能有效管控
 [windows下載頁面](https://git-scm.com/download/win)、[mac下載頁面](https://git-scm.com/download/mac)  
 常用指令如下
@@ -91,7 +93,8 @@ git push 更新遠端數據庫
 
 yarn [官網](https://classic.yarnpkg.com/zh-Hant/)  
 ----
-![image](./article_img/yarn.png)
+<img src="./article_img/yarn.png" data-canonical-src="./img/stock4.png" width="160" height="80"/>
+
 這是專門安裝套件的軟體  
 站在巨人的肩膀上你才能看得更遠，妥善運用別人提供的套件，程式的路能走得更遠  
 [windows下載頁面](https://classic.yarnpkg.com/zh-Hant/docs/install#windows-stable)、[mac下載頁面](https://classic.yarnpkg.com/zh-Hant/docs/install#mac-stable)
@@ -99,7 +102,8 @@ yarn [官網](https://classic.yarnpkg.com/zh-Hant/)
 
 VScode [官網](https://code.visualstudio.com/)
 ----
-![image](./article_img/vscode.png)
+<img src="./article_img/vscode.png" data-canonical-src="./img/stock4.png" width="80" height="80"/>
+
 現在已經過了用記事本在打程式的年代了，透過IDE(整合開發環境)可以大幅增加你撰寫程式的速度
 ##### 優點
 1. 適合新手：不需再在終端機下安裝及設定各種前置作業，能節省建立開發環境的成本，並加速對開發環境的了解。
