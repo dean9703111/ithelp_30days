@@ -58,7 +58,7 @@ package.json
 ```
 npm init
 ```
-下面是建立好的範例pacakge.json，我簡單說明幾個重要的參數
+下面是建立好的範例pacakge.json，我簡單說明幾個重要的參數(真實的package.json不可以用//來當備註喔，下面範例加上備註只是為了讓大家方便理解)
 ```js
 {
   "name": "crawler",// 專案名稱，全部小寫，不允許空格
