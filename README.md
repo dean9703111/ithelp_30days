@@ -29,7 +29,7 @@
 
 * 專案基礎知識
     * [Day3 nodejs起手式(只要做到Hello world)，package.json的script說明，並解釋最基礎函式執行邏輯](/day3/README.md)
-    * Day4 .env環境變數說明，因為很多資訊需要社群登入後才能擷取，這個可以保證資訊的安全
+    * [Day4 .env環境變數說明，因為很多資訊需要社群登入後才能擷取，這個可以保證資訊的安全](/day4/README.md)
     * Day5 gitignore，讓你只上傳需要用到的檔案到github    
 
 * 網頁爬蟲
