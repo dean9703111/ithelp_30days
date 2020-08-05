@@ -39,5 +39,6 @@ node_modules
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
 cd ithelp_30days/day5
+yarn
 yarn start
 ```

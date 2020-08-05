@@ -4,6 +4,7 @@
 如果昨天大家都能順利地啟動chrome前往自己想要去的網頁  
 那今天我們來談你要如何拆解網頁的結構，今天所講的東西請一定要自己實作過一遍，因為FB更改網頁結構的速度很快，請培養自己解析網頁的能力  
 
+分析Facebook網頁結構
 ----
 * 先請大家用chrome無痕模式打開[FB](https://www.facebook.com/)  
 <img src="./article_img/chrome.png" width="300" height="210"/>  
@@ -37,6 +38,9 @@
     //*[@id="u_0_b"]
     ```
     取得這三個元件後我們便可以開始撰寫程式  
+
+打造自動登入FaceBook的機器人
+----
 1. 先填寫好自己.env的參數提供主程式使用
 ```js
 require('dotenv').config(); //載入.env環境檔
@@ -79,6 +83,7 @@ loginFacebook()//登入FB
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
 cd ithelp_30days/day７
+yarn
 yarn start
 ```
 ### [Day8 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](../day8/README.md)

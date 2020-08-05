@@ -46,6 +46,7 @@ openCrawlerWeb()//打開爬蟲網頁
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
 cd ithelp_30days/day6
+yarn
 yarn start
 ```
 ### [Day7 分析Facebook網頁結構，打造自動登入FaceBook的機器人](../day7/README.md)
