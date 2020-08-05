@@ -2,7 +2,7 @@
 ### Day6 爬蟲起手式selenium
 
 先前說過由於 FB & IG 的隱私權政策導致我們無法透過api直接取得我們所想要的資訊  
-所以我們需要借助**selenium-webdriver**這個套件來開啟專門爬蟲的網頁
+所以我們需要借助**selenium-webdriver**這個套件來開啟並執行你想要對網頁做的事情
 我的文章會慢慢使用到它的各種功能，如果有迫不及待的小夥伴也可以先去[官網](https://www.selenium.dev/documentation/en/)來更深刻的了解他  
 
 先在terminal下指令安裝他  
@@ -30,7 +30,7 @@ chromedriver.exe
 #### index.js
 ```js
 require('dotenv').config(); //載入.env環境檔
-var webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
+var webdriver = require('selenium-webdriver') // 加入用來執行並操作瀏覽器的套件
 function openCrawlerWeb () {
     var driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
     const web = 'https://www.google.com/';//填寫你想要前往的網站
@@ -39,8 +39,8 @@ function openCrawlerWeb () {
 openCrawlerWeb()//打開爬蟲網頁
 ```
 如果一切順利，你應該會看到一個chrome的應用程式打開並且進入google的首頁  
-
 <img src="./article_img/chrome.png" width="400" height="300"/>
+
 
 上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days)找到喔，或是你可以整個專案clone下來
 ```
@@ -48,3 +48,4 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 cd ithelp_30days/day6
 yarn start
 ```
+### [Day7 分析Facebook網頁結構，打造自動登入FaceBook的機器人](../day7/README.md)

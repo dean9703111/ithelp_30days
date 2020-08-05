@@ -35,8 +35,8 @@
 
 * 網頁爬蟲
     * [Day6 用nodejs成功打開虛擬網頁selenium(windows需要一些下載chrome的driver)，並說明使用理由(因為FB新版api對隱私權很看重所以很難用api進行爬蟲)](/day6/README.md)
-    * Day7 分析Facebook網頁結構，打造自動登入FaceBook的機器人
-    * Day8 分析Facebook網頁結構，並取得追蹤人數資訊
+    * [Day7 分析Facebook網頁結構，打造自動登入FaceBook的機器人](/day7/README.md)
+    * [Day8 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day8/README.md)
     * Day9 分析Instagram網頁結構，打造自動登入Instagram的機器人
     * Day10 分析Instagram網頁結構，並取得追蹤人數資訊
     * Day11 解決selenium跨網域問題、通知彈窗問題
