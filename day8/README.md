@@ -81,6 +81,8 @@ for (const fb_trace_ele of fb_trace_eles) {
 console.log(`追蹤人數：${fb_trace}`)
 ...
 ```
+這裡使用的是 **for/of迴圈** ，特別說明一下[foreach裡面是不能用await去跑的](https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop)，這裡有[介紹各種for迴圈的文章](https://www.jishuwen.com/d/2M0c/zh-tw)歡迎參考  
+
 接下來在終端機輸入 **yarn start** 指令，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
 
 3. **關閉瀏覽器**
