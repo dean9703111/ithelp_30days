@@ -42,14 +42,14 @@ FB_PASSWORD='fb password'
 #這是設定排程的時間參數(目前預設每日22:30準時執行)
 CRONJOB_TIME='0 30 20 * * *'
 ```
-實作上你需要將他複製一份到.env檔到你的專案資料夾，並填上自己的資訊
+實作上你需要將他複製一份到.env檔到你的專案資料夾，並填上自己正確的資訊
 
-### 那我們實際上要怎麼在node.js專案中讀取.env裡面的資料呢?
-我們需要安裝一個dotenv的套件來抓.env的資料
+### 那要怎麼在node.js專案中讀取.env裡面的資料呢?
+我們需要安裝一個**dotenv**的套件來抓.env的資料
 ```
 yarn add dotenv
 ```
-接者編輯index.js的程式
+透過這個套件，我們便可以在程式中以**process.env.xxx(xxx是你的命名)**來讀取環境變數
 ##### index.js
 ```js
 require('dotenv').config(); //載入.env環境檔
@@ -69,3 +69,10 @@ YOUR_VARIABLE='這是環境變數'
 yarn start
 ```
 如果有輸出"這是環境變數"的字串就代表你成功嚕～
+
+上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days)找到喔，或是你可以整個專案clone下來
+```
+git clone https://github.com/dean9703111/ithelp_30days.git
+cd ithelp_30days/day4
+yarn start
+```

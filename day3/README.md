@@ -87,6 +87,7 @@ yarn start
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
 cd ithelp_30days/day3
+yarn start
 ```
 
 如果大家對於文章的內容有任何想法歡迎討論，希望這片文章有給正在學習程式的人一些幫助與方向
