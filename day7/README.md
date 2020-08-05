@@ -3,9 +3,9 @@
 
 如果昨天大家都能順利地啟動chrome前往自己想要去的網頁  
 那今天我們來談你要如何拆解網頁的結構，今天所講的東西請一定要自己實作過一遍，因為FB更改網頁結構的速度很快，請培養自己解析網頁的能力  
-大家可以用chrome無痕模式打開[FB](https://www.facebook.com/)
+大家可以用chrome無痕模式打開[FB](https://www.facebook.com/)  
 <img src="./article_img/chrome.png" width="300" height="210"/>
-打開後會進入FB的登入畫面
+打開後會進入FB的登入畫面  
 ![image](./article_img/fb_login.png)
 
 接下來我們便可以真的來做結構的分析了，把你平常登入FB的動作分成幾個步驟：
