@@ -30,7 +30,14 @@ node_modules
 因為每個人對git使用的習慣相差很大，有個部門的同事根本就沒在管什麼.gitignore，每次push都上傳一大包(各種執行檔、暫存檔全部上傳，根本把git當成NAS在用...)  
 因為git版本控管的特性，他的專案在gitlab就越來越肥  
 儘管每次都有跟他溝通這樣程式的寫法很有問題但都被當成耳邊風   
-直到有一天gitlab的硬碟終於被他用完了...(他一個人一年就用了15GB的容量)他才開始正式.gitignore的重要性  
+直到有一天gitlab的硬碟終於被他用完了...(他一個人一年就用了15GB的容量)他才開始正視.gitignore的重要性  
 
 請正確的使用git來做版本控管  
 不要上傳多餘的資料到git上面，他們只會造成你觀察每個版本變更時的閱讀障礙
+
+上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days)找到喔，或是你可以整個專案clone下來
+```
+git clone https://github.com/dean9703111/ithelp_30days.git
+cd ithelp_30days/day5
+yarn start
+```

@@ -31,10 +31,10 @@
 * 專案基礎知識
     * [Day3 nodejs起手式(只要做到Hello world)，package.json的script說明，並解釋最基礎函式執行邏輯](/day3/README.md)
     * [Day4 .env環境變數說明，因為很多資訊需要社群登入後才能擷取，這個可以保證資訊的安全](/day4/README.md)
-    * Day5 gitignore，讓你只上傳需要用到的檔案到github    
+    * [Day5 gitignore，讓你只上傳需要用到的檔案到github](/day5/README.md)
 
 * 網頁爬蟲
-    * Day6 用nodejs成功打開虛擬網頁selenium(windows需要一些下載chrome的driver)，並說明使用理由(因為FB新版api對隱私權很看重所以很難用api進行爬蟲)
+    * [Day6 用nodejs成功打開虛擬網頁selenium(windows需要一些下載chrome的driver)，並說明使用理由(因為FB新版api對隱私權很看重所以很難用api進行爬蟲)](/day6/README.md)
     * Day7 分析Facebook網頁結構，打造自動登入FaceBook的機器人
     * Day8 分析Facebook網頁結構，並取得追蹤人數資訊
     * Day9 分析Instagram網頁結構，打造自動登入Instagram的機器人

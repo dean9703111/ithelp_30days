@@ -1,0 +1,16 @@
+{
+  "name": "crawler",
+  "version": "0.0.1",
+  "description": "FB & IG 爬蟲30天鐵人文章",
+  "author": "dean lin",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "selenium-webdriver": "^4.0.0-alpha.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node  index.js"
+  },
+  "main": "index.js",
+  "license": "ISC"
+}
