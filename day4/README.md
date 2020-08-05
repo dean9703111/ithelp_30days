@@ -42,7 +42,7 @@ FB_PASSWORD='fb password'
 #這是設定排程的時間參數(目前預設每日22:30準時執行)
 CRONJOB_TIME='0 30 20 * * *'
 ```
-實作上你需要將他複製一份到.env檔到你的專案資料夾，並填上自己正確的資訊
+實作上你需要將他複製一份到.env檔到你的專案資料夾，並填上自己正確的資訊(但這份檔案千萬不要上傳到git上面，如何操作再下一篇會有詳細說明)
 
 ### 那要怎麼在node.js專案中讀取.env裡面的資料呢?
 我們需要安裝一個**dotenv**的套件來抓.env的資料
@@ -64,7 +64,7 @@ getEnvVariable()
 ```
 YOUR_VARIABLE='這是環境變數'
 ```
-在terminal執行指令
+在專案資料夾的terminal執行指令
 ```
 yarn start
 ```
@@ -76,3 +76,4 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 cd ithelp_30days/day4
 yarn start
 ```
+### [Day5 請誤上傳敏感、主程式以外的資料](../day5/README.md)
