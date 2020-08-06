@@ -42,10 +42,15 @@ openCrawlerWeb()//打開爬蟲網頁
 <img src="./article_img/chrome.png" width="400" height="300"/>
 
 
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days)找到喔，或是你可以整個專案clone下來
+上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day6)找到喔
+你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
-cd ithelp_30days/day6
+```
+如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
+```
+git pull origin master
+cd day6
 yarn
 yarn start
 ```

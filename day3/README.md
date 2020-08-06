@@ -83,7 +83,7 @@ npm run start
 yarn start
 ```
 
-上面這些專案的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days)找到喔，或是你可以整個專案clone下來
+上面這些專案的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day3)找到喔，或是你可以整個專案clone下來
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
 cd ithelp_30days/day3

@@ -35,10 +35,15 @@ node_modules
 請正確的使用git來做版本控管  
 不要上傳多餘的資料到git上面，他們只會造成你觀察每個版本變更時的閱讀障礙
 
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days)找到喔，或是你可以整個專案clone下來
+上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day5)找到喔
+你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
-cd ithelp_30days/day5
-yarn
+```
+如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
+```
+git pull origin master
+cd day5
 yarn start
 ```
+### [Day6 爬蟲起手式selenium](../day6/README.md)

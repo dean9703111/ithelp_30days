@@ -95,11 +95,16 @@ driver.quit();
 
 相信到這裡大家都能成功地抓出粉專的追蹤者人數了，相信大家對於這個爬蟲專案應該充滿了信心吧！
 
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days)找到喔，或是你可以整個專案clone下來
+上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day8)找到喔
+你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
-cd ithelp_30days/day8
+```
+如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
+```
+git pull origin master
+cd day8
 yarn
 yarn start
 ```
-### [Day9 分析Instagram網頁結構，打造自動登入Instagram的機器人](../day9/README.md)
+### [Day9 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](../day9/README.md)
