@@ -1,25 +1,3 @@
-#### [回目錄](../README.md)
-### Day10 小孩子才選擇，我要一隻程式爬完FB & IG粉專
-
-不知道有沒有讀者一隻程式爬完 FB & IG 的粉專呢?  
-* 如果你是把兩天文章複製貼上直接爬的話我想會遇到很多問題，如果你是一次跳出兩個瀏覽器在跑，我想會因為其中一個瀏覽器先觸發了**driver.quit()**而導致另一個還沒跑完的瀏覽器無法讀取元件而掛掉  
-```
-WebDriverError: element not interactable
-```
-* 如果你把他改成一個瀏覽器，跑完FB粉專再跑IG粉專應該又會套出跨網域(CORS)問題的錯誤(目前只有windows作業系統才會遇到)  
-跨網域的問題是網域切換時會因為一些安全性的疑慮而拒絕跳轉，像是從 https://www.facebook.com/ 跳轉到 https://www.instagram.com 就會遇到這個問題  
-這個問題可以在你建立瀏覽器的時候加上設定如下
-```js
-var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options,
-    { acceptSslCerts: true, acceptInsecureCerts: true }//這是為了解決跨網域問題
-  ).build();
-```
-
-如果你沒有遇到以上的問題，你可以參考一下我目前的解法，我偏向開一個瀏覽器來處理，因為跑爬蟲是會消耗你電腦本身的記憶體以及網路流量  
-我希望電腦再跑爬蟲的時候不要影響我做其他事情的效率，同時一個瀏覽器在跑如果遇到問題你也更方便去進行除錯  
-下面是我目前的範例程式，雖然他的確可以正常運作，但是對程式有敏感度的小夥伴應該已經發現這隻程式哪裡需要優化了  
-
-```js
 require('dotenv').config(); //載入.env環境檔
 
 //請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
@@ -109,21 +87,3 @@ async function crawler () {
 }
 
 crawler()
-```
-
-歡迎大家在下方留言你覺得這隻程式你認為應該要優化的地方(請鞭小力一點QQ)  
-明天會講程式碼的**重構**，透過重構我們可以更有效率的掌握程式
-
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day10)找到喔
-你可以整個專案clone下來  
-```
-git clone https://github.com/dean9703111/ithelp_30days.git
-```
-如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
-```
-git pull origin master
-cd day10
-yarn
-yarn start
-```
-### [Day11 重構程式碼，讓合作夥伴對你比讚](../day11/README.md)

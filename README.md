@@ -39,8 +39,7 @@
     * [Day8 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day8/README.md)
     * [Day9 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](/day9/README.md)
     * [Day10 小孩子才選擇，我要一隻程式爬完FB & IG粉專](/day10/README.md)
-    * Day10 分析Instagram網頁結構，並取得追蹤人數資訊
-    * Day11 解決selenium跨網域問題、通知彈窗問題
+    * [Day11 重構程式碼，讓合作夥伴對你比讚](/day11/README.md)
     * Day12 json簡易說明，將你需要爬蟲的網頁存到json裡面
 
 * 優化程式
