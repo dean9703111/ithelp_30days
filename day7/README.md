@@ -25,7 +25,7 @@
 ![image](./article_img/fb_login_right_click2.png)
 * 想知道他位置的方法也很簡單，對開發者頁面的那個程式碼按右鍵->Copy->Copy Xpath
 ![image](./article_img/fb_login_right_click3.png)
-    你就會得到這個 **電子郵件或電話** 此元件在這個頁面的位置如下
+    你就會得到 **電子郵件或電話** 元件在這個頁面的位置如下
     ```
     //*[@id="email"]
     ```
@@ -75,7 +75,7 @@ async function loginFacebook () {
 }
 loginFacebook()//登入FB
 ```
-因為javascript本身是非同步語言，所以我們必須很明確地在程式當中說明執行的順序(**在async的函式中用await標明必須等待**)，否則他實際跑起來的邏輯完全是隨機的，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
+因為javascript本身是非同步語言，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他實際跑起來的邏輯完全是隨機的，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
 
 如果模擬器正常跑你應該成功登入FB了，有沒有充滿成就感呢？
 

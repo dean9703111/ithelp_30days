@@ -27,12 +27,12 @@ async function loginFacebook () {
     const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_b"]`)))
     login_elem.click()
 
-    await driver.sleep(4000);//等待FB的Sever回應，這個時間會跟你的網路環境有關，裡面填寫4000是指4000毫秒=4秒
+    //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
+    await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_a"]`)))//登入後才會有右上角的頭像，我們以這個來判斷是否登入
+    
     //登入成功後要前往粉專頁面
     const fb_fans_web = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await driver.get(fb_fans_web)
-
-    await driver.sleep(1000);//每個頁面間隔至少一秒，不然你帳號真的會被鎖住...
     let fb_trace = 0;//這是紀錄FB追蹤人數
     //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
     const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`

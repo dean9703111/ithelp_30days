@@ -7,7 +7,7 @@
 昨天完成登入FB的時候應該大部分的人畫面都會長這樣  
 ![image](./article_img/fb_notify.png)  
 
-這個彈窗會干擾到你的爬蟲的操作，所以你必須要關閉這個彈窗  
+這個彈窗會干擾到你的爬蟲的操作(你會無法抓取元件)，所以你必須要關閉這個彈窗  
 請將下面的程式加入函式上方宣告
 ```js
 const chrome = require('selenium-webdriver/chrome');
@@ -23,7 +23,7 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
     2. 找出追蹤者人數的元件位置
     3. 關閉瀏覽器
 
-大家在看我的作法前其實可以自己先按照昨天所說的方法來實做看看會遇到什麼樣的問題  
+大家可以自己先按照昨天所說的方法來實做看看會遇到什麼樣的問題，下面我會把我鎖  
 1. **進入粉絲團網頁**
 登入後導向網頁到粉絲專頁非常簡單，兩行程式碼就解決
 ```js
@@ -33,9 +33,12 @@ await driver.get(fb_fans_web)
 ```
 但實際執行你會發現很詭異的事情，就是在你登入成功前你的網頁就直接導向到粉絲專頁了  
 這是因為FB在執行登入作業時需要等待server回應資料確認使用者身份，所以你在按下登入的按鈕後要先給瀏覽器一些時間回應  
-把程式改成下面這樣你就發現可以登入後前往了
+所以我們要先**找出登入後才會有的元件**，判斷這個元件已經存在我們才能入下個步驟(本專案以右上角頭像區塊做為判定)  
+![image](./article_img/fb_header.png)  
 ```js
-await driver.sleep(4000);//等待FB的Sever回應，這個時間會跟你的網路環境有關，裡面填寫4000是指4000毫秒=4秒
+//因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
+await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_a"]`)))//登入後才會有右上角的頭像區塊，我們以這個來判斷是否登入
+
 //登入成功後要前往粉專頁面
 const fb_fans_web = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
 await driver.get(fb_fans_web)
@@ -66,7 +69,6 @@ await driver.get(fb_fans_web)
 #### index.js
 ```js
 ...
-await driver.sleep(1000);//每個頁面間隔至少一秒，不然你帳號真的會被鎖住...
 let fb_trace = 0;//這是紀錄FB追蹤人數
 //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
 const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
