@@ -135,4 +135,4 @@ cd day11
 yarn
 yarn start
 ```
-### [Day12 Try & Catch讓程式更穩定，以及json簡易說明](../day12/README.md)
+### [Day12 Try & Catch讓程式更穩定](../day12/README.md)
