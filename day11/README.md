@@ -8,9 +8,8 @@
 很多人為了追求程式的功能埋頭狂寫，這樣很容易導致你日後維護以及交接的困難性  
 
 接著我們用目前專案的程式所犯的錯誤舉例:
-
-主程式做了太多事情
 ----
+## 1. 主程式做了太多事情
 主程式只需要知道他該執行哪個函式就足夠了，我們應該把這些函式轉移到另外的資料夾(ex:tools)，依據大功能去命名檔名，範例如下:  
 
     1. 主程式 - index.js
@@ -36,13 +35,13 @@ async function crawler () {
 }
 crawler()
 ```
-一個函式做了多件事情
-----
+## 2. 一個函式做了太多事情
 現在我們把FB的登入以及取得追蹤人數寫在同一隻函式，這樣會增加你日後維護的困難度，因為函式越長，你越難抓出錯誤的點；以loginFacebookGetTrace這隻函式舉例，它實際上可以解構成幾個部分：  
-
-    1. 登入Facebook - loginFacebook
-    2. 前往粉絲頁 - goFansPage
-    3. 取得追蹤人數 - getTrace
+    1. Facebook爬蟲 - crawlerFB
+    2. 登入Facebook - loginFacebook
+    3. 前往粉絲頁 - goFansPage
+    4. 取得追蹤人數 - getTrace
+把每個功能獨立成函式，你就能輕鬆除錯(debug)
 #### crawlerFB.js
 ```js
 const fb_username = process.env.FB_USERNAME
@@ -95,7 +94,45 @@ async function getTrace (driver, By, until) {
     console.log(`FB追蹤人數：${fb_trace}`)
 }
 ```
+## 3. 將宣告的複雜的物件獨立成為函式
+你可以觀察到有幾個變數會被高頻率使用，但是他的宣告真的超級複雜  
+這時候我們就應該把他獨立出來，這樣你只需要在這隻副程式確認你宣告的物件是否都正常設定，而主程式很單純的使用回傳的物件即可
+```js
+module.exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
 
+function initDrive () {
+    
+    let webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+        By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+        until = webdriver.until;//直接抓到這個元件
 
+    const chrome = require('selenium-webdriver/chrome');
+    let options = new chrome.Options();
+    options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
-我這篇文章是以自己的程式作為範例講解，如果你想更深入了解重構請，請閱讀[重構—改善既有的程式設計](https://medium.com/%E5%BE%8C%E7%AB%AF%E6%96%B0%E6%89%8B%E6%9D%91/%E7%AD%86%E8%A8%98-%E9%87%8D%E6%A7%8B-chapter-1-2-%E7%AC%AC%E4%B8%80%E5%80%8B%E7%AF%84%E4%BE%8B-%E9%87%8D%E6%A7%8B%E5%8E%9F%E5%89%87-ca57a6d40f42)，他深入淺出的講解重構的原則我覺得受益良多
+    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
+    //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
+    driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
+
+    return { "driver": driver, "By": By, "until": until }
+}
+
+```
+
+我這篇文章是以自己的程式作為範例講解，如果你想更深入了解重構請，請閱讀[重構—改善既有的程式設計](https://medium.com/%E5%BE%8C%E7%AB%AF%E6%96%B0%E6%89%8B%E6%9D%91/%E7%AD%86%E8%A8%98-%E9%87%8D%E6%A7%8B-chapter-1-2-%E7%AC%AC%E4%B8%80%E5%80%8B%E7%AF%84%E4%BE%8B-%E9%87%8D%E6%A7%8B%E5%8E%9F%E5%89%87-ca57a6d40f42)，他深入淺出說明重構的原則讓我受益良多
+
+如果你還有什麼問題或是覺得有可以改善的地方歡迎在下方留言討論  
+
+完整的重構過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day10)喔
+你可以整個專案clone下來  
+```
+git clone https://github.com/dean9703111/ithelp_30days.git
+```
+如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
+```
+git pull origin master
+cd day11
+yarn
+yarn start
+```
+### [Day12 Try & Catch讓程式更穩定，以及json簡易說明](../day12/README.md)
