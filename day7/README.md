@@ -63,9 +63,9 @@ async function loginFacebook () {
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
     //填入fb登入資訊
-    //直到網頁顯示了這個元件才能執行下一步
-    const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));
-    fb_email_ele.sendKeys(fb_username)
+    //使用until是要求直到網頁顯示了這個元件才能執行下一步
+    const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));//找出填寫email的元件
+    fb_email_ele.sendKeys(fb_username)//將使用者的資訊填入
     const fb_pass_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="pass"]`)));
     fb_pass_ele.sendKeys(fb_userpass)
     

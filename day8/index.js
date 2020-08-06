@@ -12,7 +12,7 @@ const chrome = require('selenium-webdriver/chrome');
 var options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
-async function loginFacebook () {
+async function loginFacebookGetTrace () {
     var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     const web = 'https://www.facebook.com/';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
@@ -47,4 +47,4 @@ async function loginFacebook () {
     console.log(`追蹤人數：${fb_trace}`)
     driver.quit();
 }
-loginFacebook()//登入FB
+loginFacebookGetTrace()//登入FB取得追蹤者資訊
