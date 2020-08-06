@@ -12,7 +12,22 @@ const chrome = require('selenium-webdriver/chrome');
 var options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
+const path = require('path');//載入路徑
+var fs = require("fs");//讀取檔案用
+
 async function loginFacebookGetTrace () {
+    
+    let service;
+    try {
+        chrome.getDefaultService()//確認是否有
+    } catch {
+        if (fs.existsSync(path.join(__dirname, '../chromedriver.exe'))) {//該路徑下chromedriver.exe是否存在
+            console.log(path.join(__dirname, '../chromedriver.exe'));//存在就會列印出來路徑
+            service = new chrome.ServiceBuilder(path.join(__dirname, '../chromedriver.exe')).build();//設定driver路徑
+        }
+        chrome.setDefaultService(service);
+    }
+
     var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     const web = 'https://www.facebook.com/';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作

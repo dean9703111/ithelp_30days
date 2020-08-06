@@ -104,6 +104,7 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 ```
 git pull origin master
 cd day8
+調整你.env檔填上FB登入資訊
 yarn
 yarn start
 ```

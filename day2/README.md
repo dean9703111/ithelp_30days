@@ -82,7 +82,9 @@ git [官網](https://git-scm.com/)
 <img src="./article_img/git.png" width="200" height="80"/>
 
 這是對於程式版本控制的工具，透過他你可以輕鬆回到過去，並且在多人協作時也能有效管控
-[windows下載頁面](https://git-scm.com/download/win)、[mac下載頁面](https://git-scm.com/download/mac)  
+[windows下載頁面](https://git-scm.com/download/win)
+、[mac下載頁面](https://git-scm.com/download/mac)  
+>我有朋友使用windows怎麼樣都無法正常安裝git，如果你也遇到了這個不幸，你還是有[Git桌面板](https://desktop.github.com/)可以選擇的
 常用指令如下
 ```
 git fetch 抓取遠端數據庫(僅確認有什麼更新，不合併)

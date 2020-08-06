@@ -92,6 +92,7 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 ```
 git pull origin master
 cd day9
+調整你.env檔填上IG登入資訊
 yarn
 yarn start
 ```

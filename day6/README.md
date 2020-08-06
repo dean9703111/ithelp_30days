@@ -18,6 +18,19 @@ yarn add selenium-webdriver
     這個driver需要跟你的[chrome版本相同](chrome://settings/help)
     將這個chromedriver.exe放到專案根目錄下即可
 
+以下程式是給windows在無法自動讀取chromedriver.exe使用的，try/catch的應用在日後的文章會深入探討，如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
+```js
+let service;
+try {
+    chrome.getDefaultService()//確認是否有
+} catch {
+    if (fs.existsSync(path.join(__dirname, '../chromedriver.exe'))) {//該路徑下chromedriver.exe是否存在
+        console.log(path.join(__dirname, '../chromedriver.exe'));//存在就會列印出來路徑
+        service = new chrome.ServiceBuilder(path.join(__dirname, '../chromedriver.exe')).build();//設定driver路徑
+    }
+    chrome.setDefaultService(service);
+}
+```
 將chromedriver.exe放到根目錄後記得在.gitignore把它加進去忽略清單喔，他不屬於需要版控的檔案
 #### .gitignore
 ```
@@ -30,9 +43,25 @@ chromedriver.exe
 #### index.js
 ```js
 require('dotenv').config(); //載入.env環境檔
-var webdriver = require('selenium-webdriver') // 加入用來執行並操作瀏覽器的套件
-function openCrawlerWeb () {
-    var driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
+var webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
+const chrome = require('selenium-webdriver/chrome');
+const path = require('path');//載入路徑
+var fs = require("fs");//讀取檔案用
+function openCrawlerWeb() {
+
+    // 下面這段是在windows無法找到chrome driver時可以設定絕對路徑
+    let service;
+    try {
+        chrome.getDefaultService()//確認是否有
+    } catch {
+        if (fs.existsSync(path.join(__dirname, '../chromedriver.exe'))) {//該路徑下chromedriver.exe是否存在
+            console.log(path.join(__dirname, '../chromedriver.exe'));//存在就會列印出來路徑
+            service = new chrome.ServiceBuilder(path.join(__dirname, '../chromedriver.exe')).build();//設定driver路徑
+        }
+        chrome.setDefaultService(service);
+    }
+
+    var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(webdriver.Capabilities.chrome()).build();// 建立這個broswer的類型
     const web = 'https://www.google.com/';//填寫你想要前往的網站
     driver.get(web)//透國這個driver打開網頁
 }

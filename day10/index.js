@@ -1,5 +1,6 @@
 require('dotenv').config(); //載入.env環境檔
-
+const path = require('path');//載入路徑
+var fs = require("fs");//讀取檔案用
 //請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
@@ -75,6 +76,18 @@ async function crawler () {
     const chrome = require('selenium-webdriver/chrome');
     var options = new chrome.Options();
     options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
+
+    let service;
+    try {
+        chrome.getDefaultService()//確認是否有
+    } catch {
+        if (fs.existsSync(path.join(__dirname, '../chromedriver.exe'))) {//該路徑下chromedriver.exe是否存在
+            console.log(path.join(__dirname, '../chromedriver.exe'));//存在就會列印出來路徑
+            service = new chrome.ServiceBuilder(path.join(__dirname, '../chromedriver.exe')).build();//設定driver路徑
+        }
+        chrome.setDefaultService(service);
+    }
+
     var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
     driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
