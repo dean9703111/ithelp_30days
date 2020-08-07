@@ -18,7 +18,8 @@ yarn add selenium-webdriver
     這個driver需要跟你的[chrome版本相同](chrome://settings/help)
     將這個chromedriver.exe放到專案根目錄下即可
 
-以下程式是給windows在無法自動讀取chromedriver.exe使用的，try/catch的應用在日後的文章會深入探討，如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
+以下程式是給windows在無法自動讀取chromedriver.exe使用的  
+try/catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理；如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
 ```js
 let service;
 try {
@@ -39,7 +40,7 @@ node_modules
 chromedriver.exe
 ```
 
-接下來就可以嘗試用selenium-webdriver打開爬蟲用網頁了
+接下來就可以嘗試用selenium-webdriver打開爬蟲用網頁了，下面是完整的程式範例
 #### index.js
 ```js
 require('dotenv').config(); //載入.env環境檔
