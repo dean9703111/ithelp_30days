@@ -9,12 +9,13 @@ function openCrawlerWeb() {
     try {
         chrome.getDefaultService()//確認是否有
     } catch {
+        console.log('找不到預設driver!');
         let service;
         const file_path = '../chromedriver.exe'
         console.log(path.join(__dirname, file_path));//'../chromedriver.exe'是我的路徑，請確認印出來日誌中的位置是否與你路徑相同
-        if (fs.existsSync(path.join(__dirname, file_path))) {//該路徑下chromedriver.exe是否存在
-            console.log('設定driver路徑');
+        if (fs.existsSync(path.join(__dirname, file_path))) {//該路徑下chromedriver.exe是否存在            
             service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
+            console.log('設定driver路徑');
         }
         chrome.setDefaultService(service);
     }

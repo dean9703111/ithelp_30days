@@ -122,15 +122,16 @@ function initDrive() {
 }
 
 function checkDriver() {
-    try {
-        chrome.getDefaultService()//確認是否有
+    try { //確認driver是否設定
+        chrome.getDefaultService()
     } catch {
+        console.log('找不到預設driver!');
         let service;
         const file_path = '../../chromedriver.exe'//請注意因為改到tools底下執行，所以chromedriver.exe的相對位置需要變更
-        console.log(path.join(__dirname, file_path));//'../chromedriver.exe'是我的路徑，請確認印出來日誌中的位置是否與你路徑相同
-        if (fs.existsSync(path.join(__dirname, file_path))) {//該路徑下chromedriver.exe是否存在
+        console.log(path.join(__dirname, file_path));
+        if (fs.existsSync(path.join(__dirname, file_path))) {
+            service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();
             console.log('設定driver路徑');
-            service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
         }
         chrome.setDefaultService(service);
     }
