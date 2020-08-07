@@ -19,7 +19,7 @@ yarn add selenium-webdriver
     將這個chromedriver.exe放到專案根目錄下即可
 
 以下程式是給windows在無法自動讀取chromedriver.exe使用的  
-try/catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理；如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
+try-catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理；如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
 ```js
 let service;
 try {
