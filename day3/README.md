@@ -73,6 +73,8 @@ npm init
   "license": "ISC"//協議
 }
 ```
+license有區分成很多種，如果有興趣的朋友可以參考[文章1](https://www.jianshu.com/p/86251523e898)(簡中)、[文章2](https://medium.com/@yo8568/git-%E5%B0%8F%E7%AD%86%E8%A8%98-github-%E4%B8%8A-commit-fdc95aaf3099)裡面講解的很詳細喔
+
 我想聰明的讀者們應該注意到我在scripts裡面寫 **"start": "node index.js"** 這段指令了  
 scripts可以讓你自由定義這個專案底下的command，以這個package.json為範例，你可以改用如下指令來執行index.js
 ```
