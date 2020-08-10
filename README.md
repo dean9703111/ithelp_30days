@@ -41,13 +41,11 @@
     * [Day10 小孩子才選擇，我要一隻程式爬完FB & IG粉專](/day10/README.md)
     * [Day11 重構程式碼，讓合作夥伴對你比讚](/day11/README.md)
     * [Day12 try & catch讓程式更穩定](/day12/README.md)
-    * [Day13 我要打100個!json讓你大量爬蟲](/day13/README.md)
-
-* 優化程式
-    * Day14 程式重構(2)
+    * [Day13 json讓你大量爬蟲](/day13/README.md)
+    * [Day14 優化爬蟲體驗](/day14/README.md)
 
 * 連結Google sheet
-    * Day15 取得寫入google sheets的權杖(token)
+    * Day15 google sheets起手式，取得寫入google sheets的權杖(token)
     * Day16 判斷google sheets存在與否並自動創建
     * Day17 如何將得到的資料寫入google sheets
     * Day18 google sheets窗口凍結
