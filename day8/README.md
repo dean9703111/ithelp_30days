@@ -33,11 +33,11 @@ await driver.get(fanpage)
 ```
 但實際執行你會發現很詭異的事情，就是在你登入成功前你的網頁就直接導向到粉絲專頁了  
 這是因為FB在執行登入作業時需要等待server回應資料確認使用者身份，所以你在按下登入的按鈕後要先給瀏覽器一些時間回應  
-所以我們要先**找出登入後才會有的元件**，判斷這個元件已經存在我們才能入下個步驟(本專案以右上角頭像區塊做為判定)  
+所以我們要先**找出登入後才會有的元件**，判斷這個元件已經存在我們才能入下個步驟(本專案以右上角名字區塊做為判定)  
 ![image](./article_img/fb_header.png)  
 ```js
 //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
-await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1qv9")]`)))//登入後才會有右上角的頭像區塊，我們以這個來判斷是否登入
+await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
 
 //登入成功後要前往粉專頁面
 const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者

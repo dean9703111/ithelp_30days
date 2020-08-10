@@ -29,7 +29,7 @@ async function loginFacebook (driver, By, until) {
         login_elem.click()
 
         //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
-        await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1qv9")]`)), 3000)//登入後才會有右上角的頭像，我們以這個來判斷是否登入
+        await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)), 3000)//登入後才會有右上角的名字，我們以這個來判斷是否登入
         return true
     } catch (e) {
         console.error('FB登入失敗')
