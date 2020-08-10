@@ -12,24 +12,31 @@ yarn add selenium-webdriver
 因為本專案使用的模擬器是chrome，電腦還沒裝的請先[下載](https://www.google.com/intl/zh-TW/chrome/)
 因為跑selenium需要用到driver，大家可以依照自己的作業系統做設定
 + mac 作業系統
-    如果你用的電腦是mac，恭喜你，不要需要額外下載chrome driver就能夠直接寫使用  
+    如果你用的電腦是mac，恭喜你，不要需要額外下載chrome driver就能夠直接寫使用(不過chrome還是要下載)  
 + windows 作業系統
     請下載[chrome driver](http://chromedriver.storage.googleapis.com/index.html)
     這個driver需要跟你的[chrome版本相同](chrome://settings/help)
     將這個chromedriver.exe放到專案根目錄下即可
 
-以下程式是給windows在無法自動讀取chromedriver.exe使用的  
-try-catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理；如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
+以函式是給windows在無法自動讀取chromedriver.exe使用的  
+try-catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理；如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)  
+PS: **__dirname** 這個變數會列出你目前該檔案的位置，需要引入path才能使用喔  
 ```js
-let service;
-try {
-    chrome.getDefaultService()//確認是否有
-} catch {
-    if (fs.existsSync(path.join(__dirname, '../chromedriver.exe'))) {//該路徑下chromedriver.exe是否存在
-        console.log(path.join(__dirname, '../chromedriver.exe'));//存在就會列印出來路徑
-        service = new chrome.ServiceBuilder(path.join(__dirname, '../chromedriver.exe')).build();//設定driver路徑
+function checkDriver () {
+    try {
+        chrome.getDefaultService()//確認是否有預設        
+    } catch {
+        console.log('找不到預設driver!');
+        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
+        console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
+        if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
+            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
+            chrome.setDefaultService(service);
+            console.log('設定driver路徑');
+        } else {
+            console.log('無法設定driver路徑');
+        }
     }
-    chrome.setDefaultService(service);
 }
 ```
 將chromedriver.exe放到根目錄後記得在.gitignore把它加進去忽略清單喔，他不屬於需要版控的檔案
@@ -48,22 +55,27 @@ var webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');//載入路徑
 var fs = require("fs");//讀取檔案用
-function openCrawlerWeb() {
 
-    // 下面這段是在windows始終無法找到chrome driver時可以設定絕對路徑
+function checkDriver () {
     try {
-        chrome.getDefaultService()//確認是否有
+        chrome.getDefaultService()//確認是否有預設        
     } catch {
         console.log('找不到預設driver!');
-        let service;
-        const file_path = '../chromedriver.exe'
-        console.log(path.join(__dirname, file_path));//'../chromedriver.exe'是我的路徑，請確認印出來日誌中的位置是否與你路徑相同
-        if (fs.existsSync(path.join(__dirname, file_path))) {//該路徑下chromedriver.exe是否存在            
-            service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
+        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
+        console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
+        if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
+            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
+            chrome.setDefaultService(service);
             console.log('設定driver路徑');
+        } else {
+            console.log('無法設定driver路徑');
         }
-        chrome.setDefaultService(service);
     }
+}
+
+function openCrawlerWeb() {
+
+    checkDriver()// 檢查Driver是否是設定
     
     // 建立這個broswer的類型
     var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(webdriver.Capabilities.chrome()).build();

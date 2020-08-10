@@ -10,7 +10,7 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
 const path = require('path');//載入路徑
 var fs = require("fs");//讀取檔案用
 
-function initDrive() {
+function initDrive () {
     checkDriver()//檢查driver是否設定
 
     let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
@@ -20,18 +20,20 @@ function initDrive() {
     return { "driver": driver, "By": By, "until": until }
 }
 
-function checkDriver() {
+function checkDriver () {
     try { //確認driver是否設定
         chrome.getDefaultService()
     } catch {
         console.log('找不到預設driver!');
-        let service;
         const file_path = '../../chromedriver.exe'//請注意因為改到tools底下執行，所以chromedriver.exe的相對位置需要變更
         console.log(path.join(__dirname, file_path));
         if (fs.existsSync(path.join(__dirname, file_path))) {
-            service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();
+            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();
+            chrome.setDefaultService(service);
             console.log('設定driver路徑');
+        } else {
+            console.log('無法設定driver路徑');
         }
-        chrome.setDefaultService(service);
+
     }
 }
