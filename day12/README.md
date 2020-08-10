@@ -97,4 +97,4 @@ cd day12
 yarn
 yarn start
 ```
-### [Day13 我要打100個!json讓你大量爬蟲](../day13/README.md)
+### [Day13 json讓你大量爬蟲](../day13/README.md)

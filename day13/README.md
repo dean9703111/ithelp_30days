@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-### Day13 我要打100個!json讓你大量爬蟲
+### Day13 json讓你大量爬蟲
 
 今天說的這個部分應該是大部分小編最關心的，要每天手動瀏覽那麼多的粉專想想都很崩潰  
 今天要來跟大家介紹的一個很棒的文本格式 **json** (JavaScript Object Notation) ，他同時也是網頁api回傳最常見的一種格式  
@@ -47,15 +47,31 @@
 ```
 
 我們程式只需要把這份json給引入(請注意路徑)就可以直接使用了  
-我們這次要把過去只
+程式的部分只要改寫成for迴圈即可，請特別注意要讓每個粉專在爬蟲的時候至少間隔1秒以上，否則你有可能會被鎖帳號  
+#### crawlerIG.js
 ```js
+const fanpage_array = require('../json/ig.json');
+const ig_username = process.env.IG_USERNAME
+const ig_userpass = process.env.IG_PASSWORD
+module.exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
 
+async function crawlerIG (driver, By, until) {
+    const isLogin = await loginInstagram(driver, By, until)
+    if (isLogin) {//如果登入成功才執行下面的動作
+        console.log(`IG開始爬蟲`)
+        for (fanpage of fanpage_array) {
+            await goFansPage(driver, fanpage.url)            
+            const trace = await getTrace(driver, By, until)
+            console.log(`${fanpage.title}追蹤人數：${trace}`)
+            await driver.sleep(1000)//建議每個粉絲專頁爬蟲至少間隔1秒，不然很有可能被鎖帳號
+        }
+    }
+}
+...
 ```
-
-
-如果你還有什麼問題或是覺得有可以改善的地方歡迎在下方留言討論  
-
-完整的重構過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day10)喔
+搭配上json後有沒有覺得自己功力大增XD，上面的是IG的範例，大家可以自己嘗試看看FB部分的如何改寫喔～
+  
+加入json後改寫的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day13)喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -63,9 +79,9 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
 ```
 git pull origin master
-cd day11
+cd day13
 調整你.env檔填上 FB & IG 登入資訊
 yarn
 yarn start
 ```
-### [Day12 Try & Catch讓程式更穩定](../day12/README.md)
+### [Day14 Try & Catch讓程式更穩定](../day12/README.md)
