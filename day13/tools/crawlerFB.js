@@ -10,7 +10,11 @@ async function crawlerFB (driver, By, until) {
         for (fanpage of fanpage_array) {
             await goFansPage(driver, fanpage.url)
             const trace = await getTrace(driver, By, until)
-            console.log(`${fanpage.title}追蹤人數：${trace}`)
+            if (trace === null) {
+                console.log(`${fanpage.title}無法抓取追蹤人數`)
+            } else {
+                console.log(`${fanpage.title}追蹤人數：${trace}`)
+            }
             await driver.sleep(1000)//建議每個粉絲專頁爬蟲至少間隔1秒，不然很有可能被鎖帳號
         }
     }
@@ -61,7 +65,6 @@ async function getTrace (driver, By, until) {
         }
         return fb_trace
     } catch (e) {
-        console.error('無法抓取FB追蹤人數')
         console.error(e)
         return null
     }

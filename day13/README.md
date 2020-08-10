@@ -60,9 +60,13 @@ async function crawlerIG (driver, By, until) {
     if (isLogin) {//如果登入成功才執行下面的動作
         console.log(`IG開始爬蟲`)
         for (fanpage of fanpage_array) {
-            await goFansPage(driver, fanpage.url)            
+            await goFansPage(driver, fanpage.url)
             const trace = await getTrace(driver, By, until)
-            console.log(`${fanpage.title}追蹤人數：${trace}`)
+            if (trace === null) {
+                console.log(`${fanpage.title}無法抓取追蹤人數`)
+            } else {
+                console.log(`${fanpage.title}追蹤人數：${trace}`)
+            }
             await driver.sleep(1000)//建議每個粉絲專頁爬蟲至少間隔1秒，不然很有可能被鎖帳號
         }
     }
