@@ -37,7 +37,7 @@ await driver.get(fanpage)
 ![image](./article_img/fb_header.png)  
 ```js
 //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
-await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_a"]`)))//登入後才會有右上角的頭像區塊，我們以這個來判斷是否登入
+await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1qv9")]`)))//登入後才會有右上角的頭像區塊，我們以這個來判斷是否登入
 
 //登入成功後要前往粉專頁面
 const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者

@@ -33,7 +33,7 @@ async function loginFacebook() {
     checkDriver()// 檢查Driver是否是設定
 
     var driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
-    const web = 'https://www.facebook.com/';//我們要前往FB
+    const web = 'https://www.facebook.com/login';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
     //填入fb登入資訊
@@ -43,7 +43,7 @@ async function loginFacebook() {
     fb_pass_ele.sendKeys(fb_userpass)
 
     //抓到登入按鈕然後點擊
-    const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_b"]`)))
+    const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="loginbutton"]`)))
     login_elem.click()
 }
 loginFacebook()//登入FB

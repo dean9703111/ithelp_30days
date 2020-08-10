@@ -58,7 +58,7 @@ async function crawlerFB (driver, By, until) {
 }
 
 async function loginFacebook (driver, By, until) {
-    const web = 'https://www.facebook.com/';//我們要前往FB
+    const web = 'https://www.facebook.com/login';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
     //填入fb登入資訊
@@ -68,11 +68,11 @@ async function loginFacebook (driver, By, until) {
     fb_pass_ele.sendKeys(fb_userpass)
 
     //抓到登入按鈕然後點擊
-    const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_b"]`)))
+    const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="loginbutton"]`)))
     login_elem.click()
 
     //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
-    await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_a"]`)))//登入後才會有右上角的頭像，我們以這個來判斷是否登入
+    await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1qv9")]`)))//登入後才會有右上角的頭像，我們以這個來判斷是否登入
 }
 
 async function goFansPage (driver, web_url) {
