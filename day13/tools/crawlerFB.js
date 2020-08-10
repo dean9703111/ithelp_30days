@@ -1,3 +1,4 @@
+const fanpage_array = require('../json/fb.json');
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 
@@ -5,8 +6,8 @@ module.exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用�
 
 async function crawlerFB (driver, By, until) {
     await loginFacebook(driver, By, until)
-    const fb_fans_web = "https://www.facebook.com/baobaonevertell/" 
-    await goFansPage(driver, fb_fans_web)
+    const fanpage = "https://www.facebook.com/baobaonevertell/" 
+    await goFansPage(driver, fanpage)
     await getTrace(driver, By, until)
 }
 

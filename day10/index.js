@@ -25,8 +25,8 @@ async function loginFacebookGetTrace (driver, By, until) {
     await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_a"]`)))//登入後才會有右上角的頭像，我們以這個來判斷是否登入
 
     //登入成功後要前往粉專頁面
-    const fb_fans_web = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-    await driver.get(fb_fans_web)
+    const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+    await driver.get(fanpage)
     let fb_trace = 0;//這是紀錄FB追蹤人數
     //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
     const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
@@ -58,8 +58,8 @@ async function loginInstagramGetTrace (driver, By, until) {
     await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)))
 
     //登入成功後要前往粉專頁面
-    const ig_fans_web = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-    await driver.get(ig_fans_web)
+    const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+    await driver.get(fanpage)
 
     let ig_trace = 0;//這是紀錄IG追蹤人數
     const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`

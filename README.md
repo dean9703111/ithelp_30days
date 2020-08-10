@@ -41,7 +41,7 @@
     * [Day10 小孩子才選擇，我要一隻程式爬完FB & IG粉專](/day10/README.md)
     * [Day11 重構程式碼，讓合作夥伴對你比讚](/day11/README.md)
     * [Day12 try & catch讓程式更穩定](/day12/README.md)
-    * [Day13 我要打100個!用json讓你大量爬蟲](/day12/README.md)
+    * [Day13 我要打100個!json讓你大量爬蟲](/day13/README.md)
 
 * 優化程式
     * Day14 程式重構(2)

@@ -6,8 +6,8 @@ module.exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用�
 async function crawlerFB (driver, By, until) {
     const isLogin = await loginFacebook(driver, By, until)
     if (isLogin) {//如果登入成功才執行下面的動作
-        const fb_fans_web = "https://www.facebook.com/baobaonevertell/"
-        await goFansPage(driver, fb_fans_web)
+        const fanpage = "https://www.facebook.com/baobaonevertell/"
+        await goFansPage(driver, fanpage)
         const trace = await getTrace(driver, By, until)
         console.log(`FB追蹤人數：${trace}`)
     }

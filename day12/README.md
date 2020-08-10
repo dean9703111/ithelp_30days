@@ -25,8 +25,8 @@ module.exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用�
 async function crawlerIG (driver, By, until) {
     const isLogin = await loginInstagram(driver, By, until)
     if (isLogin) {//如果登入成功才執行下面的動作
-        const ig_fans_web = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-        await goFansPage(driver, ig_fans_web)
+        const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+        await goFansPage(driver, fanpage)
         const trace = await getTrace(driver, By, until)
         console.log(`IG追蹤人數：${trace}`)
     }
@@ -97,4 +97,4 @@ cd day12
 yarn
 yarn start
 ```
-### [Day12 Try & Catch讓程式更穩定](../day12/README.md)
+### [Day13 我要打100個!json讓你大量爬蟲](../day13/README.md)

@@ -28,8 +28,8 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
 登入後導向網頁到粉絲專頁非常簡單，兩行程式碼就解決
 ```js
 //登入成功後要前往粉專頁面
-const fb_fans_web = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-await driver.get(fb_fans_web)
+const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+await driver.get(fanpage)
 ```
 但實際執行你會發現很詭異的事情，就是在你登入成功前你的網頁就直接導向到粉絲專頁了  
 這是因為FB在執行登入作業時需要等待server回應資料確認使用者身份，所以你在按下登入的按鈕後要先給瀏覽器一些時間回應  
@@ -40,8 +40,8 @@ await driver.get(fb_fans_web)
 await driver.wait(until.elementLocated(By.xpath(`//*[@id="u_0_a"]`)))//登入後才會有右上角的頭像區塊，我們以這個來判斷是否登入
 
 //登入成功後要前往粉專頁面
-const fb_fans_web = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-await driver.get(fb_fans_web)
+const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+await driver.get(fanpage)
 ```
 2. **找出追蹤者人數的元件位置**
 ![image](./article_img/baobao_fans.png)  

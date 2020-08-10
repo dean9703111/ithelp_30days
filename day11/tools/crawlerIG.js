@@ -5,8 +5,8 @@ module.exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用�
 
 async function crawlerIG (driver, By, until) {
     await loginInstagram(driver, By, until)
-    const ig_fans_web = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-    await goFansPage(driver, ig_fans_web)
+    const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+    await goFansPage(driver, fanpage)
     await getTrace(driver, By, until)
 }
 
