@@ -29,6 +29,14 @@ const ig_userpass = process.env.IG_PASSWORD
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 
+var webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+    until = webdriver.until;//直接抓到這個元件
+
+const chrome = require('selenium-webdriver/chrome');
+var options = new chrome.Options();
+options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
+
 async function loginFacebookGetTrace (driver, By, until) {
     const web = 'https://www.facebook.com/login';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
@@ -90,25 +98,26 @@ async function loginInstagramGetTrace (driver, By, until) {
     ig_trace = await ig_trace_ele.getAttribute('title')
     console.log(`IG追蹤人數：${ig_trace}`)
 }
-async function crawler () {
-    var webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
-        By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
-        until = webdriver.until;//直接抓到這個元件
 
-    const chrome = require('selenium-webdriver/chrome');
-    var options = new chrome.Options();
-    options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
-
-    let service;
+function checkDriver () {
     try {
-        chrome.getDefaultService()//確認是否有
+        chrome.getDefaultService()//確認是否有預設        
     } catch {
-        if (fs.existsSync(path.join(__dirname, '../chromedriver.exe'))) {//該路徑下chromedriver.exe是否存在
-            console.log(path.join(__dirname, '../chromedriver.exe'));//存在就會列印出來路徑
-            service = new chrome.ServiceBuilder(path.join(__dirname, '../chromedriver.exe')).build();//設定driver路徑
+        console.log('找不到預設driver!');
+        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
+        console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
+        if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
+            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
+            chrome.setDefaultService(service);
+            console.log('設定driver路徑');
+        } else {
+            console.log('無法設定driver路徑');
         }
-        chrome.setDefaultService(service);
     }
+}
+
+async function crawler () {
+    checkDriver()// 檢查Driver是否是設定
 
     var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小

@@ -7,6 +7,14 @@ const ig_userpass = process.env.IG_PASSWORD
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 
+var webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+    until = webdriver.until;//直接抓到這個元件
+
+const chrome = require('selenium-webdriver/chrome');
+var options = new chrome.Options();
+options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
+
 async function loginFacebookGetTrace (driver, By, until) {
     const web = 'https://www.facebook.com/login';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
@@ -87,14 +95,6 @@ function checkDriver () {
 }
 
 async function crawler () {
-    var webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
-        By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
-        until = webdriver.until;//直接抓到這個元件
-
-    const chrome = require('selenium-webdriver/chrome');
-    var options = new chrome.Options();
-    options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
-
     checkDriver()// 檢查Driver是否是設定
 
     var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
