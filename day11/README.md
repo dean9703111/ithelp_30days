@@ -143,7 +143,7 @@ function checkDriver() {
 
 如果你還有什麼問題或是覺得有可以改善的地方歡迎在下方留言討論  
 
-完整的重構過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day10)喔
+完整的重構過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day11)喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
