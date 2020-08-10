@@ -45,7 +45,7 @@
     * [Day14 優化爬蟲體驗](/day14/README.md)
 
 * 連結Google sheet
-    * Day15 google sheets起手式，取得寫入google sheets的權杖(token)
+    * [Day15 google sheets起手式，取得寫入google sheets的權杖(token)](/day15/README.md)
     * Day16 判斷google sheets存在與否並自動創建
     * Day17 如何將得到的資料寫入google sheets
     * Day18 google sheets窗口凍結
