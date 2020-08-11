@@ -47,10 +47,10 @@
 * Google Sheets
     * [Day15 Google Sheets-起手式，取得讀寫權杖(token)](/day15/README.md)
     * [Day16 Google Sheets-讀取自己的sheet](/day16/README.md)
-    * Day16 Google Sheets-判斷Sheet存在與否並自動創建
-    * Day17 Google Sheets-將爬蟲資料寫入
-    * Day18 Google Sheets-窗口凍結
-    * Day19 Google Sheets-插入欄位
+    * Day17 Google Sheets-判斷Sheet存在與否並自動創建
+    * Day18 Google Sheets-將爬蟲資料寫入
+    * Day19 Google Sheets-窗口凍結
+    * Day20 Google Sheets-插入欄位
     * Day21 google sheets欄位寬度調整
 
 * 自動化
