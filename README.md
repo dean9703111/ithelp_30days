@@ -42,7 +42,7 @@
     * [Day11 重構程式碼，讓合作夥伴對你比讚](/day11/README.md)
     * [Day12 try & catch讓程式更穩定](/day12/README.md)
     * [Day13 json讓你大量爬蟲](/day13/README.md)
-    * [Day14 優化爬蟲體驗](/day14/README.md)
+    * [Day14 優化爬蟲體驗 && 思路分享](/day14/README.md)
 
 * 連結Google sheet
     * [Day15 google sheets起手式，取得寫入google sheets的權杖(token)](/day15/README.md)
