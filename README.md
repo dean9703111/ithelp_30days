@@ -44,13 +44,13 @@
     * [Day13 json讓你大量爬蟲](/day13/README.md)
     * [Day14 優化爬蟲體驗 && 思路分享](/day14/README.md)
 
-* 連結Google sheet
-    * [Day15 google sheets起手式，取得寫入google sheets的權杖(token)](/day15/README.md)
-    * Day16 判斷google sheets存在與否並自動創建
-    * Day17 如何將得到的資料寫入google sheets
-    * Day18 google sheets窗口凍結
-    * Day19 google sheets重投插入欄位
-    * Day20 如何將讀取google sheets的資訊並放入正確資料
+* Google Sheets
+    * [Day15 Google Sheets-起手式，取得讀寫權杖(token)](/day15/README.md)
+    * [Day16 Google Sheets-讀取自己的sheet](/day16/README.md)
+    * Day16 Google Sheets-判斷Sheet存在與否並自動創建
+    * Day17 Google Sheets-將爬蟲資料寫入
+    * Day18 Google Sheets-窗口凍結
+    * Day19 Google Sheets-插入欄位
     * Day21 google sheets欄位寬度調整
 
 * 自動化
