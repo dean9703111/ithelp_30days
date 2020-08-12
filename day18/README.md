@@ -6,8 +6,10 @@
 2. 將fb_result_array、ig_result_array提供給updateGoogleSheets當參數
 3. 先在第一欄寫入title(粉專名稱)、再寫入trace(追蹤人數)
 
-說起來步驟不多，但實作起來發現要注意的細節超級多QQ，下面是我撰寫的邏輯思路以及每個函式的作用：
-* crawlerFB、crawlerIG這兩個的函式都需要return最終每個粉專的追蹤人數(以crawlerFB舉例)
+不知道昨天有沒有人看官方的教學文件呢?今天我一樣先提供[官方教學](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)建議大家可以先透過官方教學嘗試看看有沒有辦法獨立完成喔～今天文章著重在如何把這些資料做串接的思路  
+
+上面看起來步驟不多，但實作起來你發現要注意的細節超級多QQ，下面是我撰寫的邏輯思路以及每個函式的作用：
+* 首先爬蟲程式中的 **crawlerFB、crawlerIG** 這兩個的函式都需要return最終每個粉專的追蹤人數(result_array)
   ```js
   async function crawlerFB (driver, By, until) {
       const isLogin = await loginFacebook(driver, By, until)
@@ -40,6 +42,14 @@
       }
   }
   ```
+* 主程式index.js要把回傳的result_array傳給updateGoogleSheets當參數
+```js
+const ig_result_array = await crawlerIG(driver, By, until)
+const fb_result_array = await crawlerFB(driver, By, until)
+driver.quit();
+//處理Google Sheets相關動作
+await updateGoogleSheets(ig_result_array, fb_result_array)
+```
 * googleSheets.js 的 **writeSheet** 函式將資料寫進去
   1. 第一欄寫入title(粉專名稱)
       1. 把result_array中的title抽出來變成陣列
