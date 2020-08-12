@@ -49,9 +49,9 @@
     * [Day16 Google Sheets-讀取自己的sheet](/day16/README.md)
     * Day17 Google Sheets-判斷Sheet存在與否並自動創建
     * Day18 Google Sheets-將爬蟲資料寫入
-    * Day19 Google Sheets-窗口凍結
+    * Day19 Google Sheets-每日爬蟲，如何讓新資料塞入正確的欄位
     * Day20 Google Sheets-插入欄位
-    * Day21 google sheets欄位寬度調整
+    * Day21 google sheets-窗口凍結 & 欄位寬度調整
 
 * 自動化
     * Day22 排程設定
