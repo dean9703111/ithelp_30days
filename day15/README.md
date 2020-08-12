@@ -129,13 +129,13 @@
     });
     }
     ```
-    5. 測試能否運行
+    5. 在終端視窗貼上指令測試能否運行
     ```
     node tools/googleSheets.js
     ```
     如果沒意外你應該會遇到如下錯誤  
     ![image](./article_img/credentials.png)  
-    請將下面程式 **'credentials.json'** 修改成自己的路徑 **'credentials/googleSheets.json'** 
+    請將下面程式 **'credentials.json'** 修改成自己的路徑(本專案的路徑為 **'credentials/googleSheets.json'** )
     ```js
     fs.readFile('credentials.json', (err, content) => {
         if (err) return console.log('Error loading client secret file:', err);
@@ -145,9 +145,9 @@
     ```
     然後再執行一次 **node tools/googleSheets.js** 時下面會有連結請你打開
     ![image](./article_img/credentials_link.png)  
-    打開後的網頁會要你選擇登入的Google帳號，看到下面的網頁時別害怕，點擊**進階**然後再點擊**前往「Quickstart」(不安全)**
+    打開後的網頁會要你選擇登入的Google帳號，看到下面的網頁時別害怕，點擊 **進階** 然後再點擊 **前往「Quickstart」(不安全)**
     ![image](./article_img/warning_web.png)  
-    然後所有的授權都必須按允許後你會看到一組授權碼，把他複製下來貼回終端視窗就完成惹
+    接著所有的授權都必須按允許，最後你會看到一組授權碼，把他複製下來貼回終端視窗就完成惹
     ![image](./article_img/credentails_code.png)  
     如果終端機有輸出類似下面的東西時就代表你成功了
     ```
