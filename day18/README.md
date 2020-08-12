@@ -6,9 +6,35 @@
 2. 將fb_result_array、ig_result_array提供給updateGoogleSheets當參數
 3. 先在第一欄寫入title(粉專名稱)、再寫入trace(追蹤人數)
 
-不知道昨天有沒有人看官方的教學文件呢?今天我一樣先提供[官方教學](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)建議大家可以先透過官方教學嘗試看看有沒有辦法獨立完成喔～今天文章著重在如何把這些資料做串接的思路  
+不知道昨天有沒有人看官方的教學文件呢?今天我一樣先提供[官方教學](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)建議大家可以先透過官方教學嘗試看看有沒有辦法獨立完成喔～如果你只是要updateSheet的功能，你只需要看下面這個函式即可  
+```js
+let title = '你的sheet title'
+//Google Sheets能吃的array格式範例
+let array = [['test1'],['test2'],['test3'],['test4']]
+async function writeSheet (title, array, auth) {//auth為憑證通過後取得
+  const sheets = google.sheets({ version: 'v4', auth });
+  const request = {
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    valueInputOption: "USER_ENTERED",//寫入格式的分類有：INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
+    range: [
+      `'${title}'!A:A`//title是sheet的標題，A:A是能寫入的範圍
+    ],
+    resource: {
+      values: array
+    }
+  }
+  try {
+    await sheets.spreadsheets.values.update(request);//執行後即完成Google Sheets更新
+    console.log(`updated ${title} title`);
+  } catch (err) {
+    console.error(err);
+  }
+}
+```
 
-上面看起來步驟不多，但實作起來你發現要注意的細節超級多QQ，下面是我撰寫的邏輯思路以及每個函式的作用：
+將爬蟲資料寫入
+----
+大腦想起來的步驟不多，但實作起來你發現要注意的細節超級多QQ，下面是我撰寫的邏輯思路以及每個函式的作用：
 * 首先爬蟲程式中的 **crawlerFB、crawlerIG** 這兩個的函式都需要return最終每個粉專的追蹤人數(result_array)
   ```js
   async function crawlerFB (driver, By, until) {

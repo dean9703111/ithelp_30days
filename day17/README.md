@@ -13,13 +13,42 @@
 3. 如果沒有該sheet就產生線上不重複的sheet_id(他是唯一值)
 4. 如果沒有該sheet就新增sheet
 
-在看我的解決方法之前，我建議大家要學習閱讀[官方的文件](https://developers.google.com/sheets/api/samples/sheet)，裡面有詳細的教學，畢竟不可能隨時都有中文資源讓你閱讀，如果一開始看不懂文件也沒關係，把他的範例程式複製貼上就對了XD
+在看我的解決方法之前，我建議大家要學習閱讀[官方的文件](https://developers.google.com/sheets/api/samples/sheet)，裡面有詳細的教學，畢竟不可能隨時都有中文資源讓你閱讀，如果一開始看不懂文件也沒關係，把他的範例程式複製貼上就對了XD，如果你只是要addSheet的功能，你只需要看下面這個函式即可  
+```js
+async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的Google Sheets
+  const sheets = google.sheets({ version: 'v4', auth });
+  const request = {
+    // The ID of the spreadsheet
+    "spreadsheetId": process.env.SPREADSHEET_ID,
+    "resource": {
+      "requests": [{
+        "addSheet": {//這個request的任務是addSheet
+          // 你想給這個sheet的屬性
+          "properties": {
+            "sheetId": sheet_id,//必須為數字，且這個欄位是唯一值
+            "title": title//sheet的名稱，且這個欄位是唯一值
+          }
+        },
+      }]
+    }
+  };
+  try {
+    await sheets.spreadsheets.batchUpdate(request)
+    console.log('added sheet:' + title)
+  }
+  catch (err) {
+    console.log('The API returned an error: ' + err);
+  }
+}
+```
 
-直接看googleSheets.js函式有點太長，導讀如下：
-* updateGoogleSheets：為此js提供的外部函式，讓index.js呼叫來更新GoogleSheets內容
-* checkSheet：會有三個動作
-  1. 用getSheets抓目前存在的sheet
-  2. 判斷sheet是否存在，不存在則用genSheetId產生不重複的id，並且用addSheet來做新增的動作
+判斷Sheet存在與否並自動創建
+----
+下面思路是我考慮到執行時面對的各項可能性，你可以參考我的思路，googleSheets.js導讀如下：
+* updateGoogleSheets()：為此js提供的外部函式，讓index.js呼叫來更新GoogleSheets內容
+* checkSheet()：會有三個動作
+  1. 用getSheets()抓目前存在的sheet
+  2. 判斷sheet是否存在，不存在則用genSheetId()產生不重複的id，並且用addSheet()來做新增sheet的動作
   3. 返回最新的sheets
 如果你遇到了 **The API returned an error: Error: Insufficient Permission** 的錯誤是因為你對Google Sheets權限要求不足(原本只有readonly)， **請刪除原本的token.json** ，並且再修改這行後重新執行，Google會要求你再點一次連結重新取得授權碼，貼上後你就會發現sheet新增成功嚕  
 ```js
