@@ -67,7 +67,7 @@ async function crawlerIG (driver, By, until) {
             } else {
                 console.log(`${fanpage.title}追蹤人數：${trace}`)
             }
-            await driver.sleep(1000)//建議每個粉絲專頁爬蟲至少間隔1秒，不然很有可能被鎖帳號
+            await driver.sleep(1500)//建議每個粉絲專頁爬蟲至少間隔1.5秒，不然很有可能被鎖帳號
         }
     }
 }

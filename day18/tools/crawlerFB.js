@@ -7,16 +7,30 @@ async function crawlerFB (driver, By, until) {
     const isLogin = await loginFacebook(driver, By, until)
     if (isLogin) {//如果登入成功才執行下面的動作
         console.log(`FB開始爬蟲`)
+        let result_array = []
         for (fanpage of fanpage_array) {
-            await goFansPage(driver, fanpage.url)
-            const trace = await getTrace(driver, By, until)
-            if (trace === null) {
-                console.log(`${fanpage.title}無法抓取追蹤人數`)
-            } else {
-                console.log(`${fanpage.title}追蹤人數：${trace}`)
+            let trace
+            try {
+                await goFansPage(driver, fanpage.url)
+                trace = await getTrace(driver, By, until)
+                if (trace === null) {
+                    console.log(`${fanpage.title}無法抓取追蹤人數`)
+                } else {
+                    console.log(`${fanpage.title}追蹤人數：${trace}`)
+                }
+                await driver.sleep(1500)//建議每個粉絲專頁爬蟲至少間隔1.5秒，不然很有可能被鎖帳號
+            } catch (e) {
+                console.error(e);
+                continue;
+            } finally {
+                result_array.push({
+                    url: fanpage.url,
+                    title: fanpage.title,
+                    trace: trace
+                })
             }
-            await driver.sleep(1500)//建議每個粉絲專頁爬蟲至少間隔1.5秒，不然很有可能被鎖帳號
         }
+        return result_array
     }
 }
 
@@ -45,7 +59,7 @@ async function loginFacebook (driver, By, until) {
     }
 }
 
-async function goFansPage (driver, web_url) {    
+async function goFansPage (driver, web_url) {
     //登入成功後要前往粉專頁面
     await driver.get(web_url)
 }
