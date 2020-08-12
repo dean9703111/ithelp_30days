@@ -42,14 +42,15 @@
   ```
 * googleSheets.js 的 **writeSheet** 函式將資料寫進去
   1. 第一欄寫入title(粉專名稱)
-    1. 把result_array中的title抽出來變成陣列
-    2. 將該sheet的title插入到陣列最前面
-    3. 執行 **writeTitle** 更新sheet第一欄的資料
+      1. 把result_array中的title抽出來變成陣列
+      2. 將該sheet的title插入到陣列最前面
+      3. 執行 **writeTitle** 更新sheet第一欄的資料
   2. trace(追蹤人數)依序向右欄位新增
-    1. 執行 **getLastCol** 取得有資料的最後一欄，因為要插入在最後面
-    2. 把result_array中的trace抽出來變成陣列
-    3. 抓當日時間插入到陣列最前面
-    4. 執行 **writeTrace** 插入資料到sheet的最後面
+      1. 執行 **getLastCol** 取得有資料的最後一欄，因為要插入在最後面
+      2. 把result_array中的trace抽出來變成陣列
+      3. 抓當日時間插入到陣列最前面
+      4. 執行 **writeTrace** 插入資料到sheet的最後面
+
 這部分程式我從googleSheets.js抽出來讓大家理解一下
 ```js
 async function writeSheet (title, result_array, auth) {
@@ -153,6 +154,7 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
 ```
 
 目前為止將爬蟲寫入Google Sheets的動作已經完成了，大家可以思考一下還有什麼東西是我們忽略的呢？有什麼狀況會造成錯誤？希望大家在下方提供自己的想法喔～  
+
 完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day18)喔
 你可以整個專案clone下來  
 ```
