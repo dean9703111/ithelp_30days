@@ -15,8 +15,8 @@
 
 在看我的解決方法之前，我建議大家要學習閱讀[官方的文件](https://developers.google.com/sheets/api/samples/sheet)，裡面有詳細的教學，畢竟不可能隨時都有中文資源讓你閱讀，如果一開始看不懂文件也沒關係，把他的範例程式複製貼上就對了XD
 
-googleSheets.js函式導讀：
-* updateGoogleSheets：為此js主程式，給index.js呼叫來更新GoogleSheets內容
+直接看googleSheets.js函式有點太長，導讀如下：
+* updateGoogleSheets：為此js提供的外部函式，讓index.js呼叫來更新GoogleSheets內容
 * checkSheet：會有三個動作
   1. 用getSheets抓目前存在的sheet
   2. 判斷sheet是否存在，不存在則用genSheetId產生不重複的id，並且用addSheet來做新增的動作
