@@ -83,7 +83,7 @@ loginFacebook()//登入FB
 ```
 因為javascript本身是非同步語言，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他實際跑起來的邏輯完全是隨機的，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
 
-如果模擬器正常跑你應該成功登入FB了，有沒有充滿成就感呢？
+如果模擬器讓你成功登入FB可以在下方留言讓我知道喔，登入成功的瞬間有沒有充滿成就感呢？
 
 上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day7)找到喔
 你可以整個專案clone下來  
