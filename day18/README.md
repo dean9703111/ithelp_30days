@@ -152,7 +152,7 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
   });
 }
 ```
-
+![image](./article_img/googlesheet.png)
 目前為止將爬蟲寫入Google Sheets的動作已經完成了，大家可以思考一下還有什麼東西是我們忽略的呢？有什麼狀況會造成錯誤？希望大家在下方提供自己的想法喔～  
 
 完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day18)喔
