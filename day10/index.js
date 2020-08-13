@@ -12,7 +12,7 @@ const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     until = webdriver.until;//直接抓到這個元件
 
 const chrome = require('selenium-webdriver/chrome');
-const chrome = new chrome.Options();
+const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
 async function loginFacebookGetTrace (driver, By, until) {

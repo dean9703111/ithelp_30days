@@ -42,13 +42,12 @@ helloWorld() // 一進入就觸發
 在[這篇文章](https://eyesofkids.gitbooks.io/javascript-start-from-es6/content/part3/var_const_naming.html)中有非常深入的探討這些問題，他能幫助你對程式的基礎有更深刻的理解  
 宣告變數上你也需要注意[var, let, const 差異](https://medium.com/@totoroLiu/javascript-var-let-const-%E5%B7%AE%E7%95%B0-e3d930521230)，用對的方式宣告變數才會讓人了解到他的意義  
 
+執行程式
+----
 新增完檔案後打開終端機(Termial)如下圖
 ![image](./article_img/terminal.png)  
-接著在終端機(Terminal)輸入下面command來執行這個程式
-```
-node index.js
-```
-如果有印出helloWorld的字串那就代表你踏出成功的第一步了
+
+在專案資料夾的終端機(Terminal)執行指令 **node index.js** 如果有印出 **helloWorld** 的字串那就代表你踏出成功的第一步了
 ![image](./article_img/terminal2.png)  
 
 package.json讓你站在巨人的肩膀 

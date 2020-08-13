@@ -5,7 +5,7 @@ const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直接抓到這個元件
 const chrome = require('selenium-webdriver/chrome');
-const chrome = new chrome.Options();
+const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 options.addArguments('blink-settings=imagesEnabled=false')//不加載圖片提高效率
 options.addArguments('--headless')//瀏覽器不提供頁面觀看，linux下如果系統是純文字介面不加這條會啓動失敗

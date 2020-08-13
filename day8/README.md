@@ -7,14 +7,14 @@
 昨天完成登入FB的時候應該大部分的人畫面都會長這樣  
 ![image](./article_img/fb_notify.png)  
 
-這個彈窗會干擾到你的爬蟲的操作(你會無法抓取元件)，所以你必須要關閉這個彈窗  
+這個彈窗會干擾到你的爬蟲的操作(無法抓取元件)，所以你必須要關閉這個彈窗  
 請將下面的程式加入函式上方宣告
 ```js
 const chrome = require('selenium-webdriver/chrome');
-const chrome = new chrome.Options();
+const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 ```
-加入上面對瀏覽器的設定後執行 **yarn start** 你會發現彈窗提示不見了
+加入上面對瀏覽器的設定後於終端機(Terminal)執行 **yarn start** 你會發現彈窗提示不見了
 
 分析FB粉專結構並取得追蹤人數資訊
 ------------------------
@@ -23,7 +23,7 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
     2. 找出追蹤者人數的元件位置
     3. 關閉瀏覽器
 
-大家可以自己先按照昨天所說的方法來實做看看會遇到什麼樣的問題，下面我會把我鎖  
+大家可以自己先按照昨天所說的方法來實做看看會遇到什麼樣的問題，下面我會把我所遇到的狀況跟大家分享  
 1. **進入粉絲團網頁**
 登入後導向網頁到粉絲專頁非常簡單，兩行程式碼就解決
 ```js
@@ -59,12 +59,12 @@ await driver.get(fanpage)
 ```
 //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[3]/div/div[2]/div[4]/div/div[2]/div
 ```
-你仔細看會發現每個Xpath都會有細微的不同，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
+你仔細看會發現**每個Xpath都會有細微的不同**，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
 下面的幾張圖你可以觀察到這個追蹤者的資訊都在相同的 **class="_4bl9"** 之下  
 <img src="./article_img/fb_trace_code1.png" width="200" height="140"/>
 <img src="./article_img/fb_trace_code2.png" width="200" height="140"/>
 <img src="./article_img/fb_trace_code3.png" width="200" height="140"/>  
-但是有很多的元件都共用這些class所以我們需要把所有符合的class都抓下來，透過分析字串來抓取正確的資訊
+但是Facebook有很多的元件都使用到這個class所以我們需要把所有符合的class都抓下來，透過分析字串來抓取正確的資訊  
 
 #### index.js
 ```js
@@ -85,15 +85,16 @@ console.log(`追蹤人數：${fb_trace}`)
 ```
 這裡使用的是 **for/of迴圈** ，特別說明一下[foreach裡面是不能用await去跑的](https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop)，這裡有[介紹各種for迴圈的文章](https://www.jishuwen.com/d/2M0c/zh-tw)歡迎參考  
 
-接下來在終端機輸入 **yarn start** 指令，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
-
 3. **關閉瀏覽器**
 如果你執行完後想要關閉瀏覽器只需要加入這行程式  
 ```js
 driver.quit();
 ```
 
-相信到這裡大家都能成功地抓出粉專的追蹤者人數了，相信大家對於這個爬蟲專案應該充滿了信心吧！
+接下來在終端機輸入 **yarn start** 指令，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
+![image](./article_img/terminal.png)
+
+相信到這裡大家都能成功地抓出粉專的追蹤者人數了，並對於這個爬蟲專案應該充滿了信心吧！
 
 上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day8)找到喔
 你可以整個專案clone下來  

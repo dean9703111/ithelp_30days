@@ -22,6 +22,10 @@
 node_modules
 .env
 ```
+VScode觀察.gitignore調整前後
+----
+
+
 #### 這份忽略清單會隨著你專案的變動而調整  
 如果你在撰寫其他種類程式語言可以參考[這個網站](https://github.com/github/gitignore)來調整自己的.gitignore  
 

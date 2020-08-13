@@ -80,6 +80,8 @@ ig_trace = await ig_trace_ele.getAttribute('title')
 console.log(`追蹤人數：${ig_trace}`)
 driver.quit();
 ```
+接下來在終端機輸入 **yarn start** 指令，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
+![image](./article_img/terminal.png)
 
 到目前為止我們已經可以抓出 FB & IG 粉專的追蹤人數了，充滿好奇心的讀者可以先試著看看利用爬蟲爬完FB粉專完後繼續爬IG  
 

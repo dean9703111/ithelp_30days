@@ -34,7 +34,7 @@ const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     until = webdriver.until;//直接抓到這個元件
 
 const chrome = require('selenium-webdriver/chrome');
-const chrome = new chrome.Options();
+const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
 async function loginFacebookGetTrace (driver, By, until) {
@@ -132,6 +132,8 @@ async function crawler () {
 
 crawler()
 ```
+接下來在終端機輸入 **yarn start** 指令，你就能夠看到FB & IG的追蹤人數嚕～  
+![image](./article_img/terminal.png)  
 
 歡迎大家在下方留言你覺得這隻程式你認為應該要優化的地方(請鞭小力一點QQ)  
 明天會講程式碼的**重構**，透過重構我們可以更有效率的掌握程式
