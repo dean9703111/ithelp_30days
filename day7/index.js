@@ -4,7 +4,7 @@ require('dotenv').config(); //載入.env環境檔
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 
-let webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直接抓到這個元件
 const chrome = require('selenium-webdriver/chrome');

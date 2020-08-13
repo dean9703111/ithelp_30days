@@ -54,7 +54,7 @@ chromedriver.exe
 #### index.js
 ```js
 require('dotenv').config(); //載入.env環境檔
-let webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
+const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');//載入路徑
 const fs = require("fs");//讀取檔案用
