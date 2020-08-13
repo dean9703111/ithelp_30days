@@ -87,11 +87,11 @@ function openCrawlerWeb() {
 }
 openCrawlerWeb()//打開爬蟲網頁
 ```
-如果一切順利，你應該會看到一個chrome的應用程式打開並且進入google的首頁  
+輸入指令 **yarn start** ，如果執行順利，你會看到chrome的應用程式自動打開並且進入google的首頁  
 ![image](./article_img/chrome.png)
 
 
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day6)找到喔
+完整的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day6)找到喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
