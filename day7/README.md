@@ -2,17 +2,17 @@
 ### Day7 分析Facebook網頁結構，打造自動登入FaceBook的機器人
 
 如果昨天大家都能順利地啟動chrome前往自己想要去的網頁  
-那今天我們來談你要如何拆解網頁的結構，今天所講的東西請一定要自己實作過一遍，因為FB更改網頁結構的速度很快，請培養自己解析網頁的能力  
+那今天就來談如何拆解網頁的結構，今天所講的東西請一定要自己實作過一遍，因為FB更改網頁結構的速度很快，請培養自己解析網頁的能力  
 
 分析Facebook網頁結構
 ----
-* 先請大家用chrome無痕模式打開[FB](https://www.facebook.com/login)  
+* 先請大家用chrome無痕模式打開[Facebook登入頁面](https://www.facebook.com/login)  
 <img src="./article_img/chrome.png" width="300" height="210"/>  
 
-* 打開後會進入FB的登入畫面  
+* 打開後的FB的登入畫面  
 ![image](./article_img/fb_login.png)
 
-* 接下來我們便可以真的來做結構的分析了，把你平常登入FB的動作分成幾個步驟：
+* 接下來便可以進行結構分析，把你平常登入FB的動作分幾個步驟：
     1. 輸入電子郵件或電話
     2. 輸入密碼
     3. 按下登入按鈕
@@ -21,7 +21,7 @@
 ![image](./article_img/fb_login_analysis.png)
 * 接著對元件按下滑鼠右鍵點擊檢查進入開發者的介面
 ![image](./article_img/fb_login_right_click.png)
-* 然後你就會看到一堆不友善的程式碼，這個時候別緊張，我們原則上不需要理解他們在寫什麼，我們只要知他他在什麼位置就好
+* 然後你就會看到一堆不友善的程式碼，這個時候別緊張，我們原則上不需要理解他們在寫什麼，我們只要知他**在什麼位置就好**
 ![image](./article_img/fb_login_right_click2.png)
 * 想知道他位置的方法也很簡單，對開發者頁面的那個程式碼按右鍵->Copy->Copy Xpath
 ![image](./article_img/fb_login_right_click3.png)
@@ -37,7 +37,7 @@
     ```
     //*[@id="loginbutton"]
     ```
-    取得這三個元件後我們便可以開始撰寫程式  
+    取得這三個元件的Xpath後我們便可以開始撰寫程式  
 
 打造自動登入FaceBook的機器人
 ----
@@ -81,11 +81,11 @@ async function loginFacebook () {
 }
 loginFacebook()//登入FB
 ```
-因為javascript本身是非同步語言，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他實際跑起來的邏輯完全是隨機的，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
+PS.因為javascript本身是非同步語言，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序完全是隨機的**並非由上而下的執行順序**，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
 
 如果模擬器讓你成功登入FB可以在下方留言讓我知道喔，登入成功的瞬間有沒有充滿成就感呢？
 
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day7)找到喔
+全部的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day7)找到喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
