@@ -90,8 +90,9 @@ console.log(`追蹤人數：${fb_trace}`)
 ```js
 driver.quit();
 ```
-
-接下來在終端機輸入 **yarn start** 指令，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到Facebook自動登入 &rarr; 跳轉到粉絲頁 &rarr; 關閉，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
 ![image](./article_img/terminal.png)
 
 相信到這裡大家都能成功地抓出粉專的追蹤者人數了，並對於這個爬蟲專案應該充滿了信心吧！

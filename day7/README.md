@@ -83,6 +83,10 @@ loginFacebook()//登入FB
 ```
 PS.因為javascript本身是非同步語言，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序完全是隨機的**並非由上而下的執行順序**，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
 
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** ，你會看到chrome的應用程式自動打開並且成功登入Facebook  
+![image](./article_img/fb_notify.png)
 如果模擬器讓你成功登入FB可以在下方留言讓我知道喔，登入成功的瞬間有沒有充滿成就感呢？
 
 全部的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day7)找到喔

@@ -87,7 +87,9 @@ function openCrawlerWeb() {
 }
 openCrawlerWeb()//打開爬蟲網頁
 ```
-輸入指令 **yarn start** ，如果執行順利，你會看到chrome的應用程式自動打開並且進入google的首頁  
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** ，如果執行順利，你會看到chrome的應用程式自動打開並且進入google的首頁  
 ![image](./article_img/chrome.png)
 
 

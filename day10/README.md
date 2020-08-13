@@ -132,7 +132,9 @@ async function crawler () {
 
 crawler()
 ```
-接下來在終端機輸入 **yarn start** 指令，你就能夠看到FB & IG的追蹤人數嚕～  
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到瀏覽器依序登入IG & FB並跳轉到指定粉專，爬完資料關閉後，你就能看到FB & IG的追蹤人數嚕～  
 ![image](./article_img/terminal.png)  
 
 歡迎大家在下方留言你覺得這隻程式你認為應該要優化的地方(請鞭小力一點QQ)  
