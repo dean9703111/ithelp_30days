@@ -8,7 +8,7 @@ let options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
 const path = require('path');//載入路徑
-var fs = require("fs");//讀取檔案用
+let fs = require("fs");//讀取檔案用
 
 function initDrive() {
     checkDriver()//檢查driver是否設定

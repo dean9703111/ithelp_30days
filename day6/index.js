@@ -1,8 +1,8 @@
 require('dotenv').config(); //載入.env環境檔
-var webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
+let webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');//載入路徑
-var fs = require("fs");//讀取檔案用
+let fs = require("fs");//讀取檔案用
 
 function checkDriver () {
     try {
@@ -25,7 +25,7 @@ function openCrawlerWeb () {
     
     checkDriver()// 檢查Driver是否是設定
 
-    var driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
+    let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
     const web = 'https://www.google.com/';//填寫你想要前往的網站
     driver.get(web)//透國這個driver打開網頁
 }

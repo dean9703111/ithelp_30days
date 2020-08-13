@@ -51,12 +51,12 @@ const fb_userpass = process.env.FB_PASSWORD
 ```
 2. 將套件中會使用到的函式引入
 ```js
-var webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+let webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直接抓到這個元件
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');//載入路徑
-var fs = require("fs");//讀取檔案用
+let fs = require("fs");//讀取檔案用
 ```
 3. 把主程式邏輯加上去
 ```js
@@ -64,7 +64,7 @@ async function loginFacebook () {
     
     checkDriver()// 檢查Driver是否是設定
 
-    var driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
+    let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
     const web = 'https://www.facebook.com/login';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 

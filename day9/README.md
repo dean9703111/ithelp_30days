@@ -62,7 +62,7 @@ await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contai
 為了避免因為螢幕寬度不一樣造成Xpath不同，所以我們要在一開始打開瀏覽器的時候設定他的視窗大小(本專案以寬螢幕作為範例)，所以請在打開瀏覽器的下方加上視窗大小的設定  
 
 ```js
-var driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
+let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
 //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
 driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
 ```
