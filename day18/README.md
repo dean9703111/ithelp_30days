@@ -128,7 +128,7 @@ async function writeTitle (title, title_array, auth) {//title都是寫入第一�
 }
 
 function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為英文才能使用
-  for (let ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
+  for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
     ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
   }
   return ret;

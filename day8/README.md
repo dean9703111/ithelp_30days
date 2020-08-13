@@ -11,7 +11,7 @@
 請將下面的程式加入函式上方宣告
 ```js
 const chrome = require('selenium-webdriver/chrome');
-let options = new chrome.Options();
+const chrome = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 ```
 加入上面對瀏覽器的設定後執行 **yarn start** 你會發現彈窗提示不見了

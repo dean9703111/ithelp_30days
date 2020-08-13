@@ -22,7 +22,7 @@ let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(optio
 ```js
 require('dotenv').config(); //載入.env環境檔
 const path = require('path');//載入路徑
-let fs = require("fs");//讀取檔案用
+const fs = require("fs");//讀取檔案用
 //請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
@@ -34,7 +34,7 @@ let webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     until = webdriver.until;//直接抓到這個元件
 
 const chrome = require('selenium-webdriver/chrome');
-let options = new chrome.Options();
+const chrome = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
 async function loginFacebookGetTrace (driver, By, until) {

@@ -9,7 +9,7 @@ let webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     until = webdriver.until;//直接抓到這個元件
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');//載入路徑
-let fs = require("fs");//讀取檔案用
+const fs = require("fs");//讀取檔案用
 
 function checkDriver () {
     try {
