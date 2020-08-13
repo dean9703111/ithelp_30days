@@ -70,6 +70,9 @@ YOUR_VARIABLE='這是環境變數'
 ----
 在專案資料夾的終端機(Terminal)執行指令 **yarn start** 如果有輸出"這是環境變數"的字串就代表你成功嚕～
 ![image](./article_img/terminal.png)  
+
+專案原始碼
+----
 上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day4)找到喔
 你可以整個專案clone下來  
 ```

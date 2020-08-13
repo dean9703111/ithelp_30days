@@ -89,6 +89,8 @@ PS.因為javascript本身是非同步語言，所以我們必須很明確地告�
 ![image](./article_img/fb_notify.png)
 如果模擬器讓你成功登入FB可以在下方留言讓我知道喔，登入成功的瞬間有沒有充滿成就感呢？
 
+專案原始碼
+----
 全部的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day7)找到喔
 你可以整個專案clone下來  
 ```

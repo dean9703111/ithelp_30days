@@ -75,6 +75,8 @@ npm init
 ```
 license有區分成很多種，如果有興趣的朋友可以參考[文章1](https://www.jianshu.com/p/86251523e898)(簡中)、[文章2](https://medium.com/@yo8568/git-%E5%B0%8F%E7%AD%86%E8%A8%98-github-%E4%B8%8A-commit-fdc95aaf3099)裡面講解的很詳細喔  
 
+善用scripts(腳本)執行程式
+----
 我想聰明的讀者們應該注意到我在scripts裡面寫 **"start": "node index.js"** 這段指令了  
 scripts可以讓你自由定義這個專案底下的command，以這個package.json為範例，你可以在終端機(Termial)改用如下指令來執行index.js
 ```
@@ -84,7 +86,8 @@ npm run start
 ```
 yarn start
 ```
-
+專案原始碼
+----
 上面這些專案的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day3)找到喔，或是你可以整個專案clone下來
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git

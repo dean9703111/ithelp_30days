@@ -141,8 +141,14 @@ function checkDriver() {
 
 我這篇文章是以自己的程式作為範例講解，如果你想更深入了解重構請，請閱讀[重構—改善既有的程式設計](https://medium.com/%E5%BE%8C%E7%AB%AF%E6%96%B0%E6%89%8B%E6%9D%91/%E7%AD%86%E8%A8%98-%E9%87%8D%E6%A7%8B-chapter-1-2-%E7%AC%AC%E4%B8%80%E5%80%8B%E7%AF%84%E4%BE%8B-%E9%87%8D%E6%A7%8B%E5%8E%9F%E5%89%87-ca57a6d40f42)，他深入淺出說明重構的原則讓我受益良多
 
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到瀏覽器依序登入IG & FB並跳轉到指定粉專，爬完資料關閉後，你就能看到FB & IG的追蹤人數嚕～  
+![image](./article_img/terminal.png)  
 如果你還有什麼問題或是覺得有可以改善的地方歡迎在下方留言討論  
 
+專案原始碼
+----
 完整的重構過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day11)喔
 你可以整個專案clone下來  
 ```
