@@ -15,24 +15,25 @@
 * 首先我想到的是我所分析的內容都跟圖片無關，但偏偏**最浪費流量及載入時間的都是圖片**，所以我在chrome這個瀏覽器增加了下面的配置便可有以下好處：
     1. 減少瀏覽器使用流量
     2. 減少瀏覽器載入時間
-#### initDrive.js
-```js
-options.addArguments('blink-settings=imagesEnabled=false')//不加載圖片提高效率
-```
-你加上後跑爬蟲可以很明顯的感受到速度變快很多，跑起來可看到所有圖片都沒有載入(下圖)  
-![image](./article_img/no_img.png)  
+    請你打開initDrive.js並在chrome的option加入不載入圖片的選項
+    ```js
+    options.addArguments('blink-settings=imagesEnabled=false')//不加載圖片提高效率
+    ```
+    加上這段程式後，在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，便可以很明顯的感受到速度變快很多，跑起來可看到所有圖片都沒有載入(下圖)  
+    ![image](./article_img/no_img.png)  
 
-* 在每個爬蟲的步驟及功能都很穩定後，其實我不需要這個視窗來看他的動作了，背景跑就夠惹
-#### initDrive.js
-```js
-options.addArguments('--headless')//瀏覽器不提供頁面觀看，linux下如果系統是純文字介面不加這條會啓動失敗
-// 下面三個建議一起加入，因為有朋友遇到一些奇怪錯誤
-options.addArguments('--no-sandbox')//取消沙盒模式
-options.addArguments('--disable-dev-shm-usage')//使用共享內存RAM
-options.addArguments('--disable-gpu')//規避部分bug
-```
-設定完這些後執行程式是不是就不會跳出瀏覽器了呢?  
-[這篇文章](https://stackoverflow.max-everyday.com/2019/12/selenium-chrome-options/)有提供selenium啓動Chrome的進階配置參數，對效能有狂熱的朋友們可以來仔細研究看看    
+* 在每個爬蟲的步驟及功能都很穩定後，其實我不需要跳出瀏覽器視窗來看他的動作，背景跑就夠惹
+    請你打開initDrive.js並在chrome的option加入不打開瀏覽器視窗的選項如下
+    ```js
+    options.addArguments('--headless')//瀏覽器不提供頁面觀看，linux下如果系統是純文字介面不加這條會啓動失敗
+    options.addArguments('--log-level=3')//這個option可以讓你跟headless時網頁端的console.log說掰掰
+    // 下面三個建議一起加入，因為有朋友遇到一些奇怪錯誤
+    options.addArguments('--no-sandbox')//取消沙盒模式
+    options.addArguments('--disable-dev-shm-usage')//使用共享內存RAM
+    options.addArguments('--disable-gpu')//規避部分bug
+    ```
+    設定完這些後，在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令是不是就不會跳出瀏覽器了呢?  
+    [這篇文章](https://stackoverflow.max-everyday.com/2019/12/selenium-chrome-options/)有提供selenium啓動Chrome的進階配置參數，對效能有狂熱的朋友們可以來仔細研究看看    
 
 思路分享
 ------------------------
@@ -42,7 +43,7 @@ options.addArguments('--disable-gpu')//規避部分bug
 所以粉專文章爬蟲這塊我不會附上程式碼，但我會提供給你們完整的思路，如果你們有認真讀完這幾天的文章一定能獨立完成  
 
 **目標：** 能抓到 FB & IG 粉專當日貼文  
-**問題分析：** FB & IG 版型不同，故需要分開撰寫，先思考以操作者而言如何找出當日貼文，因為我們的瀏覽器就是在模擬你的真實操作
+**問題分析：** FB & IG 版型不同，故需要分開撰寫，先思考以操作者而言如何找出當日貼文，因為我們的瀏覽器就是在模擬你的真實操作  
 **問題拆解：**   
 * FB:
     1. 因為FB版型差異很大，最上面的貼文可能是置頂貼文而非最新貼文，所以你要先**模擬頁面下滑**事件才能抓到最新貼文
@@ -58,11 +59,13 @@ options.addArguments('--disable-gpu')//規避部分bug
 
 >**筆者碎碎念**  
 我希望看完文章的讀者能夠吸收到思考問題的方式，不要只是單純的 copy & paste ，這樣對技術長期來講是在累積負債  
-如果你是程式的新手，你可以透過修改一些參數來看看結果會有什麼樣的變化  
+如果你是程式的新手，你可以透過修改一些參數來看看結果會有什麼樣的變化，少加哪些參數是不是真的會有錯誤  
 不要害怕犯錯，因為在學習程式的路上幾乎不存在一條完美的道路  
 你現在滿意的程式往往在幾個月後你會覺得當時怎麼寫的這麼爛  
 當你誕生出這個想法的時候就是成長了  
 
+專案原始碼
+----
 優化過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day14)喔
 你可以整個專案clone下來  
 ```

@@ -9,6 +9,7 @@ const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 options.addArguments('blink-settings=imagesEnabled=false')//不加載圖片提高效率
 options.addArguments('--headless')//瀏覽器不提供頁面觀看，linux下如果系統是純文字介面不加這條會啓動失敗
+options.addArguments('--log-level=3')//這個option可以讓你跟headless時網頁端的console.log說掰掰
 // 下面三個建議一起加入，因為有朋友遇到一些奇怪錯誤
 options.addArguments('--no-sandbox')//取消沙盒模式
 options.addArguments('--disable-dev-shm-usage')//使用共享內存RAM
