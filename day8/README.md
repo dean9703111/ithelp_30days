@@ -36,7 +36,7 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
     這是因為FB在執行登入作業時需要等待server回應資料確認使用者身份，所以你在按下登入的按鈕後要先給瀏覽器一些時間回應  
     所以我們要先 **找出登入後才會有的元件** ，像是我們一定要在登入後Facebook才會有名字顯示 
     ![image](./article_img/fb_header.png)  
-    把程式加上 **判斷名字區塊已經存在** 這個邏輯我們才能入下個步驟  
+    加上 **判斷名字區塊已經存在才能繼續** 這個邏輯就能保證我們成功登入後再前往粉絲頁  
     ```js
     //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
     await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
@@ -61,7 +61,7 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
     ```
     //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[3]/div/div[2]/div[4]/div/div[2]/div
     ```
-    你仔細看會發現**每個Xpath都會有細微的不同**，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
+    你仔細看會發現 **每個Xpath都會有細微的不同** ，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
     下面的幾張圖你可以觀察到這個追蹤者的資訊都在相同的 **class="_4bl9"** 之下  
     <img src="./article_img/fb_trace_code1.png" width="200" height="140"/>
     <img src="./article_img/fb_trace_code2.png" width="200" height="140"/>
