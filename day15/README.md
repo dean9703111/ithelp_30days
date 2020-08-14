@@ -129,7 +129,7 @@
         });
         }
         ```
-    5. 在終端視窗貼上指令測試能否運行
+    5. 終端機(Terminal)執行指令測試能否運行
         ```
         node tools/googleSheets.js
         ```
@@ -147,9 +147,9 @@
         ![image](./article_img/credentials_link.png)  
         打開後的網頁會要你選擇登入的Google帳號，看到下面的網頁時別害怕，點擊 **進階** 然後再點擊 **前往「Quickstart」(不安全)**
         ![image](./article_img/warning_web.png)  
-        接著所有的授權都必須按 **允許** ，最後你會看到一組授權碼，把他複製下來貼回終端視窗就完成惹
+        接著所有的授權都必須按 **允許** ，最後你會看到一組授權碼，把他複製下來貼回終端機(Terminal)就完成惹
         ![image](./article_img/credentails_code.png)  
-        如果終端機有輸出類似下面的東西時就代表你成功了
+        如果終端機(Terminal)有輸出類似下面的東西時就代表你成功了
         ```
         Name, Major:
         Alexandra, English
