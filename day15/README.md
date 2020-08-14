@@ -129,7 +129,7 @@
         });
         }
         ```
-    5. 終端機(Terminal)執行指令測試能否運行
+    5. 在、終端機(Terminal)執行指令，測試能否運行
         ```
         node tools/googleSheets.js
         ```
