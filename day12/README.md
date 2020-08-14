@@ -26,70 +26,70 @@ try-catch實作
             ex : 將 *const web = 'https://www.instagram.com/accounts/login';* 這段改為*const web = 'https://www.google.com'; 會因找不到元件超時而跳錯誤訊息)
         * 若用到driver.wait皆需要設定最多等待時間否則會卡住
         * 登入成功後是否有_47KiJ的class
-    ```js
-    async function loginInstagram (driver, By, until) {
-        const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
-        try {
-            await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
+        ```js
+        async function loginInstagram (driver, By, until) {
+            const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
+            try {
+                await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
-            //填入ig登入資訊
-            let ig_username_ele = await driver.wait(until.elementLocated(By.css("input[name='username']")), 3000);
-            ig_username_ele.sendKeys(ig_username)
-            let ig_password_ele = await driver.wait(until.elementLocated(By.css("input[name='password']")), 3000);
-            ig_password_ele.sendKeys(ig_userpass)
+                //填入ig登入資訊
+                let ig_username_ele = await driver.wait(until.elementLocated(By.css("input[name='username']")), 3000);
+                ig_username_ele.sendKeys(ig_username)
+                let ig_password_ele = await driver.wait(until.elementLocated(By.css("input[name='password']")), 3000);
+                ig_password_ele.sendKeys(ig_userpass)
 
-            //抓到登入按鈕然後點擊
-            const login_elem = await driver.wait(until.elementLocated(By.css("button[type='submit']")), 3000)
-            login_elem.click()
+                //抓到登入按鈕然後點擊
+                const login_elem = await driver.wait(until.elementLocated(By.css("button[type='submit']")), 3000)
+                login_elem.click()
 
-            //登入後才會有右上角的頭像，我們以這個來判斷是否登入
-            await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)), 3000)
-            return true
-        } catch (e) {
-            console.error('IG登入失敗')
-            console.error(e)
-            return false
+                //登入後才會有右上角的頭像，我們以這個來判斷是否登入
+                await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)), 3000)
+                return true
+            } catch (e) {
+                console.error('IG登入失敗')
+                console.error(e)
+                return false
+            }
         }
-    }
-    ```
+        ```
     2. **前往Instagram帳號函式(goFansPage)**
         * 確認網址是否有效  
             ex : 若 *web_url* 傳入參數並非網址(如：xzz://error_page)則會因不符合網址格式跳錯誤訊息
-    ```js
-    async function goFansPage (driver, web_url) {
-        //登入成功後要前往粉專頁面
-        try {
-            await driver.get(web_url)
-        } catch (e) {
-            console.error('無效的網址')
-            console.error(e)
-            return false
+        ```js
+        async function goFansPage (driver, web_url) {
+            //登入成功後要前往粉專頁面
+            try {
+                await driver.get(web_url)
+            } catch (e) {
+                console.error('無效的網址')
+                console.error(e)
+                return false
+            }
         }
-    }
-    ```
+        ```
     3. **獲取Instagram帳號追蹤人數函式(getTrace)**
         * 確認追蹤人數的元件是否存在
             ex : 當導向的並非Instagram帳號頁面，或者該帳號不存在時，會因找不到元件超時而跳錯誤訊息
             ![image](./article_img/err_instagram.png)
         * 確認該元件是否有title的Attribute
-    ```js
-    async function getTrace (driver, By, until) {
-        let ig_trace = 0;//這是紀錄IG追蹤人數
-        try {
-            const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
-            const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
-            // ig因為當人數破萬時文字不會顯示，所以改抓title
-            ig_trace = await ig_trace_ele.getAttribute('title')
-            ig_trace = ig_trace.replace(/\D/g, '')//只取數字
+        ```js
+        async function getTrace (driver, By, until) {
+            let ig_trace = 0;//這是紀錄IG追蹤人數
+            try {
+                const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
+                const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
+                // ig因為當人數破萬時文字不會顯示，所以改抓title
+                ig_trace = await ig_trace_ele.getAttribute('title')
+                ig_trace = ig_trace.replace(/\D/g, '')//只取數字
 
-            return ig_trace
-        } catch (e) {
-            console.error('無法抓取IG追蹤人數')
-            console.error(e)
-            return null
+                return ig_trace
+            } catch (e) {
+                console.error('無法抓取IG追蹤人數')
+                console.error(e)
+                return null
+            }
         }
-    }
-    ```
+        ```
 
 
 >**筆者碎碎念**  
