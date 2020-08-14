@@ -20,11 +20,11 @@
     所以這裡我們要用不一樣的方式來抓取紅框內元件  
     <img src="./article_img/ig_login3.png" width="300" height="250"/>  
 
-    進入開發者模式後我們會發現在填寫 **電話號碼、用戶名稱或電子郵件** 以及 **密碼** 輸入的地方(input元件)他們用 **name** 這個attribute  
+    * 進入開發者模式後我們會發現在填寫 **電話號碼、用戶名稱或電子郵件** 以及 **密碼** 輸入的地方(input元件)他們用 **name** 這個attribute  
     <img src="./article_img/ig_login_user.png" width="400" height="60"/>  
     <img src="./article_img/ig_login_pass.png" width="400" height="60"/>  
 
-    而登入的按鈕(button元件)則是使用 **type** 這個attribute
+    * 登入的按鈕(button元件)則是使用 **type** 這個attribute  
     <img src="./article_img/ig_login_btn.png" width="400" height="120"/>  
 
     根據上面的分析後我們就可以改用css的方式來抓取IG登入的元素，並操作它
@@ -40,7 +40,7 @@
     login_elem.click()
     ```
 2. **登入後有什麼元件可以用來辨別已登入**  
-    這裡我一樣是選擇右上角的頭像區塊作為識別登入與否  
+    這裡我選擇用右上角的頭像區塊作為識別登入與否  
     <img src="./article_img/ig_header.png" width="400" height="380"/>  
 
     ```js
@@ -49,17 +49,17 @@
     ```
 3. **IG追蹤人數的元件位置**  
     如果你跟我一樣充滿實驗精神，你會發現IG粉專的頁面會隨著螢幕寬度更改而更改Xpath的路徑  
-    寬螢幕的Xpath  
+    * 寬螢幕的Xpath  
     <img src="./article_img/ig_trace1.png" width="300" height="50"/>  
     ```
     //*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span
     ```
-    窄螢幕的Xpath  
+    * 窄螢幕的Xpath  
     <img src="./article_img/ig_trace2.png" width="400" height="50"/>  
     ```
     //*[@id="react-root"]/section/main/div/ul/li[2]/a/span
     ```
-    為了避免因為螢幕寬度不一樣造成Xpath不同，所以我們要在一開始打開瀏覽器的時候設定他的視窗大小(本專案以寬螢幕作為範例)，所以請在打開瀏覽器的下方加上視窗大小的設定  
+    為了避免因為螢幕寬度不一樣造成Xpath不同，所以我們要在 **一開始打開瀏覽器的時候設定他的視窗大小** (本專案以寬螢幕作為範例)，所以請在打開瀏覽器的下方加上視窗大小的設定  
 
     ```js
     let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
