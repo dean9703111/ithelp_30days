@@ -22,8 +22,10 @@ try-catch實作
     1. **登入Instagram函式(loginInstagram)**
         * 登入的網址是否為網址  
             ex : 將 *const web = 'https://www.instagram.com/accounts/login';* 這段改為*const web = 'error'; 會因不符合網址格式跳錯誤訊息
+            ![image](./article_img/err_ig_terminal1.png)
         * 登入頁面是否有username、password、submit的元件  
             ex : 將 *const web = 'https://www.instagram.com/accounts/login';* 這段改為*const web = 'https://www.google.com'; 會因找不到元件超時而跳錯誤訊息)
+            ![image](./article_img/err_ig_terminal2.png)
         * 若用到driver.wait皆需要設定最多等待時間否則會卡住
         * 登入成功後是否有_47KiJ的class
         ```js
@@ -71,6 +73,7 @@ try-catch實作
         * 確認追蹤人數的元件是否存在
             ex : 當導向的並非Instagram帳號頁面，或者該帳號不存在時，會因找不到元件超時而跳錯誤訊息
             ![image](./article_img/err_instagram.png)
+            ![image](./article_img/err_ig_terminal3.png)
         * 確認該元件是否有title的Attribute
         ```js
         async function getTrace (driver, By, until) {
