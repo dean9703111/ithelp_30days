@@ -30,7 +30,7 @@ VSCode觀察.gitignore調整前後
     <img src="./article_img/vscode2.png" width="160" height="210"/>
     <img src="./article_img/vscode3.png" width="160" height="220"/>  
 
-* 使用.gitignore後.env及node_modules會變成淺灰色，代表不會被列入變更
+* 使用.gitignore後.env及node_modules會變成淺灰色，代表不會被列入變更  
     <img src="./article_img/vscode1.png" width="160" height="210"/>  
 
 **這份忽略清單會隨著你專案的變動而調整**，如果你在撰寫其他種類程式語言可以參考[這個網站](https://github.com/github/gitignore)來調整自己的.gitignore  
