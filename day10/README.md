@@ -2,23 +2,26 @@
 ## Day10 小孩子才選擇，我要一隻程式爬完FB & IG粉專
 
 不知道有沒有讀者一隻程式爬完 FB & IG 的粉專呢?  
-* 如果你是把兩天文章複製貼上直接爬的話我想會遇到很多問題，如果你是一次跳出兩個瀏覽器在跑，我想會因為其中一個瀏覽器先觸發了**driver.quit()**而導致另一個還沒跑完的瀏覽器無法讀取元件而掛掉  
-```
-WebDriverError: element not interactable
-```
+* 如果你是把兩天文章複製貼上直接爬的話我想會遇到很多問題，如果你是一次跳出兩個瀏覽器在跑，我想會因為其中一個瀏覽器先觸發了 **driver.quit()** 而導致另一個還沒跑完的瀏覽器無法讀取元件而掛掉  
+    ```
+    WebDriverError: element not interactable
+    ```
 * 如果你把他改成一個瀏覽器，跑完FB粉專再跑IG粉專應該又會套出跨網域(CORS)問題的錯誤(目前只有windows作業系統才會遇到)  
-跨網域的問題是網域切換時會因為一些安全性的疑慮而拒絕跳轉，像是從 https://www.facebook.com/ 跳轉到 https://www.instagram.com 就會遇到這個問題  
-這個問題可以在你建立瀏覽器的時候加上設定如下
-```js
-let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options,
-    { acceptSslCerts: true, acceptInsecureCerts: true }//這是為了解決跨網域問題
-  ).build();
-```
+    >跨網域的問題是網域切換時會因為一些安全性的疑慮而拒絕跳轉，像是從 https://www.facebook.com/ 跳轉到 https://www.instagram.com 就會遇到這個問題  
 
-如果你沒有遇到以上的問題，你可以參考一下我目前的解法，我偏向開一個瀏覽器來處理，因為跑爬蟲是會消耗你電腦本身的記憶體以及網路流量  
-我希望電腦再跑爬蟲的時候不要影響我做其他事情的效率，同時一個瀏覽器在跑如果遇到問題你也更方便去進行除錯  
-下面是我目前的範例程式，雖然他的確可以正常運作，但是對程式有敏感度的小夥伴應該已經發現這隻程式哪裡需要優化了  
+    這個問題可以在你建立瀏覽器的時候加上設定如下
+    ```js
+    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options,
+        { acceptSslCerts: true, acceptInsecureCerts: true }//這是為了解決跨網域問題
+    ).build();
+    ```
 
+一隻程式爬完FB & IG粉專
+----
+如果你沒有遇到以上的問題，你可以參考一下我目前的解法，我偏向開一個瀏覽器來處理，因為**跑爬蟲是會消耗你電腦本身的記憶體以及網路流量**，我希望電腦再跑爬蟲的時候不要影響我做其他事情的效率，同時一個瀏覽器在跑如果遇到問題你也更方便去進行除錯  
+下面是我目前的範例程式，雖然他可以正常運作，但是對程式有敏感度的小夥伴應該已經發現這隻程式哪裡需要優化了  
+
+#### index.js
 ```js
 require('dotenv').config(); //載入.env環境檔
 const path = require('path');//載入路徑
