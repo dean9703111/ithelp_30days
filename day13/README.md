@@ -5,7 +5,9 @@
 今天要來跟大家介紹的一個很棒的文本格式 **json** (JavaScript Object Notation) ，他同時也是網頁api回傳最常見的一種格式  
 我的文章偏向如何應用，如果你想對json有更深刻的理解請參考[這篇文章](https://www.footmark.info/programming-language/javascript/json-format-and-javascript/)裡面寫的超級詳盡、淺顯易動  
 
-因為我們的目標就是搜集粉專並做分析，因為有多個粉專所以最外層是用**陣列(array)**，而單純從粉專連結上我們無法直覺的判斷出他是誰的粉專，所以裡面會用**物件(object)**來設定title及url這兩個屬性，json結構如下
+json實作
+----
+因為我們的目標就是搜集粉專並做分析，因為有多個粉專所以最外層是用 **陣列(array)** ，而單純從粉專連結上我們無法直覺的判斷出他是誰的粉專，所以裡面會用 **物件(object)** 來設定title及url這兩個屬性，json結構如下
 ```json
 [
     {
@@ -19,7 +21,7 @@
 ]
 ```
 
-大家請先在專案資料夾中建立 **json** 的資料夾專門存放你想要使用的json檔案，並在json資料夾中新增 **ig.json、fb.json** 這兩個檔案並寫入你希望去爬蟲的網址吉他對應的名稱，如果把上面的json結構套用到 **ig.json** ，實際上就會長得像這樣(筆者是以下貼圖的狂熱愛好者，歡迎一起追蹤按讚ＸＤ)
+大家請先在專案資料夾中建立 **json** 的資料夾專門存放你想要使用的json檔案，並在json資料夾中新增 **ig.json、fb.json** 這兩個檔案並寫入你希望去爬蟲的網址及他對應的名稱，如果把上面的json結構套用到 **ig.json** ，實際上就會長得像這樣(筆者是以下貼圖的狂熱愛好者，歡迎一起追蹤按愛心ＸＤ)
 #### ig.json
 ```json
 [
@@ -46,35 +48,57 @@
 ]
 ```
 
-我們程式只需要把這份json給引入(請注意路徑)就可以直接使用了  
-程式的部分只要改寫成for迴圈即可，請特別注意要讓每個粉專在爬蟲的時候至少間隔1秒以上，否則你有可能會被鎖帳號  
-#### crawlerIG.js
-```js
-const fanpage_array = require('../json/ig.json');
-const ig_username = process.env.IG_USERNAME
-const ig_userpass = process.env.IG_PASSWORD
-module.exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
+程式撰寫要點
+----
+* 只需要把這份json給引入(請注意路徑)就可以直接使用了  
+    ```js
+    const fanpage_array = require('../json/ig.json');
+    ```
+* 程式的部分只要改寫成for迴圈即可
+    ```js
+    for (fanpage of fanpage_array) {
+        // 撰寫你要對fanpage做的事       
+    }
+    ```
+* 請特別注意要讓每個粉專在爬蟲的時候至少間隔1秒以上，否則你有可能會被鎖帳號，本範例讓間隔1~6秒更符合人類
+    ```js
+    await driver.sleep(Math.floor(Math.random()*5)+1)//建議每個粉絲專頁爬蟲產生亂數間隔1~6秒，不然很有可能被鎖帳號
+    ```
+* 統整後完整程式如下
+    #### crawlerIG.js
+    ```js
+    const fanpage_array = require('../json/ig.json');
+    const ig_username = process.env.IG_USERNAME
+    const ig_userpass = process.env.IG_PASSWORD
+    module.exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
 
-async function crawlerIG (driver, By, until) {
-    const isLogin = await loginInstagram(driver, By, until)
-    if (isLogin) {//如果登入成功才執行下面的動作
-        console.log(`IG開始爬蟲`)
-        for (fanpage of fanpage_array) {
-            await goFansPage(driver, fanpage.url)
-            const trace = await getTrace(driver, By, until)
-            if (trace === null) {
-                console.log(`${fanpage.title}無法抓取追蹤人數`)
-            } else {
-                console.log(`${fanpage.title}追蹤人數：${trace}`)
+    async function crawlerIG (driver, By, until) {
+        const isLogin = await loginInstagram(driver, By, until)
+        if (isLogin) {//如果登入成功才執行下面的動作
+            console.log(`IG開始爬蟲`)
+            for (fanpage of fanpage_array) {
+                await goFansPage(driver, fanpage.url)
+                const trace = await getTrace(driver, By, until)
+                if (trace === null) {
+                    console.log(`${fanpage.title}無法抓取追蹤人數`)
+                } else {
+                    console.log(`${fanpage.title}追蹤人數：${trace}`)
+                }
+                await driver.sleep(Math.floor(Math.random()*5)+1)//建議每個粉絲專頁爬蟲產生亂數間隔1~6秒，不然很有可能被鎖帳號
             }
-            await driver.sleep(Math.floor(Math.random()*5)+1)//建議每個粉絲專頁爬蟲產生亂數間隔1~6秒，不然很有可能被鎖帳號
         }
     }
-}
-...
-```
+    ...
+    ```
+
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到瀏覽器依序登入IG & FB並跳轉到你所列出的粉專，大概喝一口水的時間後，你就能看到FB & IG的追蹤人數嚕～  
+![image](./article_img/terminal.png)  
 搭配上json後有沒有覺得自己功力大增XD，上面的是IG的範例，大家可以自己嘗試看看FB部分的如何改寫喔～
-  
+
+專案原始碼
+----
 加入json後改寫的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day13)喔
 你可以整個專案clone下來  
 ```
