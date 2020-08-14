@@ -61,7 +61,13 @@ async function loginFacebook (driver, By, until) {
 
 async function goFansPage (driver, web_url) {
     //登入成功後要前往粉專頁面
-    await driver.get(web_url)
+    try {
+        await driver.get(web_url)
+    } catch (e) {
+        console.error('無效的網址')
+        console.error(e)
+        return false
+    }
 }
 
 async function getTrace (driver, By, until) {
