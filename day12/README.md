@@ -17,7 +17,7 @@ try-catch使用情境
 4. 能透過例外處理減少多餘的步驟，像是Instagram我們一定要登入後才能爬蟲，所以我們就可以設定當登入失敗時不會執行後續步驟
 
 * 下面以IG爬蟲舉例，大家可以參考看看並思考FB爬蟲的部分你要如何改寫，若其中有一個條件錯誤就會拋出錯誤訊息
-    1. 登入Instagram函式(loginInstagram)
+    1. **登入Instagram函式(loginInstagram)**
         * 登入的網址是否為網址
         * 登入頁面是否有username、password、submit的元件
         * 若用到driver.wait皆需要設定最多等待時間否則會卡住
@@ -48,7 +48,7 @@ try-catch使用情境
         }
     }
     ```
-    2. 前往Instagram帳號函式(goFansPage)
+    2. **前往Instagram帳號函式(goFansPage)**
         * 確認網址是否有效
     ```js
     async function goFansPage (driver, web_url) {
@@ -62,7 +62,7 @@ try-catch使用情境
         }
     }
     ```
-    3. 獲取Instagram帳號追蹤人數函式(getTrace)
+    3. **獲取Instagram帳號追蹤人數函式(getTrace)**
         * 確認追蹤人數的元件是否存在
         * 確認該元件是否有title的Attribute
     ```js
@@ -83,6 +83,7 @@ try-catch使用情境
         }
     }
     ```
+
 
 >**筆者碎碎念**  
 try-catch的機制在程式越龐大的越重要，因為隨著開發的時間軸拉的越長，你對過去撰寫的程式掌握度會越來越低，甚至會忘記自己曾經寫了這一段程式碼；萬一在遙遠的某一天運轉好好的程式突然崩潰了，沒有撰寫try-catch的人在debug會浪費非常多的時間，因為他無法掌握是哪裡出錯了，所以建議大家培養撰寫try-catch的好習慣
