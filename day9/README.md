@@ -21,11 +21,11 @@
     <img src="./article_img/ig_login3.png" width="300" height="250"/>  
 
     * 進入開發者模式後我們會發現在填寫 **電話號碼、用戶名稱或電子郵件** 以及 **密碼** 輸入的地方(input元件)他們用 **name** 這個attribute  
-    <img src="./article_img/ig_login_user.png" width="400" height="60"/>  
-    <img src="./article_img/ig_login_pass.png" width="400" height="60"/>  
+        <img src="./article_img/ig_login_user.png" width="400" height="60"/>  
+        <img src="./article_img/ig_login_pass.png" width="400" height="60"/>  
 
     * 登入的按鈕(button元件)則是使用 **type** 這個attribute  
-    <img src="./article_img/ig_login_btn.png" width="400" height="120"/>  
+        <img src="./article_img/ig_login_btn.png" width="400" height="120"/>  
 
     根據上面的分析後我們就可以改用css的方式來抓取IG登入的元素，並操作它
     ```js
