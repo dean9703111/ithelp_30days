@@ -1,8 +1,10 @@
 #### [回目錄](../README.md)
 ## Day16 Google Sheets-讀取自己的sheet
 
-昨天跟著教學做就能讀取到Google提供的範例sheet，而我們今天有幾個目標是能夠讓程式讀取自己指定的Google Sheets  
+昨天跟著教學做就能讀取到Google提供的範例sheet，而我們今天目標是讓程式讀取自己指定的Google Sheets  
 
+分析官方範例程式
+----
 首先要理解Google提供範例程式，理解程式最快的方式的就是從 **輸出結果的位置** 開始回推，所以我反推的順序會是：
 1. 找到輸出結果的console.log()位置 &rarr; *console.log('Name, Major:');*
 2. 確認是用哪個function來輸出 &rarr; *listMajors(auth)*
@@ -17,7 +19,8 @@
 1. 取得spreadsheetId
 2. 撰寫自己的函式(listMySheet)讀取自己的sheet
 
-### 取得spreadsheetId
+取得自己的spreadsheetId並加入程式
+----
 我們先觀察官方對 **listMajors** 這隻函式的註解
 ```js
 /**
@@ -26,7 +29,7 @@
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
 ```
-你點進去連結就會發現昨天程式抓的是第一欄跟第五欄的值，你大對比官方 **spreadsheetId** 的的位置就會發現他是在 https://docs.google.com/spreadsheets/d/**1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms**/edit 這個位置，所以我們建立好Google Sheets後就把spreadsheetId替換成自己的(實際網頁位置如下圖紅框處)  
+你點擊連結就會發現昨天程式抓的是Google Sheets第一欄跟第五欄的值，你對比官方程式 **spreadsheetId** 的的位置就會發現他是在 https://docs.google.com/spreadsheets/d/**1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms**/edit 這個位置，所以我們建立好Google Sheets後就把spreadsheetId替換成自己的(實際網頁位置如下圖紅框處)  
 ![image](./article_img/googlesheet_url.png)  
 並且因為spreadsheetId並不適合公開放到git上面(你應該不會想公布這份Google Sheets給全世界吧)，所以我們要把spreadsheetId複製起來放到.env裡面設定為環境變數
 #### .env.exmaple
@@ -43,8 +46,8 @@ FB_PASSWORD='fb password'
 SPREADSHEET_ID='your spreadsheetId'
 ```
 ### 撰寫自己的函式(listMySheet)讀取自己的sheet
-在這裡我們把原本Google範例程式的listMajors刪除，改寫成自己的listMySheet函式  
-**valueRenderOption** 這個慘術士只把資料抓出來時的類型，感興趣可參考[Google官方文件](https://developers.google.com/sheets/api/reference/rest/v4/ValueRenderOption)
+在這裡我們把原本Google範例程式的listMajors()刪除，改寫成自己的listMySheet()函式  
+**valueRenderOption** 這個參數是把資料抓出來時的類型，感興趣可參考[Google官方文件](https://developers.google.com/sheets/api/reference/rest/v4/ValueRenderOption)
 ```js
 async function listMySheet (auth) {
   const sheets = google.sheets({ version: 'v4', auth });
@@ -65,8 +68,16 @@ async function listMySheet (auth) {
   }
 }
 ```
-上面的程式完成後你可以在自己的Google Sheets上面隨機輸入文字，看看輸出的結果是否符合你的預期～
+上面的程式完成後你可以在自己的Google Sheets上面隨機輸入文字，看看輸出的結果是否符合你的預期～  
 
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **node tools/googleSheets.js** 指令，看看輸出的結果是否與你的Google sheets上的一樣呢～ 
+![image](./article_img/googlesheet.png)  
+![image](./article_img/terminal.png)  
+
+專案原始碼
+----
 完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day16)喔
 你可以整個專案clone下來  
 ```
