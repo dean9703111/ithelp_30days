@@ -16,24 +16,13 @@ try-catch使用情境
 3. 因為我們在抓網頁元件時用了wait...until的結構，如果我們沒有設定他最多等待幾秒，他會等到天荒地老，所以請全部加上等待的時間，否則try-catch也幫不了你
 4. 能透過例外處理減少多餘的步驟，像是Instagram我們一定要登入後才能爬蟲，所以我們就可以設定當登入失敗時不會執行後續步驟
 
-* 下面以IG爬蟲舉例，大家可以參考看看並思考FB爬蟲的部分你要如何改寫
-    #### crawlerIG.js
+* 下面以IG爬蟲舉例，大家可以參考看看並思考FB爬蟲的部分你要如何改寫，若其中有一個條件錯誤就會拋出錯誤訊息
+    1. 登入Instagram函式(loginInstagram)
+        * 登入的網址是否為網址
+        * 登入頁面是否有username、password、submit的元件
+        * 若用到driver.wait皆需要設定最多等待時間否則會卡住
+        * 登入成功後是否有_47KiJ的class
     ```js
-    const ig_username = process.env.IG_USERNAME
-    const ig_userpass = process.env.IG_PASSWORD
-
-    module.exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
-
-    async function crawlerIG (driver, By, until) {
-        const isLogin = await loginInstagram(driver, By, until)
-        if (isLogin) {//如果登入成功才執行下面的動作
-            const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-            await goFansPage(driver, fanpage)
-            const trace = await getTrace(driver, By, until)
-            console.log(`IG追蹤人數：${trace}`)
-        }
-    }
-
     async function loginInstagram (driver, By, until) {
         const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
         try {
@@ -58,7 +47,10 @@ try-catch使用情境
             return false
         }
     }
-
+    ```
+    2. 前往Instagram帳號函式(goFansPage)
+        * 確認網址是否有效
+    ```js
     async function goFansPage (driver, web_url) {
         //登入成功後要前往粉專頁面
         try {
@@ -69,7 +61,11 @@ try-catch使用情境
             return false
         }
     }
-
+    ```
+    3. 獲取Instagram帳號追蹤人數函式(getTrace)
+        * 確認追蹤人數的元件是否存在
+        * 確認該元件是否有title的Attribute
+    ```js
     async function getTrace (driver, By, until) {
         let ig_trace = 0;//這是紀錄IG追蹤人數
         try {
@@ -88,7 +84,8 @@ try-catch使用情境
     }
     ```
 
-try-catch的機制在程式越龐大的越重要，因為隨著開發的時間軸拉的越長，你對過去撰寫的程式掌握度會越來越低，甚至會忘記自己曾經寫了這一段程式碼；萬一在遙遠的某一天突然運轉好好的程式突然崩潰了，沒有撰寫try-catch的人在debug會浪費非常多的時間，因為他無法掌握是哪裡出錯了，所以建議大家培養撰寫try-catch的好習慣
+>**筆者碎碎念**  
+try-catch的機制在程式越龐大的越重要，因為隨著開發的時間軸拉的越長，你對過去撰寫的程式掌握度會越來越低，甚至會忘記自己曾經寫了這一段程式碼；萬一在遙遠的某一天運轉好好的程式突然崩潰了，沒有撰寫try-catch的人在debug會浪費非常多的時間，因為他無法掌握是哪裡出錯了，所以建議大家培養撰寫try-catch的好習慣
 
 如果有時麼解釋不夠清楚的歡迎在下方留言討論喔    
 
