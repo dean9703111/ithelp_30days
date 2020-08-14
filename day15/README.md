@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-### Day15 google sheets起手式，取得寫入google sheets的憑證(credentials)
+## Day15 google sheets起手式，取得寫入google sheets的憑證(credentials)
 
 使用原因
 ----

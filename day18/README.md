@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-### Day18 Google Sheets-將爬蟲資料寫入
+## Day18 Google Sheets-將爬蟲資料寫入
 
 過去我們只將FB粉專、IG粉專的資訊用console.log輸出，現在我們要把這些資料儲存到Google Sheets需要有幾個步驟：
 1. 將FB粉專、IG粉專的追蹤人數填到result_array並return
