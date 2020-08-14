@@ -50,15 +50,15 @@
 3. **IG追蹤人數的元件位置**  
     如果你跟我一樣充滿實驗精神，你會發現IG粉專的頁面會隨著螢幕寬度更改而更改Xpath的路徑  
     * 寬螢幕的Xpath  
-    <img src="./article_img/ig_trace1.png" width="300" height="50"/>  
-    ```
-    //*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span
-    ```
+        <img src="./article_img/ig_trace1.png" width="300" height="50"/>  
+        ```
+        //*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span
+        ```
     * 窄螢幕的Xpath  
-    <img src="./article_img/ig_trace2.png" width="400" height="50"/>  
-    ```
-    //*[@id="react-root"]/section/main/div/ul/li[2]/a/span
-    ```
+        <img src="./article_img/ig_trace2.png" width="400" height="50"/>  
+        ```
+        //*[@id="react-root"]/section/main/div/ul/li[2]/a/span
+        ```
     為了避免因為螢幕寬度不一樣造成Xpath不同，所以我們要在 **一開始打開瀏覽器的時候設定他的視窗大小** (本專案以寬螢幕作為範例)，所以請在打開瀏覽器的下方加上視窗大小的設定  
 
     ```js
