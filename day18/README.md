@@ -176,7 +176,7 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
   fs.readFile('credentials/googleSheets.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     authorize(JSON.parse(content), async (auth) => {
-      let sheets = await checkSheet(auth)
+      let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
       for (sheet of sheets) {
         if (sheet.title === 'FB粉專') {
           writeSheet(sheet.title, fb_result_array, auth)

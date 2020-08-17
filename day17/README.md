@@ -55,18 +55,18 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
     fs.readFile('credentials/googleSheets.json', (err, content) => {//讀取認證
       if (err) return console.log('Error loading client secret file:', err);
       authorize(JSON.parse(content), async (auth) => {//取得授權
-        let sheets = await checkSheet(auth)//檢查sheet
+        let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
         console.log(sheets)
       });
     });
   }
   ```
-* checkSheet會分成三個動作
+* getFBIGSheet會分成三個動作
   1. 我們要先知道目前已經存在的sheets是否有'FB粉專'、'IG帳號'這兩個，所以要取得線上sheets(getSheets)
   2. 判斷sheet是否存在，不存在則產生不重複的id(genSheetId)，並且新增sheet(addSheet)
   3. 返回最新的sheets參數
   ```js
-  async function checkSheet (auth) {// 確認Sheet是否都被建立，如果還沒被建立，就新增
+  async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還沒被建立，就新增
     const sheets = [//我們Google Sheets需要的sheet
       { title: 'FB粉專', id: null },
       { title: 'IG帳號', id: null }
