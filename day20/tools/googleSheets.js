@@ -144,7 +144,7 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
   return sheets;
 }
 
-async function writeSheet (title, result_array, auth) {
+async function writeSheet (title, sheet_id, result_array, auth) {
   // 取得線上的title_array
   let online_title_array = await readTitle(title, auth)
   // 如果json檔有新增的title就加入到online_title_array
@@ -177,10 +177,10 @@ async function writeSheet (title, result_array, auth) {
   // 寫入粉專名稱
   await writeTitle(title, online_title_array.map(title => [title]), auth)
 
-  // 取得目前最後一欄
-  let lastCol = await getLastCol(title, auth)
+  // 插入空欄位
+  await insertEmptyCol(title, sheet_id, auth)
   // 寫入追蹤人數
-  await writeTrace(title, trace_array, lastCol, auth)
+  await writeTrace(title, trace_array, auth)
 }
 
 async function readTitle (title, auth) {
@@ -226,24 +226,6 @@ async function writeTitle (title, title_array, auth) {//title都是寫入第一�
   }
 }
 
-async function getLastCol (title, auth) {
-  const sheets = google.sheets({ version: 'v4', auth });
-  const request = {
-    spreadsheetId: process.env.SPREADSHEET_ID,
-    ranges: [
-      `'${title}'!A1:ZZ1`
-    ],
-    majorDimension: "COLUMNS",
-  }
-  try {
-    let values = (await sheets.spreadsheets.values.batchGet(request)).data.valueRanges[0].values;
-    // console.log(title + " StartCol: " + toColumnName(values.length + 1))
-    return toColumnName(values.length + 1)
-    // return web_name_array
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為英文才能使用
   for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
@@ -252,13 +234,13 @@ function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為
   return ret;
 }
 
-async function writeTrace (title, trace_array, lastCol, auth) {//填入追蹤者人數
+async function writeTrace (title, trace_array, auth) {//填入追蹤者人數
   const sheets = google.sheets({ version: 'v4', auth });
   const request = {
     spreadsheetId: process.env.SPREADSHEET_ID,
     valueInputOption: "USER_ENTERED",// INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
     range: [
-      `'${title}'!${lastCol}:${lastCol}`
+      `'${title}'!B:B`
     ],
     resource: {
       values: trace_array
@@ -272,6 +254,34 @@ async function writeTrace (title, trace_array, lastCol, auth) {//填入追蹤者
   }
 }
 
+async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
+  const sheets = google.sheets({ version: 'v4', auth });
+  const request = {
+    // The ID of the spreadsheet
+    "spreadsheetId": process.env.SPREADSHEET_ID,
+    "resource": {
+      "requests": [{
+        "insertDimension": {//插入新欄位
+          "range": {
+            "sheetId": sheet_id,
+            "dimension": "COLUMNS",
+            "startIndex": 1,//代表插入範圍從第一欄開始到第二欄結束
+            "endIndex": 2
+          },
+          "inheritFromBefore": true
+        },
+      }]
+    }
+  };
+  try {
+    await sheets.spreadsheets.batchUpdate(request)
+    console.log('insert sheet:' + title + ' new column')
+  }
+  catch (err) {
+    console.log('The API returned an error: ' + err);
+  }
+}
+
 async function updateGoogleSheets (ig_result_array, fb_result_array) {
   fs.readFile('credentials/googleSheets.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
@@ -279,9 +289,9 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
       let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
       for (sheet of sheets) {
         if (sheet.title === 'FB粉專') {
-          writeSheet(sheet.title, fb_result_array, auth)
+          writeSheet(sheet.title, sheet.id, fb_result_array, auth)
         } else if (sheet.title === 'IG帳號') {
-          writeSheet(sheet.title, ig_result_array, auth)
+          writeSheet(sheet.title, sheet.id, ig_result_array, auth)
         }
       }
     });
