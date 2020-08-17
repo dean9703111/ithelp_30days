@@ -54,24 +54,33 @@
   #填寫你目標放入的spreadsheetId
   SPREADSHEET_ID='your spreadsheetId'
   ```
-* 你點擊連結 https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit 就會發現昨天程式抓的是這個Google Sheets第一欄跟第五欄的值
-  ![image](./article_img/googlesheetex.png)
-* 同時也看一下官方範例的輸出程式如何撰寫
-  ```js
-  const rows = res.data.values;
-  if (rows.length) {
-    console.log('Name, Major:');
-    // Print columns A and E, which correspond to indices 0 and 4.
-    rows.map((row) => {
-      console.log(`${row[0]}, ${row[4]}`);
-    });
-  } else {
-    console.log('No data found.');
-  }
-  ```
 
 撰寫自己的函式(listMySheet)讀取自己的sheet
 ----
+* 你點擊連結 https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit 就會發現昨天程式抓的是這個Google Sheets第一欄跟第五欄的值
+  ![image](./article_img/googlesheetex.png)
+* 可以先看一下官方的撰寫邏輯，接下來我們要將它改成非同步函式的結構
+  ```js
+  function listMajors(auth) {
+  const sheets = google.sheets({version: 'v4', auth});
+    sheets.spreadsheets.values.get({
+      spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+      range: 'Class Data!A2:E',
+    }, (err, res) => {
+      if (err) return console.log('The API returned an error: ' + err);
+      const rows = res.data.values;
+      if (rows.length) {
+        console.log('Name, Major:');
+        // Print columns A and E, which correspond to indices 0 and 4.
+        rows.map((row) => {
+          console.log(`${row[0]}, ${row[4]}`);
+        });
+      } else {
+        console.log('No data found.');
+      }
+    });
+  }
+  ```
 * 在這裡我們把原本Google範例程式的listMajors()刪除，改寫成自己的listMySheet()函式  
   **valueRenderOption** 這個參數是把資料抓出來時的類型，感興趣可參考[Google官方文件](https://developers.google.com/sheets/api/reference/rest/v4/ValueRenderOption)
   ```js
