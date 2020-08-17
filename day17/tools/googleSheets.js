@@ -144,10 +144,10 @@ async function checkSheet (auth) {// 確認Sheet是否都被建立，如果還�
 }
 
 async function updateGoogleSheets () {
-  fs.readFile('credentials/googleSheets.json', (err, content) => {
+  fs.readFile('credentials/googleSheets.json', (err, content) => {//讀取認證
     if (err) return console.log('Error loading client secret file:', err);
-    authorize(JSON.parse(content), async (auth) => {
-      let sheets = await checkSheet(auth)
+    authorize(JSON.parse(content), async (auth) => {//取得授權
+      let sheets = await checkSheet(auth)//檢查sheet
       console.log(sheets)
     });
   });
