@@ -13,7 +13,7 @@
 3. 如果沒有該sheet就產生線上不重複的sheet_id(他是唯一值)
 4. 如果沒有該sheet就新增sheet
 
-建議大家在看我的解法前也要學習閱讀[官方的文件](https://developers.google.com/sheets/api/samples/sheet)，裡面有詳細的教學，畢竟不可能隨時都有中文資源讓你閱讀，如果一開始看不懂文件也沒關係，把他的範例程式複製貼上就對了XD，以今天addSheet的功能來說，你只需要看下面這個函式即可  
+建議大家在看我的解法前也要學習閱讀[官方的文件](https://developers.google.com/sheets/api/samples/sheet)，裡面有詳細的教學，畢竟不可能隨時都有中文資源讓你閱讀，如果一開始看不懂文件也沒關係，把他的範例程式複製貼上就對了XD，以今天 **addSheet** 的功能來說，你只需要看下面這個函式即可  
 ```js
 async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的Google Sheets
   const sheets = google.sheets({ version: 'v4', auth });
@@ -201,6 +201,7 @@ git pull origin master
 cd day17
 yarn
 在credentials資料夾放上自己的憑證
+調整你.env檔填上SPREADSHEET_ID
 yarn start
 ```
 ### [Day18 Google Sheets-將爬蟲資料寫入](/day18/README.md)

@@ -182,13 +182,6 @@ async function writeTitle (title, title_array, auth) {//title都是寫入第一�
   }
 }
 
-function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為英文才能使用
-  for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
-    ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
-  }
-  return ret;
-}
-
 async function getLastCol (title, auth) {
   const sheets = google.sheets({ version: 'v4', auth });
   const request = {
@@ -207,7 +200,15 @@ async function getLastCol (title, auth) {
     console.error(err);
   }
 }
-async function writeTrace (title, trace_array, lastCol, auth) {//trace則是一直往後寫
+
+function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為英文才能使用
+  for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
+    ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
+  }
+  return ret;
+}
+
+async function writeTrace (title, trace_array, lastCol, auth) {//填入追蹤者人數
   const sheets = google.sheets({ version: 'v4', auth });
   const request = {
     spreadsheetId: process.env.SPREADSHEET_ID,
