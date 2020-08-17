@@ -29,17 +29,16 @@
    * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
    */
   ```
-* 你點擊連結就會發現昨天程式抓的是這個Google Sheets第一欄跟第五欄的值
-  ![image](./article_img/googlesheetex.png)
-* 同時也看一下官方範例要輸出的程式長什麼樣子
+* 你對比官方程式 **spreadsheetId** 的的位置
   ```js
-  console.log('Name, Major:');
-  // Print columns A and E, which correspond to indices 0 and 4.
-  rows.map((row) => {
-    console.log(`${row[0]}, ${row[4]}`);
-  });
+  ...
+  sheets.spreadsheets.values.get({
+    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+    range: 'Class Data!A2:E',
+  }
+  ...
   ```
-* 你對比官方程式 **spreadsheetId** 的的位置就會發現他是在 https://docs.google.com/spreadsheets/d/ **1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms** /edit 這個位置，所以我們建立好Google Sheets後就把spreadsheetId替換成自己的(實際網頁位置如下圖紅框處)  
+  就會發現他是在 https://docs.google.com/spreadsheets/d/ **1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms** /edit 這個位置，所以我們建立好Google Sheets後就把spreadsheetId替換成自己的(實際網頁位置如下圖紅框處)  
   ![image](./article_img/googlesheet_url.png)  
   並且因為spreadsheetId並不適合公開放到git上面(你應該不會想公布這份Google Sheets給全世界吧)，所以我們要把**spreadsheetId複製起來放到.env裡面設定為環境變數**
   #### .env.exmaple
@@ -55,6 +54,22 @@
   #填寫你目標放入的spreadsheetId
   SPREADSHEET_ID='your spreadsheetId'
   ```
+* 你點擊連結 https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit 就會發現昨天程式抓的是這個Google Sheets第一欄跟第五欄的值
+  ![image](./article_img/googlesheetex.png)
+* 同時也看一下官方範例的輸出程式如何撰寫
+  ```js
+  const rows = res.data.values;
+  if (rows.length) {
+    console.log('Name, Major:');
+    // Print columns A and E, which correspond to indices 0 and 4.
+    rows.map((row) => {
+      console.log(`${row[0]}, ${row[4]}`);
+    });
+  } else {
+    console.log('No data found.');
+  }
+  ```
+
 撰寫自己的函式(listMySheet)讀取自己的sheet
 ----
 * 在這裡我們把原本Google範例程式的listMajors()刪除，改寫成自己的listMySheet()函式  
