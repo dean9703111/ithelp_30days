@@ -62,7 +62,7 @@ json實作
     ```
 * 請特別注意要讓每個粉專在爬蟲的時候至少間隔1秒以上，否則你有可能會被鎖帳號，本範例讓間隔1~6秒更符合人類
     ```js
-    await driver.sleep(Math.floor(Math.random()*5)+1)//建議每個粉絲專頁爬蟲產生亂數間隔1~6秒，不然很有可能被鎖帳號
+    await driver.sleep((Math.floor(Math.random()*5)+1)*1000)//建議每個粉絲專頁爬蟲產生亂數間隔1~6秒，不然很有可能被鎖帳號
     ```
 * 統整後完整程式如下
     #### crawlerIG.js
@@ -84,7 +84,7 @@ json實作
                 } else {
                     console.log(`${fanpage.title}追蹤人數：${trace}`)
                 }
-                await driver.sleep(Math.floor(Math.random()*5)+1)//建議每個粉絲專頁爬蟲產生亂數間隔1~6秒，不然很有可能被鎖帳號
+                await driver.sleep((Math.floor(Math.random()*5)+1)*1000)//建議每個粉絲專頁爬蟲產生亂數間隔1~6秒，不然很有可能被鎖帳號
             }
         }
     }
