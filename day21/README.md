@@ -7,11 +7,11 @@
 
 建議大家可以先看官方文件說明：[窗口凍結](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets#gridproperties)、
 [欄位寬度調整](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateDimensionPropertiesRequest)  
-原則上對Google Sheets的任何動作，只要你能夠手動操作的他都有提供api給你使用，所以強烈建議日後想要用api操作Google Sheets的朋友們一定要練習看懂官方文檔  
+* 原則上對Google Sheets的任何動作，只要你能夠手動操作的他都有提供api給你使用，所以強烈建議日後想要用api操作Google Sheets的朋友們一定要練習看懂官方文檔  
 
 窗口凍結
 ------------------------
-我將這個功能設計在創建sheet的函式(addSheet)，因為從邏輯上來說他只需要被執行一次就夠了
+我將這個功能合併到創建sheet的函式(addSheet)，從邏輯上來說他只需要在建立sheet時執行一次就夠了
 ```js
 async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的Google Sheets
   const sheets = google.sheets({ version: 'v4', auth });
@@ -47,7 +47,7 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
 欄位寬度調整
 ------------------------
 經過實驗後發現如果是新插入的欄位都會是預設的欄位寬度，所以我在插入新欄位的函式(insertEmptyCol)新增了調整欄位寬度的功能  
-在這個Google Sheets的request中你可以發現他是可以同時執行多個要求的(insertDimension、updateDimensionProperties)，原本我打算要把這兩個request合併到一起，但實際執行會跳出錯誤如下圖，官方文件沒有提供的功能就不要想太多了，老老實實分成兩個步驟執行吧ＸＤ  
+* 在這個Google Sheets的request中你可以發現他是可以同時執行多個要求的(insertDimension、updateDimensionProperties)，原本我打算要把這兩個request合併到一起，但實際執行會跳出錯誤如下圖，官方文件沒有提供的功能就不要想太多了，老老實實分成兩個步驟執行吧ＸＤ  
 ![image](./article_img/terminalerr.png)  
 ```js
 async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
@@ -95,7 +95,7 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
 
 執行程式
 ----
-在執行程式之前請先把Google Sheets的'FB粉專'、'IG帳號'這兩個sheet刪除喔，因為addSheet函式要觸發才會有窗口凍結的功能  
+* 在執行程式之前請先把Google Sheets的'FB粉專'、'IG帳號'這兩個sheet刪除喔，因為addSheet函式要觸發才會有窗口凍結的功能  
 刪除sheet後在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，看看線上的Google Sheets是否有符合今天設定的格式呢？  
 ![image](./article_img/terminal.png)  
 ![image](./article_img/googlesheet.png)  
