@@ -51,7 +51,7 @@
     * [Day18 Google Sheets-將爬蟲資料寫入](/day18/README.md)
     * [Day19 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位](/day19/README.md)
     * [Day20 Google Sheets-倒序插入](/day20/README.md)
-    * [Day21 google sheets-窗口凍結 & 欄位寬度調整](/day21/README.md)
+    * [Day21 Google Sheets-窗口凍結 & 欄位寬度調整](/day21/README.md)
 
 * 自動化
     * Day22 排程設定

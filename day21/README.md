@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day21 google sheets-窗口凍結 & 欄位寬度調整
+## Day21 Google Sheets-窗口凍結 & 欄位寬度調整
 
 就如標題所述，為了提升Google Sheets閱讀上的體驗，他新增了兩個要求：  
 1. 窗口凍結：最上方的爬蟲日期、左方的粉專名稱在瀏覽時凍結
@@ -102,6 +102,9 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
 ![image](./article_img/terminal.png)  
 ![image](./article_img/googlesheet.png)  
 
+下個階段
+------------------------
+Google Sheets系列文章到這裡告一個段落，接下來我們會討論**排程自動化**的部分，敬請期待
 
 專案原始碼
 ----

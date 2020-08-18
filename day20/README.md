@@ -86,4 +86,4 @@ yarn
 在credentials資料夾放上自己的憑證
 yarn start
 ```
-### [Day21 google sheets-窗口凍結 & 欄位寬度調整](/day21/README.md)
+### [Day21 Google Sheets-窗口凍結 & 欄位寬度調整](/day21/README.md)
