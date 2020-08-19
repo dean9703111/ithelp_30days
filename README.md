@@ -54,9 +54,9 @@
     * [Day21 Google Sheets-窗口凍結 & 欄位寬度調整](/day21/README.md)
 
 * 自動化
-    * Day22 排程設定
-    * Day23 透過環境變數以及重構程式決定執行排程或是執行單次
-    * Day24 排程如何永久背景執行
+    * [Day22 排程設定](/day22/README.md)
+    * [Day23 排程永久背景執行?json改了沒反應?](/day23/README.md)
+    * [Day24 windows & mac 手把手排程設定](/day24/README.md)
 
 * 通知設定
     * Day25 LINE權杖取得
