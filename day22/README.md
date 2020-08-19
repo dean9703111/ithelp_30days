@@ -91,12 +91,71 @@ yarn add cron
 
 把排程加入爬蟲
 ----
-我想上面這麼詳細的套件說明以及範例，這段程式大家應該可以輕鬆寫出來XD  
+我們今天要調整三個檔案來符合爬蟲的需求  
+1. 主程式把crawler函式變成模組允許外部引用，因避免被引用時自動觸發crawler函式，故將下方觸發用的crawler()移除
+    #### index.js
+    ```js
+    require('dotenv').config(); //載入.env環境檔
+    const { initDrive } = require("./tools/initDrive.js");
+    const { crawlerFB } = require("./tools/crawlerFB.js");
+    const { crawlerIG } = require("./tools/crawlerIG.js");
+    const { updateGoogleSheets } = require("./tools/googleSheets.js");
+    module.exports.crawler = crawler;//讓其他程式在引入時可以使用這個函式
 
-
+    async function crawler () {
+        const { driver, By, until } = initDrive();
+        //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
+        const ig_result_array = await crawlerIG(driver, By, until)
+        const fb_result_array = await crawlerFB(driver, By, until)
+        driver.quit();
+        //處理Google Sheets相關動作
+        await updateGoogleSheets(ig_result_array, fb_result_array)
+    }
+    ```
+2. 我們要在每天晚上22:00執行程式，所以撰寫排程程式如下
+    * 請編輯.env檔填上自己的爬蟲時段(CRONJOB_TIME)
+    #### cron.js
+    ```js
+    const CronJob = require('cron').CronJob;
+    const { crawler } = require("../index.js");
+    new CronJob(process.env.CRONJOB_TIME, function () {//請編輯.env檔填上自己的爬蟲時段喔
+        console.log('開始執行爬蟲排程作業！');
+        crawler()
+    }, null, true, 'Asia/Taipei');
+    ```
+3. 調整package.json的scripts
+    針對 node 如何執行 js 指定 function 的指令寫法可以參考這篇[文章](https://stackoverflow.com/questions/30782693/run-function-in-script-from-command-line-node-js)
+    * start : mac執行單次爬蟲時使用的
+    * win_start : windows執行單次爬蟲時使用的(需要將單引號與雙引號反過來，因為windows只會將單引號內的資訊印除來而不會去執行)
+    * cron : 排程執行爬蟲時使用的
+    ```js
+    {
+      "name": "crawler",
+      "version": "0.0.1",
+      "description": "FB & IG 爬蟲30天鐵人文章",
+      "author": "dean lin",
+      "dependencies": {
+        "cron": "^1.8.2",
+        "dateformat": "^3.0.3",
+        "dotenv": "^8.2.0",
+        "googleapis": "39",
+        "selenium-webdriver": "^4.0.0-alpha.7"
+      },
+      "devDependencies": {},
+      "scripts": {
+        "start": "node  -e 'require(\"./index\").crawler()'",
+        "win_start": "node  -e \"require('./index').crawler()\"",
+        "cron":"node tools/cron.js"
+      },
+      "main": "index.js",
+      "license": "ISC"
+    }
+    ```
 
 執行程式
 ----
+在專案資料夾的終端機(Terminal)執行指令 **yarn cron** 指令，確認爬蟲程式是否依照你設定的時間執行  
+![image](./article_img/terminal.png)
 
 專案原始碼
 ----

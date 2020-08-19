@@ -3,6 +3,7 @@ const { initDrive } = require("./tools/initDrive.js");
 const { crawlerFB } = require("./tools/crawlerFB.js");
 const { crawlerIG } = require("./tools/crawlerIG.js");
 const { updateGoogleSheets } = require("./tools/googleSheets.js");
+module.exports.crawler = crawler;//讓其他程式在引入時可以使用這個函式
 
 async function crawler () {
     const { driver, By, until } = initDrive();
@@ -13,5 +14,3 @@ async function crawler () {
     //處理Google Sheets相關動作
     await updateGoogleSheets(ig_result_array, fb_result_array)
 }
-
-crawler()
