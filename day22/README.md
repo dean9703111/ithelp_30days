@@ -154,7 +154,7 @@ yarn add cron
 
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn cron** 指令，確認爬蟲程式是否依照你設定的時間執行  
+在專案資料夾的終端機(Terminal)執行指令 **yarn cron** 指令，確認爬蟲程式是否依照你設定的時間執行(因為排程的程式會一直執行，所以你不會看到以往Done in xxs的訊息)  
 ![image](./article_img/terminal.png)
 
 專案原始碼
