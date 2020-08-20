@@ -45,7 +45,7 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
 判斷Sheet存在與否並自動創建
 ----
 下面思路是我考慮到執行時面對的各項可能性，你可以參考我的思路，googleSheets.js導讀如下：
-* 考慮到每一個Google Sheets的api全部都需要同過憑證取得授權才能操作，所以我把這個步驟獨立成一個函式(getAuth)，由於取得授權這塊採用callback的函式，所以過去使用的await在這裡並不適用，你需要用Promise的方式來處理；他詳細的使用方法以及與async/await的搭配[這篇文章](https://noob.tw/js-async/)寫得非常棒
+* getAuth : 考慮到每一個Google Sheets的api全部都需要同過憑證取得授權才能操作，所以我把這個步驟獨立成一個函式，由於取得授權這塊採用callback的函式，所以過去使用的await在這裡並不適用，你需要用Promise的方式來處理。他詳細的使用方法以及與async/await的搭配[這篇文章](https://noob.tw/js-async/)寫得非常棒
     1. 讀取認證.json檔案
     2. 取得Google Sheets授權
     ```js
@@ -63,7 +63,7 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
       })
     }
     ```
-* 我們要設計一個給index.js呼叫來更新GoogleSheets的外部函式模組(updateGoogleSheets)，這個函式目前要做兩件事
+* updateGoogleSheets : 我們要設計一個給index.js呼叫來更新GoogleSheets的外部函式模組，這個函式目前要做兩件事
   1. 取得Google Sheets授權
   2. 檢查當前sheet狀態
   ```js
@@ -79,7 +79,7 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
     }
   }
   ```
-* getFBIGSheet會分成三個動作
+* getFBIGSheet : 取得線上FB、IG的sheet會分成三個動作
   1. 我們要先知道目前已經存在的sheets是否有'FB粉專'、'IG帳號'這兩個，所以要取得線上sheets(getSheets)
   2. 判斷sheet是否存在，不存在則產生不重複的id(genSheetId)，並且新增sheet(addSheet)
   3. 返回最新的sheets參數
