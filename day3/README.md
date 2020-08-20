@@ -37,11 +37,22 @@ helloWorld() // 一進入就觸發
 在這短短5行的程式裡面其實就有很多需要注意的事情
 1. 函式命名規則
 2. 變數命名規則
-3. 變數宣告
+3. 宣告變數
 4. 程式日誌
-5. 註解
-在[這篇文章](https://eyesofkids.gitbooks.io/javascript-start-from-es6/content/part3/var_const_naming.html)中有非常深入的探討這些問題，他能幫助你對程式的基礎有更深刻的理解  
+5. 註解  
+
+在[這篇文章](https://eyesofkids.gitbooks.io/javascript-start-from-es6/content/part3/var_const_naming.html)中有非常深入的探討這些問題，他能幫助你對程式的基礎有更深刻的理解 
+
+宣告變數
+----
 宣告變數上你也需要注意[var, let, const 差異](https://medium.com/@totoroLiu/javascript-var-let-const-%E5%B7%AE%E7%95%B0-e3d930521230)，用對的方式宣告變數才會讓人了解到他的意義  
+* 全域變數
+  * var : 這樣的宣告方式可能會**造成區域變數覆蓋全域變數的意外**，請盡量減少使用，
+* 區域變數
+  * let : 可被重新指定值的變數的宣告方式
+  * const : 不可被重新指定值的常數的宣告方式，使用他就是為了避免該常數被修改
+      * 定義不做改變的常數 : const PI = 3.14159
+      * 特別注意如果const宣告陣列(array)或物件(object)時是可以被改變的，因為他們都是reference type，[這裡有更詳細的說明](https://pjchender.blogspot.com/2017/01/const.html)
 
 執行程式
 ----
