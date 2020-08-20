@@ -45,20 +45,38 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
 判斷Sheet存在與否並自動創建
 ----
 下面思路是我考慮到執行時面對的各項可能性，你可以參考我的思路，googleSheets.js導讀如下：
-* 我們要設計一個給index.js呼叫來更新GoogleSheets的外部函式模組(updateGoogleSheets)，這個函式目前要做三件事
-  1. 讀取認證.json檔案
-  2. 取得Google Sheets授權
-  3. 檢查當前sheet狀態
+* 考慮到每一個Google Sheets的api全部都需要同過憑證取得授權才能操作，所以我把這個步驟獨立成一個函式(getAuth)，由於取得授權這塊採用callback的函式，所以過去使用的await在這裡並不適用，你需要用Promise的方式來處理；他詳細的使用方法以及與async/await的搭配[這篇文章](https://noob.tw/js-async/)寫得非常棒
+    1. 讀取認證.json檔案
+    2. 取得Google Sheets授權
+    ```js
+    function getAuth () {
+      return new Promise((resolve, reject) => {
+        try {
+          const content = JSON.parse(fs.readFileSync('credentials/googleSheets.json'))
+          authorize(content, auth => {
+            resolve(auth)
+          })
+        } catch (err) {
+          console.error('憑證錯誤');
+          reject(err)
+        }
+      })
+    }
+    ```
+* 我們要設計一個給index.js呼叫來更新GoogleSheets的外部函式模組(updateGoogleSheets)，這個函式目前要做兩件事
+  1. 取得Google Sheets授權
+  2. 檢查當前sheet狀態
   ```js
   module.exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
   async function updateGoogleSheets () {
-    fs.readFile('credentials/googleSheets.json', (err, content) => {//讀取認證
-      if (err) return console.log('Error loading client secret file:', err);
-      authorize(JSON.parse(content), async (auth) => {//取得授權
-        let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
-        console.log(sheets)
-      });
-    });
+    try {
+      const auth = await getAuth()
+      let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
+      console.log(sheets)
+    } catch (err) {
+      console.error('更新Google Sheets失敗');
+      console.error(err);
+    }
   }
   ```
 * getFBIGSheet會分成三個動作

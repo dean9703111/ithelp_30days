@@ -86,7 +86,7 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
   };
   try {
     await sheets.spreadsheets.batchUpdate(request)
-    console.log('insert sheet:' + title + ' new column')
+    console.log('update sheet:' + title + ' new column')
   }
   catch (err) {
     console.log('The API returned an error: ' + err);

@@ -36,7 +36,7 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
   };
   try {
     await sheets.spreadsheets.batchUpdate(request)
-    console.log('insert sheet:' + title + ' new column')
+    console.log('update sheet:' + title + ' new column')
   }
   catch (err) {
     console.log('The API returned an error: ' + err);
@@ -65,10 +65,12 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
             ```
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，看看線上的Google Sheets是否有正確插入第一欄呢？  
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，看看線上的Google Sheets是否有正確插入第一欄呢?  
+  * 如果你在同一天測試，你可以把之前爬蟲日期改成old方便辨識
+  
 大家可以看看終端機輸出的資訊是否與Google Sheets上的資訊吻合(下圖)  
 ![image](./article_img/terminal.png)  
-![image](./article_img/googlesheets.png)  
+![image](./article_img/googlesheet.png)  
 
 專案原始碼
 ----

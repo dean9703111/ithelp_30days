@@ -112,16 +112,22 @@ yarn add cron
         await updateGoogleSheets(ig_result_array, fb_result_array)
     }
     ```
-2. 我們要在每天晚上22:00執行程式，所以撰寫排程程式如下
+2. 我直接用constructor的概念來寫排程程式，這樣在日後維護時比較了解每個參數的意義
     * 請編輯.env檔填上自己的爬蟲時段(CRONJOB_TIME)
     #### cron.js
     ```js
     const CronJob = require('cron').CronJob;
     const { crawler } = require("../index.js");
-    new CronJob(process.env.CRONJOB_TIME, function () {//請編輯.env檔填上自己的爬蟲時段喔
-        console.log('開始執行爬蟲排程作業！');
-        crawler()
-    }, null, true, 'Asia/Taipei');
+    new CronJob({
+        cronTime: process.env.CRONJOB_TIME,//請編輯.env檔填上自己的爬蟲時段喔
+        onTick: async function () {
+            console.log('開始執行爬蟲排程作業！');
+            await crawler()
+            console.log('排程作業執行完畢！');
+        },
+        start: true,
+        timeZone: 'Asia/Taipei'
+    });
     ```
 3. 調整package.json的scripts
     針對 node 如何執行 js 指定 function 的指令寫法可以參考這篇[文章](https://stackoverflow.com/questions/30782693/run-function-in-script-from-command-line-node-js)

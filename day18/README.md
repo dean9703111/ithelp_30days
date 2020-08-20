@@ -83,16 +83,23 @@ async function writeSheet (title, array, auth) {//auth為憑證通過後取得
   ```
 * updateGoogleSheets收到參數後要將資料寫進Google Sheets(writeSheet函式)
   ```js
-  authorize(JSON.parse(content), async (auth) => {
-    let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
-    for (sheet of sheets) {
-      if (sheet.title === 'FB粉專') {
-        writeSheet(sheet.title, fb_result_array, auth)
-      } else if (sheet.title === 'IG帳號') {
-        writeSheet(sheet.title, ig_result_array, auth)
+  async function updateGoogleSheets (ig_result_array, fb_result_array) {
+    try {
+      const auth = await getAuth()
+      let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
+      for (sheet of sheets) {
+        if (sheet.title === 'FB粉專') {
+          await writeSheet(sheet.title, fb_result_array, auth)
+        } else if (sheet.title === 'IG帳號') {
+          await writeSheet(sheet.title, ig_result_array, auth)
+        }
       }
+      console.log('成功更新Google Sheets');
+    } catch (err) {
+      console.error('更新Google Sheets失敗');
+      console.error(err);
     }
-  });
+  }
   ```
   * writeSheet結構：
     1. 第一欄寫入title(粉專名稱)

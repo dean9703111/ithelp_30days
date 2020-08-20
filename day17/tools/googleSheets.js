@@ -142,13 +142,26 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
   }
   return sheets;
 }
-
+function getAuth () {
+  return new Promise((resolve, reject) => {
+    try {
+      const content = JSON.parse(fs.readFileSync('credentials/googleSheets.json'))
+      authorize(content, auth => {
+        resolve(auth)
+      })
+    } catch (err) {
+      console.error('憑證錯誤');
+      reject(err)
+    }
+  })
+}
 async function updateGoogleSheets () {
-  fs.readFile('credentials/googleSheets.json', (err, content) => {//讀取認證
-    if (err) return console.log('Error loading client secret file:', err);
-    authorize(JSON.parse(content), async (auth) => {//取得授權
-      let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
-      console.log(sheets)
-    });
-  });
+  try {
+    const auth = await getAuth()
+    let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
+    console.log(sheets)
+  } catch (err) {
+    console.error('更新Google Sheets失敗');
+    console.error(err);
+  }
 }

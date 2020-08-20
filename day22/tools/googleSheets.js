@@ -293,25 +293,39 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
   };
   try {
     await sheets.spreadsheets.batchUpdate(request)
-    console.log('insert sheet:' + title + ' new column')
+    console.log('update sheet:' + title + ' new column')
   }
   catch (err) {
     console.log('The API returned an error: ' + err);
   }
 }
-
+function getAuth () {
+  return new Promise((resolve, reject) => {
+    try {
+      const content = JSON.parse(fs.readFileSync('credentials/googleSheets.json'))
+      authorize(content, auth => {
+        resolve(auth)
+      })
+    } catch (err) {
+      console.error('憑證錯誤');
+      reject(err)
+    }
+  })
+}
 async function updateGoogleSheets (ig_result_array, fb_result_array) {
-  fs.readFile('credentials/googleSheets.json', (err, content) => {
-    if (err) return console.log('Error loading client secret file:', err);
-    authorize(JSON.parse(content), async (auth) => {
-      let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
-      for (sheet of sheets) {
-        if (sheet.title === 'FB粉專') {
-          writeSheet(sheet.title, sheet.id, fb_result_array, auth)
-        } else if (sheet.title === 'IG帳號') {
-          writeSheet(sheet.title, sheet.id, ig_result_array, auth)
-        }
+  try {
+    const auth = await getAuth()
+    const sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
+    for (sheet of sheets) {
+      if (sheet.title === 'FB粉專') {
+        await writeSheet(sheet.title, sheet.id, fb_result_array, auth)
+      } else if (sheet.title === 'IG帳號') {
+        await writeSheet(sheet.title, sheet.id, ig_result_array, auth)
       }
-    });
-  });
+    }
+    console.log('成功更新Google Sheets');
+  } catch (err) {
+    console.error('更新Google Sheets失敗');
+    console.error(err);
+  }
 }
