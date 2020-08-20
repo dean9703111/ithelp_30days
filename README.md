@@ -66,5 +66,5 @@
 
 * 後話
     * Day29 README的撰寫，簡單說明常用的markdown語法
-    * Day30 總結
+    * [Day30 總結](/day/30/README.md)
 
