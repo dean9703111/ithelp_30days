@@ -58,9 +58,9 @@ mac
     * 在這裡設定為每次開機都會觸發工作
     ![image](./article_img/win3.PNG)
     * 動作的部分有幾個需要注意
-        * 程式或指令碼 : 你要找到當初安裝yarn的路徑，及yarn.cmd的檔案
-        * 新增引數 : 填上 **forever** ，因為我們是用 yarn forever啟動程式的
-        * 開始位置 : 你專案在哪裡就把路徑複製上去即可
+        * 程式或指令碼 : 你要找到當初安裝yarn的路徑，及yarn.cmd的檔案  
+        * 新增引數 : 填上 **forever** ，因為我們是用 yarn forever啟動程式的  
+        * 開始位置 : 你專案在哪裡就把路徑複製上去即可  
     ![image](./article_img/win4.PNG)
 3. 請注意因為使用的是最高權限執行forever程式，所以你在cmd裡面用 **forever list** 是看不到的，必須要用**系統管理員身分執行** **cmd** 再輸入指令 **forever list** 才能看的到這個排程
 4. windows請打開歷程紀錄否則不會執行該排程，詳細操作流程請參考[文章](https://cjy998.pixnet.net/blog/post/63190869-%E5%B7%A5%E4%BD%9C%E6%8E%92%E7%A8%8B%E5%99%A8-%E5%95%9F%E7%94%A8%E6%AD%B7%E7%A8%8B%E8%A8%98%E9%8C%84-%E5%8E%9F%E9%A1%AF%E7%A4%BA%28%E5%B7%B2%E5%81%9C%E7%94%A8%29--win)  
