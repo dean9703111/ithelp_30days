@@ -45,14 +45,12 @@ helloWorld() // 一進入就觸發
 
 宣告變數
 ----
-宣告變數上你需要注意[var, let, const 差異](https://medium.com/@totoroLiu/javascript-var-let-const-%E5%B7%AE%E7%95%B0-e3d930521230)，用對的方式宣告變數才會讓人了解到他的意義  
-* 全域變數
-  * var : 這樣的宣告方式讓他可以在程式的任何位置使用，但容易**造成區域變數覆蓋全域變數的意外**，請盡量減少使用，
-* 區域變數
-  * let : 可被重新指定值的變數的宣告方式
-  * const : 不可被重新指定值的常數的宣告方式，使用他就是為了避免該常數被修改
-      * 定義不做改變的常數 : const PI = 3.14159
-      * 特別注意如果const宣告陣列(array)或物件(object)時是可以被改變的，因為他們都是reference type，[他的原理在這篇文章有更詳細的說明](https://pjchender.blogspot.com/2017/01/const.html)
+宣告變數上你需要注意[var, let, const 差異](https://medium.com/@totoroLiu/javascript-var-let-const-%E5%B7%AE%E7%95%B0-e3d930521230)、[var 與 let 的主要差別](https://medium.com/@realdennis/%E9%96%92%E8%81%8A-var%E8%88%87let%E7%9A%84%E6%87%B6%E4%BA%BA%E5%8C%85-javascript-b5a3f40ee28d)，用對的方式宣告變數才會讓人了解到他的意義  
+* var : 作用範圍在函式(function裡面)，這樣的宣告方式讓他可以在函式內的任何位置使用，但因為容許因為容許因為容許重複宣告，所以**會造成變數被覆寫的意外**，請盡量減少使用
+* let : 作用範圍在區塊(block裡面{})，可被重新指定值，**let與const皆不可重複宣告會報錯**
+* const : 作用範圍在區塊(block裡面{})，宣告後為不可被重新指定值的常數，使用他就是為了避免該常數被修改
+    * 定義不做改變的常數 : const PI = 3.14159
+    * 特別注意如果const宣告陣列(array)或物件(object)時是可以被改變的，因為他們都是reference type，[他的原理在這篇文章有更詳細的說明](https://pjchender.blogspot.com/2017/01/const.html)
 
 執行程式
 ----
@@ -92,7 +90,7 @@ license有區分成很多種，如果有興趣的朋友可以參考[文章1](htt
 我想聰明的讀者們應該注意到我在scripts裡面寫 **"start": "node index.js"** 這段指令了  
 scripts可以讓你自由定義這個專案底下的command，以這個package.json為範例，你可以在終端機(Termial)改用如下指令來執行index.js
 ```
-npm run start
+npm start
 ```
 如果你有乖乖安裝yarn的環境，也可以用如下指令執行
 ```
