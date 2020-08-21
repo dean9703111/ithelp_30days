@@ -46,7 +46,7 @@ openCrawlerWeb()//打開爬蟲網頁
 因為有人回報部分windows就算把chromedriver.exe放在專案根目錄也讀不到，所以特別寫了一個函式來自定義讀取chromedriver.exe的路徑  
 
 * try-catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理；如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)  
-* **__dirname** 這個變數會列出你目前該檔案的位置，需要引入path才能使用喔  
+* **__dirname** 這個變數會列出你目前該檔案的位置  
 ```js
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');//用於處理文件路徑的小工具
