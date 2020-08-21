@@ -12,7 +12,7 @@ const chrome = require('selenium-webdriver/chrome');
 const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
-const path = require('path');//載入路徑
+const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
 function checkDriver () {

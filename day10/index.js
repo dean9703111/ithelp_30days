@@ -1,5 +1,5 @@
 require('dotenv').config(); //載入.env環境檔
-const path = require('path');//載入路徑
+const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 //請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
 const ig_username = process.env.IG_USERNAME

@@ -1,7 +1,7 @@
 require('dotenv').config(); //載入.env環境檔
 const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
 const chrome = require('selenium-webdriver/chrome');
-const path = require('path');//載入路徑
+const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
 function checkDriver () {

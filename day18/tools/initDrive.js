@@ -1,5 +1,5 @@
 module.exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
-const path = require('path');//載入路徑
+const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css

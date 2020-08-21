@@ -8,7 +8,7 @@ const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
     until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
 const chrome = require('selenium-webdriver/chrome');
-const path = require('path');//載入路徑
+const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
 function checkDriver () {

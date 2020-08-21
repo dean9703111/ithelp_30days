@@ -49,7 +49,7 @@ openCrawlerWeb()//打開爬蟲網頁
 * **__dirname** 這個變數會列出你目前該檔案的位置，需要引入path才能使用喔  
 ```js
 const chrome = require('selenium-webdriver/chrome');
-const path = require('path');//載入路徑
+const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
 function checkDriver () {
@@ -86,7 +86,7 @@ chromedriver.exe
 require('dotenv').config(); //載入.env環境檔
 const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
 const chrome = require('selenium-webdriver/chrome');
-const path = require('path');//載入路徑
+const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
 function checkDriver () {
