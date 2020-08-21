@@ -90,6 +90,5 @@ yarn
 yarn add global forever
 調整你.env檔填上 FB & IG 登入資訊、SPREADSHEET_ID、爬蟲執行時間
 在credentials資料夾放上自己的憑證
-yarn forever
 ```
 ### [Day25 LINE權杖取得，用POSTMAN測試](/day25/README.md)
