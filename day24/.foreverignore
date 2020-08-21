@@ -1,0 +1,4 @@
+node_modules
+.env
+chromedriver.exe
+debug.log
