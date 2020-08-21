@@ -4,3 +4,4 @@ chromedriver.exe
 debug.log
 credentials
 token.json
+sh/crawler_cron.sh
