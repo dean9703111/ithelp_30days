@@ -15,7 +15,7 @@ async function crawlerFB (driver, By, until) {
             } else {
                 console.log(`${fanpage.title}追蹤人數：${trace}`)
             }
-            await driver.sleep((Math.floor(Math.random()*5)+1)*1000)//建議每個粉絲專頁爬蟲產生亂數間隔1~6秒，不然很有可能被鎖帳號
+            await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
         }
     }
 }
