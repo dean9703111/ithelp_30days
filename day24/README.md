@@ -69,7 +69,7 @@ mac
 ----
 ### mac
 請你電腦重新開機在終端機(Trerminal)輸入 **forever list** 的指令確認是否正常運行
-
+![image](./article_img/macterminal.png)
 
 ### windows
 請你電腦重新開機後以系統管理權限打開cmd並輸入 **forever list** 的指令確認是否正常運行
