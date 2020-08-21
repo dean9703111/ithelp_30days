@@ -169,7 +169,7 @@ yarn add cron
 
 專案原始碼
 ----
-完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day21)喔
+完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day22)喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -181,6 +181,6 @@ cd day22
 yarn
 調整你.env檔填上 FB & IG 登入資訊、SPREADSHEET_ID、爬蟲執行時間
 在credentials資料夾放上自己的憑證
-yarn start
+yarn cron
 ```
 ### [Day23 排程永久背景執行?json改了沒反應?](/day23/README.md)

@@ -59,9 +59,9 @@
     * [Day24 windows & mac 手把手排程設定](/day24/README.md)
 
 * 通知設定
-    * Day25 LINE權杖取得
+    * Day25 LINE權杖取得，用POSTMAN測試
     * Day26 nodejs如何使用https的POST
-    * Day27 LINE訊息撰寫
+    * Day27 重構程式整合訊息
     * Day28 在完成後call LINE通知的function提醒使用者
 
 * 後話
