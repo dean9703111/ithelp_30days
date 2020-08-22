@@ -1,7 +1,7 @@
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 
-module.exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
+exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
 
 async function crawlerFB (driver, By, until) {
     const isLogin = await loginFacebook(driver, By, until)

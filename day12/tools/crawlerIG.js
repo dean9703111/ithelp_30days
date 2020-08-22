@@ -1,7 +1,7 @@
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
 
-module.exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
+exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
 
 async function crawlerIG (driver, By, until) {
     const isLogin = await loginInstagram(driver, By, until)

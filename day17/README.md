@@ -67,7 +67,7 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
   1. 取得Google Sheets授權
   2. 檢查當前sheet狀態
   ```js
-  module.exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
+  exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
   async function updateGoogleSheets () {
     try {
       const auth = await getAuth()

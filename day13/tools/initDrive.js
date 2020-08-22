@@ -1,4 +1,4 @@
-module.exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
+exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
 
 const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
     By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css

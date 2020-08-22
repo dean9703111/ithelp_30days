@@ -47,7 +47,7 @@
     const fb_username = process.env.FB_USERNAME
     const fb_userpass = process.env.FB_PASSWORD
 
-    module.exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
+    exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
 
     async function crawlerFB (driver, By, until) {
         await loginFacebook(driver, By, until)
@@ -97,8 +97,9 @@
 3. **將宣告的複雜的物件獨立成為函式**  
     你可以觀察到有幾個**變數會被高頻率使用**，但是他的宣告真的超級複雜  
     這時候我們就**應該把他獨立出來**，這樣你只需要在這隻副程式確認你宣告的物件是否都正常設定，而主程式很單純的使用回傳的物件即可
+    #### initDrive.js
     ```js
-    module.exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
+    exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
 
     const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
         By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css

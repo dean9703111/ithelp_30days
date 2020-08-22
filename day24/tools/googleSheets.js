@@ -3,7 +3,7 @@ const readline = require('readline');
 const { google } = require('googleapis');
 const dateFormat = require('dateformat');
 require('dotenv').config(); //載入.env環境檔
-module.exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
+exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
 
 // If modifying these scopes, delete token.json.
 // 原本的範本是有readonly，這樣只有讀取權限，拿掉後什麼權限都有了
