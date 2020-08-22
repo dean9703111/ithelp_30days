@@ -83,6 +83,6 @@
 *PS.技術沒有善惡，人的使用方式才會有善惡，希望這份技術可以幫大家節省時間以及避免重工；如果你把它拿來盜取智慧財產、個人檔案及機敏資訊請自行負擔後續法律責任*
 *聲明:本技術使用時請遵守相關[社群規範](https://www.facebook.com/apps/site_scraping_tos_terms.php)，若有違反後果自負*
 
-參考資源:
-[101句 值得收藏的座右銘](https://arielhsu.tw/encourage-motto/)
+參考資源:  
+[101句 值得收藏的座右銘](https://arielhsu.tw/encourage-motto/)  
 ### [Day2 工欲善其事，必先利其器](../day2/README.md)
