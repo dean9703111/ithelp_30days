@@ -15,7 +15,7 @@ const chrome = require('selenium-webdriver/chrome');
 const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 
-async function loginFacebookGetTrace (driver, By, until) {
+async function loginFacebookGetTrace (driver) {
     const web = 'https://www.facebook.com/login';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
@@ -48,7 +48,7 @@ async function loginFacebookGetTrace (driver, By, until) {
     }
     console.log(`FB追蹤人數：${fb_trace}`)
 }
-async function loginInstagramGetTrace (driver, By, until) {
+async function loginInstagramGetTrace (driver) {
     const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
@@ -102,8 +102,8 @@ async function crawler () {
     driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
 
     //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
-    await loginInstagramGetTrace(driver, By, until)
-    await loginFacebookGetTrace(driver, By, until)
+    await loginInstagramGetTrace(driver)
+    await loginFacebookGetTrace(driver)
 
     driver.quit();
 }
