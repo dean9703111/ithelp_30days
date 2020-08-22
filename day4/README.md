@@ -86,4 +86,4 @@ git pull origin master
 cd day4
 yarn start
 ```
-### [Day5 請誤上傳敏感、主程式以外的資料](../day5/README.md)
+### [Day5 請勿上傳敏感、主程式以外的資料](../day5/README.md)
