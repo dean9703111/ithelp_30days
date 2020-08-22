@@ -161,4 +161,7 @@ cd day11
 yarn
 yarn start
 ```
+
+參考資料 : 
+1. [[Nodejs] module.exports 與 exports 的差別](https://blog.camel2243.com/2017/06/24/nodejs-module-exports-%E8%88%87-exports-%E7%9A%84%E5%B7%AE%E5%88%A5/)  
 ### [Day12 Try & Catch讓程式更穩定](../day12/README.md)
