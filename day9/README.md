@@ -102,4 +102,7 @@ cd day9
 yarn
 yarn start
 ```
+
+參考資源 : 
+1. [Filling in login forms in Instagram using selenium and webdriver (chrome) python OSX](https://stackoverflow.com/a/49940401)  
 ### [Day10 小孩子才選擇，我要一隻程式爬完FB & IG粉專](../day10/README.md)

@@ -81,7 +81,7 @@ async function loginFacebook () {
 }
 loginFacebook()//登入FB
 ```
-PS.因為javascript本身是非同步語言，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序完全是隨機的**並非由上而下的執行順序**，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
+PS.因為javascript支援非同步語法，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序跟你想的不一樣 **(並非完成前面工作才執行下一步的順序)**，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
 
 執行程式
 ----
@@ -104,4 +104,7 @@ cd day7
 yarn
 yarn start
 ```
+
+參考資源 :  
+1. [Python 爬蟲解析：以爬取臉書社團為案例，使用 Selenium 來進行網頁模擬爬蟲](https://blog.happycoding.today/python-crawler-analysis/)
 ### [Day8 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](../day8/README.md)
