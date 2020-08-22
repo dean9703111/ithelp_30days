@@ -56,8 +56,9 @@ nvm [官網](https://github.com/nvm-sh/nvm)
 2. 選擇最新版本的下載**nvm-setup.zip**(筆者版本為1.1.7，你看到這篇文章時可能有提供更新的版本)
 ![image](./article_img/win_nvm_download.png)
 3. 下載後一路瘋狂下一步即可  
-4. 安裝玩後開啟CMD輸入指令 **nvm** 來確認是否安裝成功喔  
-[nvm windows官方介紹](https://github.com/coreybutler/nvm-windows)   
+4. 安裝後開啟命令提示字元(CMD)輸入指令 **nvm** 來確認是否安裝成功喔  
+![image](./article_img/win_nvm_cmd.png)
+
 
 ### mac安裝方式
 1. mac建議先下載Homebrew  
