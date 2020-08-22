@@ -51,16 +51,24 @@ nvm [官網](https://github.com/nvm-sh/nvm)
 ----
 由於nodejs更新速度是非常快的，而許多套件有nodejs版本的相依性，透過NVM你可以輕鬆切換nodejs版本來符合不同專案的使用環境  
 
-[windows下載頁面](https://github.com/coreybutler/nvm-windows/releases/download/1.1.7/nvm-noinstall.zip)、[windows官方介紹](https://github.com/coreybutler/nvm-windows)   
+### windows安裝方式
+1. 先進入[windows下載頁面](https://github.com/coreybutler/nvm-windows/releases)
+2. 選擇最新版本的下載**nvm-setup.zip**(筆者版本為1.1.7，你看到這篇文章時可能有提供更新的版本)
+![image](./article_img/win_nvm_download.png)
+3. 下載後一路瘋狂下一步即可  
+4. 安裝玩後開啟CMD輸入指令 **nvm** 來確認是否安裝成功喔  
+[nvm windows官方介紹](https://github.com/coreybutler/nvm-windows)   
 
-mac建議先下載Homebrew
+### mac安裝方式
+1. mac建議先下載Homebrew  
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ```
-下載後安裝nvm
+2. 下載後安裝nvm
 ```
 brew install nvm
 ```
+3. 打開終端機(Terminal)輸入指令 **nvm** 來確認是否安裝成功喔
 
 ##### 下載後nvm後及可輕鬆安裝node.js
 ```
@@ -105,8 +113,11 @@ VScode [官網](https://code.visualstudio.com/)
 4. 代碼智能格式化：當輸入if或while時，編輯器知道下一行要縮進。
 >以上文字擷取於[一應俱全的整合開發環境IDE](https://docs.f5ezcode.in/cs-basic/di-ba-zhang-gong-cheng-de-gong-ju/8.1-zheng-he-jing-ide)文章段落
 
-[下載頁面](https://code.visualstudio.com/)  
+[VScode下載頁面](https://code.visualstudio.com/)  
 
 今天對於專案的前置環境說明到這裡，如果環境設定上有什麼問題的話實屬正常，畢竟每個電腦的環境都有些許不同，可以先用google查詢看看喔～進入工程師的世界後[stackoverflow](http://stackoverflow.com/)會是你最好的朋友
+
+參考資源:  
+1. [Windows 10 安裝並使用 nvm 切換 NodeJS 版本](https://hsiangfeng.github.io/nodejs/20200107/3738078915/)
 
 ### [Day3 對工具的基礎掌握](../day3/README.md)
