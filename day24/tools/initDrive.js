@@ -1,19 +1,16 @@
 exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
 const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
-const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
-    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
-    until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
+const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
 const chrome = require('selenium-webdriver/chrome');
 const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
 options.addArguments('blink-settings=imagesEnabled=false')//不加載圖片提高效率
 options.addArguments('--headless')//瀏覽器不提供頁面觀看，linux下如果系統是純文字介面不加這條會啓動失敗
 options.addArguments('--log-level=3')//這個option可以讓你跟headless時網頁端的console.log說掰掰
-// 下面三個建議一起加入，因為有朋友遇到一些奇怪錯誤
-options.addArguments('--no-sandbox')//取消沙盒模式
+//下面參數能提升爬蟲穩定性
 options.addArguments('--disable-dev-shm-usage')//使用共享內存RAM
-options.addArguments('--disable-gpu')//規避部分bug
+options.addArguments('--disable-gpu')//規避部分chrome gpu bug
 
 
 function initDrive() {
@@ -23,7 +20,7 @@ function initDrive() {
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
     driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
 
-    return { "driver": driver, "By": By, "until": until }
+    return driver
 }
 
 function checkDriver() {

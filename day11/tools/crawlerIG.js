@@ -1,8 +1,6 @@
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
-const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
-    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
-    until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
+const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
 exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
 
 async function crawlerIG(driver) {

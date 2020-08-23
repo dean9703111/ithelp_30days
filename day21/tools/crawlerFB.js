@@ -1,9 +1,7 @@
 const fanpage_array = require('../json/fb.json');
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
-const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
-    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
-    until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
+const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
 exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
 
 async function crawlerFB (driver) {

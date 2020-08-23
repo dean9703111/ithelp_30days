@@ -27,10 +27,9 @@
     ```js
     options.addArguments('--headless')//瀏覽器不提供頁面觀看，linux下如果系統是純文字介面不加這條會啓動失敗
     options.addArguments('--log-level=3')//這個option可以讓你跟headless時網頁端的console.log說掰掰
-    // 下面三個建議一起加入，因為有朋友遇到一些奇怪錯誤
-    options.addArguments('--no-sandbox')//取消沙盒模式
+    //下面參數能提升爬蟲穩定性    
     options.addArguments('--disable-dev-shm-usage')//使用共享內存RAM
-    options.addArguments('--disable-gpu')//規避部分bug
+    options.addArguments('--disable-gpu')//規避部分chrome gpu bug
     ```
     設定完這些後，在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令是不是就不會跳出瀏覽器了呢?  
     [這篇文章](https://stackoverflow.max-everyday.com/2019/12/selenium-chrome-options/)有提供selenium啓動Chrome的進階配置參數，對效能有狂熱的朋友們可以來仔細研究看看    
