@@ -1,91 +1,103 @@
 #### [回目錄](../README.md)
-## Day9 依樣畫葫蘆，完成Instagram登入並取得追蹤人數
+## Day9 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊
 
 
-有了Facebook爬蟲的經驗後，其實我覺得這篇大家應該是有能力獨自完成的  
-建議大家先嘗試看看能否登入Instagram並抓出粉專追蹤人數  
-這篇文章建議實作遇到問題或是你完成後過來印證我們的思路是否相同
-
+關閉擾人彈窗
 ----
-以下是我撰寫程式的思路
-1. 確認IG登入的方式及需要的參數
-2. 登入後有什麼元件可以用來辨別已登入
-3. IG追蹤人數的元件位置
+昨天完成登入FB的時候應該大部分的人畫面都會長這樣  
+![image](./article_img/fb_notify.png)  
 
-你只需要根據上面的步驟一步一步的解決，就能成功的完成今天的目標，接下來我會說明你執行上可能會遇到的問題及解決方式  
-1. **確認IG登入的方式及需要的參數**  
-    原本我用Xpath都可以正常登入Instagram，但後來我發現他登入的畫面偶爾會長不一樣(如下圖)導致Xpath路徑錯誤  
-    <img src="./article_img/ig_login1.png" width="300" height="250"/>
-    <img src="./article_img/ig_login2.png" width="300" height="250"/>  
-    所以這裡我們要用不一樣的方式來抓取紅框內元件  
-    <img src="./article_img/ig_login3.png" width="300" height="250"/>  
+這個彈窗會干擾到你的爬蟲的操作(無法抓取元件)，所以你必須要關閉這個彈窗  
+請將下面的程式加入函式上方宣告
+```js
+const chrome = require('selenium-webdriver/chrome');
+const options = new chrome.Options();
+options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
+```
+加入上面對瀏覽器的設定後於終端機(Terminal)執行 **yarn start** 你會發現彈窗提示不見了
 
-    * 進入開發者模式後我們會發現在填寫 **電話號碼、用戶名稱或電子郵件** 以及 **密碼** 輸入的地方(input元件)他們用 **name** 這個attribute  
-        <img src="./article_img/ig_login_user.png" width="400" height="60"/>  
-        <img src="./article_img/ig_login_pass.png" width="400" height="60"/>  
+分析FB粉專結構並取得追蹤人數資訊
+------------------------
+* 我們先將**粉絲團取資料**分成幾個步驟：
+    1. 進入粉絲團網頁
+    2. 找出追蹤者人數的元件位置
+    3. 關閉瀏覽器
 
-    * 登入的按鈕(button元件)則是使用 **type** 這個attribute  
-        <img src="./article_img/ig_login_btn.png" width="400" height="120"/>  
+建議大家可以自己先按照昨天所提供的方法來實做看看會遇到什麼樣的問題，再來看下面我我所遇到的狀況及解決方式  
 
-    根據上面的分析後我們就可以改用css的方式來抓取IG登入的元素，並操作它
-    ```js
-    //填入ig登入資訊
-    let ig_username_ele = await driver.wait(until.elementLocated(By.css("input[name='username']")));
-    ig_username_ele.sendKeys(ig_username)
-    let ig_password_ele = await driver.wait(until.elementLocated(By.css("input[name='password']")));
-    ig_password_ele.sendKeys(ig_userpass)
-
-    //抓到登入按鈕然後點擊
-    const login_elem = await driver.wait(until.elementLocated(By.css("button[type='submit']")))
-    login_elem.click()
-    ```
-2. **登入後有什麼元件可以用來辨別已登入**  
-    這裡我選擇用右上角的頭像區塊作為識別登入與否  
-    <img src="./article_img/ig_header.png" width="400" height="380"/>  
-
-    ```js
-    //登入後才會有右上角的頭像的區塊，我們以這個來判斷是否登入
-    await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)))
-    ```
-3. **IG追蹤人數的元件位置**  
-    如果你跟我一樣充滿實驗精神，你會發現IG粉專的頁面會隨著螢幕寬度更改而更改Xpath的路徑  
-    * 寬螢幕的Xpath  
-        <img src="./article_img/ig_trace1.png" width="300" height="50"/>  
-        ```
-        //*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span
-        ```
-    * 窄螢幕的Xpath  
-        <img src="./article_img/ig_trace2.png" width="400" height="50"/>  
-        ```
-        //*[@id="react-root"]/section/main/div/ul/li[2]/a/span
-        ```
-    為了避免因為螢幕寬度不一樣造成Xpath不同，所以我們要在 **一開始打開瀏覽器的時候設定他的視窗大小** (本專案以寬螢幕作為範例)，所以請在打開瀏覽器的下方加上視窗大小的設定  
-
-    ```js
-    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
-    //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
-    driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
-    ```
-    接下來就是很單純的抓出追蹤人數的元件並輸出
+1. **進入粉絲團網頁**  
+    登入後導向網頁到粉絲專頁非常簡單，兩行程式碼就解決
     ```js
     //登入成功後要前往粉專頁面
-    const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+    const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await driver.get(fanpage)
+    ```
+    但實際執行後你會發現很詭異的事情，就是在你登入成功前你的網頁就直接導向到粉絲專頁了  
+    這是因為FB在執行登入作業時需要等待server回應資料確認使用者身份，所以你在按下登入的按鈕後要先給瀏覽器一些時間回應  
+    所以我們要先 **找出登入後才會有的元件** ，像是我們一定要在登入後Facebook才會有名字顯示 
+    ![image](./article_img/fb_header.png)  
+    加上 **判斷名字區塊已經存在才能繼續** 這個邏輯就能保證我們成功登入後再前往粉絲頁  
+    ```js
+    //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
+    await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
 
-    let ig_trace = 0;//這是紀錄IG追蹤人數
-    const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
-    const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
-    // ig因為當人數破萬時文字不會顯示，所以改抓title
-    ig_trace = await ig_trace_ele.getAttribute('title')
-    console.log(`追蹤人數：${ig_trace}`)
+    //登入成功後要前往粉專頁面
+    const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+    await driver.get(fanpage)
+    ```
+2. **找出追蹤者人數的元件位置**
+    ![image](./article_img/baobao_fans.png)  
+    你把紅框位置的Xpath複製出來會長這樣
+    ```
+    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[1]/div/div[1]/div[4]/div/div[2]/div
+    ```
+    如果你只要爬這個粉絲團的話用這個Xpath就足夠了，但你如果常逛粉絲團，你會發現每個粉絲團顯示追蹤人數的Xpath位置都不一樣  
+    下面提供幾個粉絲團網址你可以點進去試試看  
+    [小姐非常有事](https://www.facebook.com/missunexpected2015/)
+    ```
+    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[1]/div/div[2]/div[4]/div/div[2]/div
+    ```
+    [人類圖澳洲](https://www.facebook.com/HumanDesignAu/)
+    ```
+    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[3]/div/div[2]/div[4]/div/div[2]/div
+    ```
+    你仔細看會發現 **每個Xpath都會有細微的不同** ，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
+    下面的幾張圖你可以觀察到這個追蹤者的資訊都在相同的 **class="_4bl9"** 之下  
+    <img src="./article_img/fb_trace_code1.png" width="200" height="140"/>
+    <img src="./article_img/fb_trace_code2.png" width="200" height="140"/>
+    <img src="./article_img/fb_trace_code3.png" width="200" height="140"/>  
+    但是Facebook有很多的元件都使用到這個class所以我們需要把所有符合的class都抓下來，透過分析字串來抓取正確的資訊  
+
+    #### index.js
+    ```js
+    ...
+    let fb_trace = 0;//這是紀錄FB追蹤人數
+    //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
+    const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
+    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
+    for (const fb_trace_ele of fb_trace_eles) {
+        const fb_text = await fb_trace_ele.getText()
+        if (fb_text.includes('人在追蹤')) {
+            fb_trace = fb_text
+            break
+        }
+    }
+    console.log(`追蹤人數：${fb_trace}`)
+    ...
+    ```
+    這裡使用的是 **for/of迴圈** ，特別說明一下[foreach裡面是不能用await去跑的](https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop)，這裡有[介紹各種for迴圈的文章](https://www.jishuwen.com/d/2M0c/zh-tw)歡迎參考  
+
+3. **關閉瀏覽器**
+    如果你執行完後想要關閉瀏覽器只需要加入這行程式  
+    ```js
     driver.quit();
     ```
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令  **yarn start** 指令，你會看到Instagram自動登入 &rarr; 跳轉到指定帳號 &rarr; 關閉，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到Facebook自動登入 &rarr; 跳轉到粉絲頁 &rarr; 關閉，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
 ![image](./article_img/terminal.png)
 
-到目前為止我們已經可以抓出 FB & IG 粉專的追蹤人數了，充滿好奇心的讀者可以先試著看看利用爬蟲爬完FB粉專完後繼續爬IG  
+相信到這裡大家都能成功地抓出粉專的追蹤者人數了，並對於這個爬蟲專案應該充滿了信心吧！
 
 專案原始碼
 ----
@@ -98,11 +110,8 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 ```
 git pull origin master
 cd day9
-調整你.env檔填上IG登入資訊
+調整你.env檔填上FB登入資訊
 yarn
 yarn start
 ```
-
-參考資源 : 
-1. [Filling in login forms in Instagram using selenium and webdriver (chrome) python OSX](https://stackoverflow.com/a/49940401)  
-### [Day10 小孩子才選擇，我要一隻程式爬完FB & IG粉專](../day10/README.md)
+### [Day10 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](/day10/README.md)

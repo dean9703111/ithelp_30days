@@ -1,182 +1,78 @@
 #### [回目錄](../README.md)
-## Day15 google sheets起手式，取得寫入google sheets的憑證(credentials)
+## Day15 優化爬蟲體驗 && 思路分享
 
-使用原因
+優化爬蟲體驗
 ----
-一般來說這些爬蟲的資料都是儲存到資料庫，但是我相信絕大多數的人不太可能隨時隨地打開資料庫觀看  
-而且存在資料庫除非你請網頁工程師幫你完成前端視覺化，不然資料庫絕對可以讓你看到眼脫XD  
+原則上我們已經完成爬蟲這一段的功能了，接下來是處理優化的部分  
+前面[Day11 重構程式碼](../day15/README.md)讓你開發上更有效率，而優化是一個非常複雜的問題，常見需要的優化如：
+1. 更好地執行效率
+2. 使用更少的記憶體
+3. 使用者操作難易度
+...  
 
-經過多方思慮我最後採用Google Sheets的服務，主要理由：
-1. 只要有網路我就能看
-2. 絕大多數人都有使用Google Sheets的經驗
-3. Google Sheets轉化成圖表相對容易
-4. 你不需要一台Server專門來存這些資料
-5. ~~免費~~
+優化是一條沒有盡頭的路，我相信除了我所提出的優化方案外，一定還有很多是我所忽略的，歡迎大家腦力激盪提供想法  
 
-儘管Google Sheets並不完美，但他真的很適合用在這個專案上面  
+* 首先我想到的是我所分析的內容都跟圖片無關，但偏偏**最浪費流量及載入時間的都是圖片**，所以我在chrome這個瀏覽器增加了下面的配置便可有以下好處：
+    1. 減少瀏覽器使用流量
+    2. 減少瀏覽器載入時間
+    請你打開initDrive.js並在chrome的option加入不載入圖片的選項
+    ```js
+    options.addArguments('blink-settings=imagesEnabled=false')//不加載圖片提高效率
+    ```
+    加上這段程式後，在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，便可以很明顯的感受到速度變快很多，跑起來可看到所有圖片都沒有載入(下圖)  
+    ![image](./article_img/no_img.png)  
 
-取得憑證(credentials)
+* 在每個爬蟲的步驟及功能都很穩定後，其實我不需要跳出瀏覽器視窗來看他的動作，背景跑就夠惹  
+    請你打開initDrive.js並在chrome的option加入不打開瀏覽器視窗的選項如下
+    ```js
+    options.addArguments('--headless')//瀏覽器不提供頁面觀看，linux下如果系統是純文字介面不加這條會啓動失敗
+    options.addArguments('--log-level=3')//這個option可以讓你跟headless時網頁端的console.log說掰掰
+    //下面參數能提升爬蟲穩定性    
+    options.addArguments('--disable-dev-shm-usage')//使用共享內存RAM
+    options.addArguments('--disable-gpu')//規避部分chrome gpu bug
+    ```
+    設定完這些後，在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令是不是就不會跳出瀏覽器了呢?  
+    [這篇文章](https://stackoverflow.max-everyday.com/2019/12/selenium-chrome-options/)有提供selenium啓動Chrome的進階配置參數，對效能有狂熱的朋友們可以來仔細研究看看    
+
+思路分享
 ------------------------
-如果把Google Sheets想像成一個藏寶庫，憑證(credentials)就像是一把鑰匙，只有擁有這把鑰匙的人才有打開門的資格；不然這個藏寶庫誰都能任意進出起不是很危險？  
+>**授人以魚不如授人以漁**  
+使用模擬瀏覽器來爬蟲我認為是最符合初學者的，你不用去分析複雜的api，去猜裡面的參數是甚麼意義  
+你需要做的只是把你平常操作的流程用程式的方式來替你做一遍，然後抓取你所需要的資訊  
+我寫的文章只是爬蟲的技巧的冰山一角，但只要有了開頭以及研究的方向我相信你是有能力獨立完成其他網頁的爬蟲  
 
-* 憑證(credentials)取得的步驟
-    1. 請先確認已經安裝過Node.js & npm(跟著教學走的人都安裝過)，有Goolge帳號
-    2. 進入Google Sheet Node.js申請憑證(credentials)的[網頁](https://developers.google.com/sheets/api/quickstart/nodejs)  
-        ![image](./article_img/googlesheet1.png)  
-        這個自己命名
-        ![image](./article_img/googlesheet2.png)  
-        選擇Desktop app即可
-        ![image](./article_img/googlesheet3.png)  
-        千萬不要忘記下載這個憑證，下面的Client ID、Client Secret可以忽略
-        ![image](./article_img/googlesheet4.png)  
-        在專案下開一個credentials資料夾，把下載好的憑證重新命名成googleSheets.json放進去
-    3. 下載googleapis套件
-        ```
-        yarn add googleapis@39
-        ```  
-    4. 在專案tools資料夾中新增googleSheets.js檔案，並複製Google範例程式碼貼上
-        ```js
-        const fs = require('fs');
-        const readline = require('readline');
-        const {google} = require('googleapis');
+現在人工智慧流行，大數據當道，爬蟲是取得大數據的方法之一，你能透過這些數據分析的東西太多了，我在這裡簡單舉例：
+* 追蹤人數爆減/爆增
+    * 是因為某一篇貼文引起的嗎?
+    * 當天是否有媒體新聞的報導?
+    * 粉專經營者是否有特殊決策?
+* 發文頻率與追蹤人數的關係
+    * 發文頻率是否與追蹤人數成長正相關
+    * 怎麼樣的發文頻率是最恰當的
+    * 不同行業的發文頻率比較
+* 貼文按讚與回應
+    * 什麼樣的貼文會獲得最多迴響
+    * 獲得最多讚的貼文有什麼共同特徵  
 
-        // If modifying these scopes, delete token.json.
-        const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
-        // The file token.json stores the user's access and refresh tokens, and is
-        // created automatically when the authorization flow completes for the first
-        // time.
-        const TOKEN_PATH = 'token.json';
+透過數據你能夠做到的事情實在太多了，每一個獨立出來都能成為一篇論文或是商品，爬蟲是一個很強的武器，但這把武器的強度要看使用者如何發揮他  
 
-        // Load client secrets from a local file.
-        fs.readFile('credentials.json', (err, content) => {
-        if (err) return console.log('Error loading client secret file:', err);
-        // Authorize a client with credentials, then call the Google Sheets API.
-        authorize(JSON.parse(content), listMajors);
-        });
+*再次提醒，技術沒有善惡，人的使用方式才會有善惡，希望這份技術可以幫大家節省時間以及避免重工；如果你把它拿來盜取智慧財產、個人檔案及機敏資訊請自行負擔後續法律責任*
+*聲明:本技術使用時請遵守相關[社群規範](https://www.facebook.com/apps/site_scraping_tos_terms.php)，若有違反後果自負*
 
-        /**
-        * Create an OAuth2 client with the given credentials, and then execute the
-        * given callback function.
-        * @param {Object} credentials The authorization client credentials.
-        * @param {function} callback The callback to call with the authorized client.
-        */
-        function authorize(credentials, callback) {
-        const {client_secret, client_id, redirect_uris} = credentials.installed;
-        const oAuth2Client = new google.auth.OAuth2(
-            client_id, client_secret, redirect_uris[0]);
+>**筆者碎碎念**  
+我希望看完文章的讀者能夠吸收到思考問題的方式，不要只是單純的 copy & paste ，這樣對技術長期來講是在累積負債  
+如果你是程式的新手，你可以透過修改一些參數來看看結果會有什麼樣的變化，少加哪些參數是不是真的會有錯誤  
+不要害怕犯錯，因為在學習程式的路上幾乎不存在一條完美的道路  
+你現在滿意的程式往往在幾個月後你會覺得當時怎麼寫的這麼爛  
+當你誕生出這個想法的時候就是成長了  
 
-        // Check if we have previously stored a token.
-        fs.readFile(TOKEN_PATH, (err, token) => {
-            if (err) return getNewToken(oAuth2Client, callback);
-            oAuth2Client.setCredentials(JSON.parse(token));
-            callback(oAuth2Client);
-        });
-        }
-
-        /**
-        * Get and store new token after prompting for user authorization, and then
-        * execute the given callback with the authorized OAuth2 client.
-        * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
-        * @param {getEventsCallback} callback The callback for the authorized client.
-        */
-        function getNewToken(oAuth2Client, callback) {
-        const authUrl = oAuth2Client.generateAuthUrl({
-            access_type: 'offline',
-            scope: SCOPES,
-        });
-        console.log('Authorize this app by visiting this url:', authUrl);
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-        });
-        rl.question('Enter the code from that page here: ', (code) => {
-            rl.close();
-            oAuth2Client.getToken(code, (err, token) => {
-            if (err) return console.error('Error while trying to retrieve access token', err);
-            oAuth2Client.setCredentials(token);
-            // Store the token to disk for later program executions
-            fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-                if (err) return console.error(err);
-                console.log('Token stored to', TOKEN_PATH);
-            });
-            callback(oAuth2Client);
-            });
-        });
-        }
-
-        /**
-        * Prints the names and majors of students in a sample spreadsheet:
-        * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-        * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
-        */
-        function listMajors(auth) {
-        const sheets = google.sheets({version: 'v4', auth});
-        sheets.spreadsheets.values.get({
-            spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-            range: 'Class Data!A2:E',
-        }, (err, res) => {
-            if (err) return console.log('The API returned an error: ' + err);
-            const rows = res.data.values;
-            if (rows.length) {
-            console.log('Name, Major:');
-            // Print columns A and E, which correspond to indices 0 and 4.
-            rows.map((row) => {
-                console.log(`${row[0]}, ${row[4]}`);
-            });
-            } else {
-            console.log('No data found.');
-            }
-        });
-        }
-        ```
-    5. 在、終端機(Terminal)執行指令，測試能否運行
-        ```
-        node tools/googleSheets.js
-        ```
-        如果沒意外你應該會遇到如下錯誤  
-        ![image](./article_img/credentials.png)  
-        請將下面程式 **'credentials.json'** 修改成自己的路徑(本專案的路徑為 **'credentials/googleSheets.json'** )
-        ```js
-        fs.readFile('credentials.json', (err, content) => {
-            if (err) return console.log('Error loading client secret file:', err);
-            // Authorize a client with credentials, then call the Google Sheets API.
-            authorize(JSON.parse(content), listMajors);
-        });
-        ```
-        然後再執行一次 **node tools/googleSheets.js** 時下面會有連結請你打開
-        ![image](./article_img/credentials_link.png)  
-        打開後的網頁會要你選擇登入的Google帳號，看到下面的網頁時別害怕，點擊 **進階** 然後再點擊 **前往「Quickstart」(不安全)**
-        ![image](./article_img/warning_web.png)  
-        接著所有的授權都必須按 **允許** ，最後你會看到一組授權碼，把他複製下來貼回終端機(Terminal)就完成惹
-        ![image](./article_img/credentails_code.png)  
-        如果終端機(Terminal)有輸出類似下面的東西時就代表你成功了
-        ```
-        Name, Major:
-        Alexandra, English
-        Andrew, Math
-        Anna, English
-        Becky, Art
-        Benjamin, English
-        Carl, Art
-        Carrie, English
-        Dorothy, Math
-        ...
-        ```
-編輯.gitignore
---------------------------------------------------------
-無論是最後產生的token.json還是在credentials資料夾裡面的憑證都不適合上傳到git上面，所以你要調整.gitignore如下，不熟悉的朋友可以參考[Day5 gitignore-請勿上傳敏感、主程式以外的資料](../day5/README.md)的文章喔  
-```
-node_modules
-.env
-chromedriver.exe
-debug.log
-credentials
-token.json
-```
+下個階段
+------------------------
+關於使用網頁爬蟲的技術文章就分享到今天，接下來我們要把這些爬下來的**資訊儲存到Google Sheets**，敬請期待
 
 專案原始碼
 ----
-完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day15)喔
+優化過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day15)喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -185,8 +81,8 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 ```
 git pull origin master
 cd day15
+調整你.env檔填上 FB & IG 登入資訊
 yarn
-在credentials資料夾放上自己的憑證
-node tools/googleSheets.js
+yarn start
 ```
-### [Day16 Google Sheets-讀取自己的sheet](/day16/README.md)
+### [Day16 google sheets-起手式，取得寫入google sheets的權杖(token)](/day16/README.md)

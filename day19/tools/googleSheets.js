@@ -145,65 +145,21 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
 }
 
 async function writeSheet (title, result_array, auth) {
-  // 取得線上的title_array
-  let online_title_array = await readTitle(title, auth)
-  // 如果json檔有新增的title就加入到online_title_array
-  result_array.forEach(fanpage => {
-    if (!online_title_array.includes(fanpage.title)) {
-      online_title_array.push(fanpage.title)
-    }
-  });
-
-  // 再寫入trace(追蹤人數)
-  let trace_array = []
-  online_title_array.forEach(title => {
-    let fanpage = result_array.find(fanpage => fanpage.title == title)
-    if (fanpage) {
-      trace_array.push([fanpage.trace])
-    } else {
-      trace_array.push([])
-    }
-  });
-  // 抓取當天日期
-  const datetime = new Date()
-
-  if (online_title_array[0] !== title) {//如果判定是第一次就會在開頭插入
-    online_title_array.unshift(title)
-    trace_array.unshift([dateFormat(datetime, "GMT:yyyy/mm/dd")])
-  } else {//如果不是第一次就取代
-    trace_array[0] = [dateFormat(datetime, "GMT:yyyy/mm/dd")]
-  }
-
-  // 寫入粉專名稱
-  await writeTitle(title, online_title_array.map(title => [title]), auth)
+  // 先在第一欄寫入title(粉專名稱)
+  let title_array = result_array.map(fanpage => [fanpage.title]);
+  // 填上名稱
+  title_array.unshift([title])//unshift是指插入陣列開頭
+  await writeTitle(title, title_array, auth)
 
   // 取得目前最後一欄
   let lastCol = await getLastCol(title, auth)
-  // 寫入追蹤人數
-  await writeTrace(title, trace_array, lastCol, auth)
-}
 
-async function readTitle (title, auth) {
-  const sheets = google.sheets({ version: 'v4', auth });
-  const request = {
-    spreadsheetId: process.env.SPREADSHEET_ID,
-    ranges: [
-      `'${title}'!A:A`
-    ],
-    valueRenderOption: "FORMULA"
-  }
-  try {
-    let title_array = []
-    let values = (await sheets.spreadsheets.values.batchGet(request)).data.valueRanges[0].values;
-    if (values) {//如果沒資料values會是undefine，所以我們只在有資料時塞入
-      title_array = values.map(value => value[0]);
-      // title_array = values
-    }
-    // console.log(title_array)
-    return title_array
-  } catch (err) {
-    console.error(err);
-  }
+  // 再寫入trace(追蹤人數)
+  let trace_array = result_array.map(fanpage => [fanpage.trace]);
+  // 抓取當天日期
+  const datetime = new Date()
+  trace_array.unshift([dateFormat(datetime, "GMT:yyyy/mm/dd")])
+  await writeTrace(title, trace_array, lastCol, auth)
 }
 
 async function writeTitle (title, title_array, auth) {//title都是寫入第一欄
@@ -271,7 +227,6 @@ async function writeTrace (title, trace_array, lastCol, auth) {//填入追蹤者
     console.error(err);
   }
 }
-
 function getAuth () {
   return new Promise((resolve, reject) => {
     try {
@@ -288,12 +243,12 @@ function getAuth () {
 async function updateGoogleSheets (ig_result_array, fb_result_array) {
   try {
     const auth = await getAuth()
-    const sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
+    let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
     for (sheet of sheets) {
       if (sheet.title === 'FB粉專') {
-        await writeSheet(sheet.title, sheet.id, fb_result_array, auth)
+        await writeSheet(sheet.title, fb_result_array, auth)
       } else if (sheet.title === 'IG帳號') {
-        await writeSheet(sheet.title, sheet.id, ig_result_array, auth)
+        await writeSheet(sheet.title, ig_result_array, auth)
       }
     }
     console.log('成功更新Google Sheets');

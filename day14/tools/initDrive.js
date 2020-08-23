@@ -1,17 +1,12 @@
 exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
-const path = require('path');//用於處理文件路徑的小工具
-const fs = require("fs");//讀取檔案用
+
 const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
 const chrome = require('selenium-webdriver/chrome');
 const options = new chrome.Options();
 options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
-options.addArguments('blink-settings=imagesEnabled=false')//不加載圖片提高效率
-options.addArguments('--headless')//瀏覽器不提供頁面觀看，linux下如果系統是純文字介面不加這條會啓動失敗
-options.addArguments('--log-level=3')//這個option可以讓你跟headless時網頁端的console.log說掰掰
-//下面參數能提升爬蟲穩定性
-options.addArguments('--disable-dev-shm-usage')//使用共享內存RAM
-options.addArguments('--disable-gpu')//規避部分chrome gpu bug
 
+const path = require('path');//用於處理文件路徑的小工具
+const fs = require("fs");//讀取檔案用
 
 function initDrive() {
     checkDriver()//檢查driver是否設定

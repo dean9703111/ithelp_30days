@@ -1,115 +1,178 @@
 #### [回目錄](../README.md)
-## Day16 Google Sheets-讀取自己的sheet
+## Day16 google sheets-起手式，取得寫入google sheets的憑證(credentials)
 
-昨天跟著教學做就能讀取到Google提供的範例sheet，而我們今天目標是讓程式讀取自己指定的Google Sheets  
-
-分析官方範例程式
+使用原因
 ----
-首先要理解Google提供範例程式，理解程式最快的方式的就是從 **輸出結果的位置** 開始回推，所以我反推的順序會是：
-1. 找到輸出結果的console.log()位置 &rarr; *console.log('Name, Major:');*
-2. 確認是用哪個function來輸出 &rarr; *listMajors(auth)*
-3. 是誰call這個function &rarr; *authorize(JSON.parse(content), listMajors)*
-4. 首先要取得憑證才能夠授權 &rarr; *fs.readFile('credentials/googleSheets.json'*
+一般來說這些爬蟲的資料都是儲存到資料庫，但是我相信絕大多數的人不太可能隨時隨地打開資料庫觀看  
+而且存在資料庫除非你請網頁工程師幫你完成前端視覺化，不然資料庫絕對可以讓你看到眼脫XD  
 
-所以我們可以觀察到程式的邏輯都在 **listMajors** 這個函式中運行，並且可以看到兩個我們要特別注意的參數：  
-1. spreadsheetId：你的Google Sheets id
-2. range：你指定讀取的範圍
+經過多方思慮我最後採用Google Sheets的服務，主要理由：
+1. 只要有網路我就能看
+2. 絕大多數人都有使用Google Sheets的經驗
+3. Google Sheets轉化成圖表相對容易
+4. 你不需要一台Server專門來存這些資料
+5. ~~免費~~
 
-知道我們要處理的元件後我們把今天的實作步驟分為：
-1. 取得spreadsheetId
-2. 撰寫自己的函式(listMySheet)讀取自己的sheet
+儘管Google Sheets並不完美，但他真的很適合用在這個專案上面  
 
-取得自己的spreadsheetId並加入程式
-----
-* 我們先觀察官方對 **listMajors** 這隻函式的註解
-  ```js
-  /**
-   * Prints the names and majors of students in a sample spreadsheet:
-   * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-   * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
-   */
-  ```
-* 你對比官方程式 **spreadsheetId** 的的位置
-  ```js
-  ...
-  sheets.spreadsheets.values.get({
-    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-    range: 'Class Data!A2:E',
-  }
-  ...
-  ```
-  就會發現他是在 https://docs.google.com/spreadsheets/d/ **1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms** /edit 這個位置，所以我們建立好Google Sheets後就把spreadsheetId替換成自己的(實際網頁位置如下圖紅框處)  
-  ![image](./article_img/googlesheet_url.png)  
-  並且因為spreadsheetId並不適合公開放到git上面(你應該不會想公布這份Google Sheets給全世界吧)，所以我們要把**spreadsheetId複製起來放到.env裡面設定為環境變數**
-  #### .env.exmaple
-  ```
-  #填寫自己登入IG的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
-  IG_USERNAME='ig username'
-  IG_PASSWORD='ig password'
+取得憑證(credentials)
+------------------------
+如果把Google Sheets想像成一個藏寶庫，憑證(credentials)就像是一把鑰匙，只有擁有這把鑰匙的人才有打開門的資格；不然這個藏寶庫誰都能任意進出起不是很危險？  
 
-  #填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
-  FB_USERNAME='fb username'
-  FB_PASSWORD='fb password'
+* 憑證(credentials)取得的步驟
+    1. 請先確認已經安裝過Node.js & npm(跟著教學走的人都安裝過)，有Goolge帳號
+    2. 進入Google Sheet Node.js申請憑證(credentials)的[網頁](https://developers.google.com/sheets/api/quickstart/nodejs)  
+        ![image](./article_img/googlesheet1.png)  
+        這個自己命名
+        ![image](./article_img/googlesheet2.png)  
+        選擇Desktop app即可
+        ![image](./article_img/googlesheet3.png)  
+        千萬不要忘記下載這個憑證，下面的Client ID、Client Secret可以忽略
+        ![image](./article_img/googlesheet4.png)  
+        在專案下開一個credentials資料夾，把下載好的憑證重新命名成googleSheets.json放進去
+    3. 下載googleapis套件
+        ```
+        yarn add googleapis@39
+        ```  
+    4. 在專案tools資料夾中新增googleSheets.js檔案，並複製Google範例程式碼貼上
+        ```js
+        const fs = require('fs');
+        const readline = require('readline');
+        const {google} = require('googleapis');
 
-  #填寫你目標放入的spreadsheetId
-  SPREADSHEET_ID='your spreadsheetId'
-  ```
+        // If modifying these scopes, delete token.json.
+        const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
+        // The file token.json stores the user's access and refresh tokens, and is
+        // created automatically when the authorization flow completes for the first
+        // time.
+        const TOKEN_PATH = 'token.json';
 
-撰寫自己的函式(listMySheet)讀取自己的sheet
-----
-* 你點擊連結 https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit 就會發現昨天程式抓的是這個Google Sheets第一欄跟第五欄的值
-  ![image](./article_img/googlesheetex.png)
-* 可以先看一下官方的撰寫邏輯，接下來我們要將它改成非同步函式的結構
-  ```js
-  function listMajors(auth) {
-  const sheets = google.sheets({version: 'v4', auth});
-    sheets.spreadsheets.values.get({
-      spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-      range: 'Class Data!A2:E',
-    }, (err, res) => {
-      if (err) return console.log('The API returned an error: ' + err);
-      const rows = res.data.values;
-      if (rows.length) {
-        console.log('Name, Major:');
-        // Print columns A and E, which correspond to indices 0 and 4.
-        rows.map((row) => {
-          console.log(`${row[0]}, ${row[4]}`);
+        // Load client secrets from a local file.
+        fs.readFile('credentials.json', (err, content) => {
+        if (err) return console.log('Error loading client secret file:', err);
+        // Authorize a client with credentials, then call the Google Sheets API.
+        authorize(JSON.parse(content), listMajors);
         });
-      } else {
-        console.log('No data found.');
-      }
-    });
-  }
-  ```
-* 在這裡我們把原本Google範例程式的listMajors()刪除，改寫成自己的listMySheet()函式  
-  **valueRenderOption** 這個參數是把資料抓出來時的類型，感興趣可參考[Google官方文件](https://developers.google.com/sheets/api/reference/rest/v4/ValueRenderOption)
-  ```js
-  async function listMySheet (auth) {
-    const sheets = google.sheets({ version: 'v4', auth });
-    const title = '我的sheet'//請你更改成自己設定的sheet(工作表)名稱
-    const request = {
-      spreadsheetId: process.env.SPREADSHEET_ID,
-      range: [
-        `'${title}'!A:ZZ`//這是指抓取的範圍，你也可以改寫成A1:A300(抓第1欄的第1列到第300列)
-      ],
-      valueRenderOption: "FORMULA"//FORMATTED_VALUE|UNFORMATTED_VALUE|FORMULA
-    }
-    try {
-      //這裡改寫為await，之後會有順序執行的需求
-      let values = (await sheets.spreadsheets.values.get(request)).data.values;
-      console.log(values)
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  ```
-  上面的程式完成後你可以在自己的Google Sheets上面隨機輸入文字，看看輸出的結果是否符合你的預期～  
 
-執行程式
-----
-在專案資料夾的終端機(Terminal)執行指令 **node tools/googleSheets.js** 指令，看看輸出的結果是否與你的Google sheets上的一樣呢～ 
-![image](./article_img/googlesheet.png)  
-![image](./article_img/terminal.png)  
+        /**
+        * Create an OAuth2 client with the given credentials, and then execute the
+        * given callback function.
+        * @param {Object} credentials The authorization client credentials.
+        * @param {function} callback The callback to call with the authorized client.
+        */
+        function authorize(credentials, callback) {
+        const {client_secret, client_id, redirect_uris} = credentials.installed;
+        const oAuth2Client = new google.auth.OAuth2(
+            client_id, client_secret, redirect_uris[0]);
+
+        // Check if we have previously stored a token.
+        fs.readFile(TOKEN_PATH, (err, token) => {
+            if (err) return getNewToken(oAuth2Client, callback);
+            oAuth2Client.setCredentials(JSON.parse(token));
+            callback(oAuth2Client);
+        });
+        }
+
+        /**
+        * Get and store new token after prompting for user authorization, and then
+        * execute the given callback with the authorized OAuth2 client.
+        * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
+        * @param {getEventsCallback} callback The callback for the authorized client.
+        */
+        function getNewToken(oAuth2Client, callback) {
+        const authUrl = oAuth2Client.generateAuthUrl({
+            access_type: 'offline',
+            scope: SCOPES,
+        });
+        console.log('Authorize this app by visiting this url:', authUrl);
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+        });
+        rl.question('Enter the code from that page here: ', (code) => {
+            rl.close();
+            oAuth2Client.getToken(code, (err, token) => {
+            if (err) return console.error('Error while trying to retrieve access token', err);
+            oAuth2Client.setCredentials(token);
+            // Store the token to disk for later program executions
+            fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+                if (err) return console.error(err);
+                console.log('Token stored to', TOKEN_PATH);
+            });
+            callback(oAuth2Client);
+            });
+        });
+        }
+
+        /**
+        * Prints the names and majors of students in a sample spreadsheet:
+        * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+        * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
+        */
+        function listMajors(auth) {
+        const sheets = google.sheets({version: 'v4', auth});
+        sheets.spreadsheets.values.get({
+            spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+            range: 'Class Data!A2:E',
+        }, (err, res) => {
+            if (err) return console.log('The API returned an error: ' + err);
+            const rows = res.data.values;
+            if (rows.length) {
+            console.log('Name, Major:');
+            // Print columns A and E, which correspond to indices 0 and 4.
+            rows.map((row) => {
+                console.log(`${row[0]}, ${row[4]}`);
+            });
+            } else {
+            console.log('No data found.');
+            }
+        });
+        }
+        ```
+    5. 在、終端機(Terminal)執行指令，測試能否運行
+        ```
+        node tools/googleSheets.js
+        ```
+        如果沒意外你應該會遇到如下錯誤  
+        ![image](./article_img/credentials.png)  
+        請將下面程式 **'credentials.json'** 修改成自己的路徑(本專案的路徑為 **'credentials/googleSheets.json'** )
+        ```js
+        fs.readFile('credentials.json', (err, content) => {
+            if (err) return console.log('Error loading client secret file:', err);
+            // Authorize a client with credentials, then call the Google Sheets API.
+            authorize(JSON.parse(content), listMajors);
+        });
+        ```
+        然後再執行一次 **node tools/googleSheets.js** 時下面會有連結請你打開
+        ![image](./article_img/credentials_link.png)  
+        打開後的網頁會要你選擇登入的Google帳號，看到下面的網頁時別害怕，點擊 **進階** 然後再點擊 **前往「Quickstart」(不安全)**
+        ![image](./article_img/warning_web.png)  
+        接著所有的授權都必須按 **允許** ，最後你會看到一組授權碼，把他複製下來貼回終端機(Terminal)就完成惹
+        ![image](./article_img/credentails_code.png)  
+        如果終端機(Terminal)有輸出類似下面的東西時就代表你成功了
+        ```
+        Name, Major:
+        Alexandra, English
+        Andrew, Math
+        Anna, English
+        Becky, Art
+        Benjamin, English
+        Carl, Art
+        Carrie, English
+        Dorothy, Math
+        ...
+        ```
+編輯.gitignore
+--------------------------------------------------------
+無論是最後產生的token.json還是在credentials資料夾裡面的憑證都不適合上傳到git上面，所以你要調整.gitignore如下，不熟悉的朋友可以參考[Day6 gitignore-請勿上傳敏感、主程式以外的資料](../day6/README.md)的文章喔  
+```
+node_modules
+.env
+chromedriver.exe
+debug.log
+credentials
+token.json
+```
 
 專案原始碼
 ----
@@ -126,4 +189,4 @@ yarn
 在credentials資料夾放上自己的憑證
 node tools/googleSheets.js
 ```
-### [Day17 Google Sheets-判斷Sheet存在與否並自動創建](/day17/README.md)
+### [Day17 Google Sheets-讀取自己的sheet](/day17/README.md)

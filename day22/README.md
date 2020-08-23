@@ -1,171 +1,110 @@
 #### [回目錄](../README.md)
-## Day22 排程設定
+## Day22 Google Sheets-窗口凍結 & 欄位寬度調整
 
-我是一個懶人，同時也不是一個記性很好的人，如果每天都要在某個時間打開專案執行 **yarn start** 然後等數據跑完，這對我來說實在是一件很容易忘記且沒有效率的事情，我認為**電腦可以做到事情那就交給電腦去做**，所以我今天我要跟大家分享我是如何偷懶的
+就如標題所述，為了提升Google Sheets閱讀上的體驗，他新增了兩個要求：  
+1. 窗口凍結：最上方的爬蟲日期、左方的粉專名稱在瀏覽時凍結
+2. 欄位寬度調整：減少追蹤人數的欄位寬度，這樣才能一次看比較多資訊
 
-排程套件 - Cron
-----
-這裡我們需要安裝一個套件 **cron** ，他可以在你指定的時間執行你希望他幫你做的事情，這是他的[官方文檔](https://www.npmjs.com/package/cron)，下面我會詳細介紹他的功能(因為我自己也很常使用XD)  
-```
-yarn add cron
-```
-* 測試官方程式
-    1. 先在tools的資料夾裡面新增一個cron.js的檔案
-    2. 複製下方的官方範例
-        ```js
-        var CronJob = require('cron').CronJob;
-        var job = new CronJob('* * * * * *', function() {
-          console.log('You will see this message every second');
-        }, null, true, 'America/Los_Angeles');
-        job.start();
-        ```
-    3. 在專案資料夾執行 **node tools/cron.js**
-        * 如果終端機(Terminal)每秒鐘都印出 **You will see this message every second** 就代表套件運行成功
-* api架構
-    ```js
-    constructor(cronTime, onTick, onComplete, start, timezone, context, runOnInit, unrefTimeout)
-    ```
-    * cronTime [必填] 設定定時任務時間
-    * onTick [必填] 定時任務要執行的函式
-    * onComplete [選填] 完成定時任務後要執行的函式
-    * Start [選填] 是否自動啟動job，默認為false
-    * timeZone [選填] - 指定執行的時區，莫認為當前時區，關於時區代碼可參考[網站](https://www.zeitverschiebung.net/en/)
-* cronTime語法
-    * 總共分為六個區塊：秒 分鐘 小時 天 月份 星期幾
-        ```
-        秒：0-59
-        分鐘：0-59
-        小時：0-23
-        天：1-31
-        月份：0-11（1~12月，特別注意月份是從0開始）
-        星期幾：0-6（星期日~星期六，Sun~Sat）
-        ```
-    * 語法範例
-        * *全部
-            * 每秒都執行(官方範例)
-                ```
-                * * * * * *
-                ```
-            * 每分鐘的第10秒執行
-                ```
-                10 * * * * *
-                ```
-            * 每天晚上10點30分10秒時執行
-                ```
-                10 30 22 * * *
-                ```
-        * -時間區間
-            * 每天早上9點到12點的整點執行
-                ```
-                0 0 9-12 * * *
-                ```
-        * ,分隔符號，可以輸入多個數值
-            * 每分鐘的第5,20,30秒執行
-                ```
-                5,20,30 * * * * *
-                ```
-        *  /間隔多少時間執行
-            * 每3分鐘執行一次
-                ```
-                * */3 * * * *
-                ```
-* 範例
-    * 每分鐘的第10秒執行
-        ```js
-        var CronJob = require('cron').CronJob;
-        new CronJob('10 * * * * *', function () {
-            const datetime = new Date();
-            console.log(datetime);
-        }, null, true);
-        ```        
-        ![image](./article_img/min.png)
-    * 每分鐘的第5,20,30秒執行
-        ```js
-        var CronJob = require('cron').CronJob;
-        new CronJob('5,20,30 * * * * *', function () {
-            const datetime = new Date();
-            console.log(datetime);
-        }, null, true);
-        ```
-        ![image](./article_img/second.png)
+建議大家可以先看官方文件說明：[窗口凍結](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets#gridproperties)、
+[欄位寬度調整](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#UpdateDimensionPropertiesRequest)  
+* 原則上對Google Sheets的任何動作，只要你能夠手動操作的他都有提供api給你使用，所以強烈建議日後想要用api操作Google Sheets的朋友們一定要練習看懂官方文檔  
 
-把排程加入爬蟲
-----
-我們今天要調整三個檔案來符合爬蟲的需求  
-1. 主程式把crawler函式變成模組允許外部引用，因避免被引用時自動觸發crawler函式，故將下方觸發用的crawler()移除
-    #### index.js
-    ```js
-    require('dotenv').config(); //載入.env環境檔
-    const { initDrive } = require("./tools/initDrive.js");
-    const { crawlerFB } = require("./tools/crawlerFB.js");
-    const { crawlerIG } = require("./tools/crawlerIG.js");
-    const { updateGoogleSheets } = require("./tools/googleSheets.js");
-    exports.crawler = crawler;//讓其他程式在引入時可以使用這個函式
-
-    async function crawler () {
-        const driver = initDrive();
-        //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
-        const ig_result_array = await crawlerIG(driver)
-        const fb_result_array = await crawlerFB(driver)
-        driver.quit();
-        //處理Google Sheets相關動作
-        await updateGoogleSheets(ig_result_array, fb_result_array)
-    }
-    ```
-2. 我直接用constructor的概念來寫排程程式，這樣在日後維護時比較了解每個參數的意義
-    * 請編輯.env檔填上自己的爬蟲時段(CRONJOB_TIME)
-    #### cron.js
-    ```js
-    const CronJob = require('cron').CronJob;
-    const { crawler } = require("../index.js");
-    new CronJob({
-        cronTime: process.env.CRONJOB_TIME,//請編輯.env檔填上自己的爬蟲時段喔
-        onTick: async function () {
-            console.log('開始執行爬蟲排程作業！');
-            await crawler()
-            console.log('排程作業執行完畢！');
+窗口凍結
+------------------------
+我將這個功能合併到創建sheet的函式(addSheet)，從邏輯上來說他只需要在建立sheet時執行一次就夠了
+```js
+async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的Google Sheets
+  const sheets = google.sheets({ version: 'v4', auth });
+  const request = {
+    // The ID of the spreadsheet
+    "spreadsheetId": process.env.SPREADSHEET_ID,
+    "resource": {
+      "requests": [{
+        "addSheet": {//這個request的任務是addSheet
+          // 你想給這個sheet的屬性
+          "properties": {
+            "sheetId": sheet_id,//必須為數字，且這個欄位是唯一值
+            "title": title,
+            "gridProperties": {
+              "frozenRowCount": 1,//我將最上面那一列設定為凍結
+              "frozenColumnCount": 1//我將最左邊那一欄設定為凍結
+            },
+          }
         },
-        start: true,
-        timeZone: 'Asia/Taipei'
-    });
-    ```
-3. 調整package.json的scripts
-    針對 node 如何執行 js 指定 function 的指令寫法可以參考這篇[文章](https://stackoverflow.com/questions/30782693/run-function-in-script-from-command-line-node-js)
-    * start : mac執行單次爬蟲時使用的
-    * win_start : windows執行單次爬蟲時使用的(需要將單引號與雙引號反過來，因為windows只會將單引號內的資訊印除來而不會去執行)
-    * cron : 排程執行爬蟲時使用的
-    ```js
-    {
-      "name": "crawler",
-      "version": "0.0.1",
-      "description": "FB & IG 爬蟲30天鐵人文章",
-      "author": "dean lin",
-      "dependencies": {
-        "cron": "^1.8.2",
-        "dateformat": "^3.0.3",
-        "dotenv": "^8.2.0",
-        "googleapis": "39",
-        "selenium-webdriver": "^4.0.0-alpha.7"
-      },
-      "devDependencies": {},
-      "scripts": {
-        "start": "node  -e 'require(\"./index\").crawler()'",
-        "win_start": "node  -e \"require('./index').crawler()\"",
-        "cron":"node tools/cron.js"
-      },
-      "main": "index.js",
-      "license": "ISC"
+      }]
     }
-    ```
+  };
+  try {
+    await sheets.spreadsheets.batchUpdate(request)
+    console.log('added sheet:' + title)
+  }
+  catch (err) {
+    console.log('The API returned an error: ' + err);
+  }
+}
+```
+
+欄位寬度調整
+------------------------
+經過實驗後發現如果是新插入的欄位都會是預設的欄位寬度，所以我在插入新欄位的函式(insertEmptyCol)新增了調整欄位寬度的功能  
+* 在這個Google Sheets的request中你可以發現他是可以同時執行多個要求的(insertDimension、updateDimensionProperties)，原本我打算要把這兩個request合併到一起，但實際執行會跳出錯誤如下圖，官方文件沒有提供的功能就不要想太多了，老老實實分成兩個步驟執行吧  
+
+    ![image](./article_img/terminalerr.png)  
+```js
+async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
+  const sheets = google.sheets({ version: 'v4', auth });
+  const request = {
+    // The ID of the spreadsheet
+    "spreadsheetId": process.env.SPREADSHEET_ID,
+    "resource": {
+      "requests": [{
+        "insertDimension": {//插入新欄位
+          "range": {
+            "sheetId": sheet_id,
+            "dimension": "COLUMNS",
+            "startIndex": 1,//代表插入範圍從第一欄開始到第二欄結束
+            "endIndex": 2
+          },
+          "inheritFromBefore": true
+        }
+      },
+      {
+        "updateDimensionProperties": {//這裡是為了修正欄寬
+          "range": {
+            "sheetId": sheet_id,
+            "dimension": "COLUMNS",
+            "startIndex": 1,
+            "endIndex": 2//只需要首欄
+          },
+          "properties": {
+            "pixelSize": 85
+          },
+          "fields": "pixelSize"
+        }
+      }]
+    }
+  };
+  try {
+    await sheets.spreadsheets.batchUpdate(request)
+    console.log('update sheet:' + title + ' new column')
+  }
+  catch (err) {
+    console.log('The API returned an error: ' + err);
+  }
+}
+```
 
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn cron** 指令，確認爬蟲程式是否依照你設定的時間執行，因為排程的程式會一直執行，所以你不會看到以往Done in xxs的訊息，如果想要中斷終端機(Terminal)執行的程式，可以用下面按鍵組合:
-* Windows: Ctrl + c
-* Mac: cmd + c  
-![image](./article_img/terminal.png)
+* 在執行程式之前請先把Google Sheets的'FB粉專'、'IG帳號'這兩個sheet刪除喔，因為addSheet函式要觸發才會有窗口凍結的功能  
 
+刪除sheet後在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，看看線上的Google Sheets是否有符合今天設定的格式呢？  
+![image](./article_img/terminal.png)  
+![image](./article_img/googlesheet.png)  
 
+下個階段
+------------------------
+Google Sheets系列文章到這裡告一個段落，接下來我們會討論**排程自動化**的部分，敬請期待
 
 專案原始碼
 ----
@@ -179,8 +118,8 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 git pull origin master
 cd day22
 yarn
-調整你.env檔填上 FB & IG 登入資訊、SPREADSHEET_ID、爬蟲執行時間
+調整你.env檔填上 FB & IG 登入資訊、SPREADSHEET_ID
 在credentials資料夾放上自己的憑證
-yarn cron
+yarn start
 ```
-### [Day23 排程永久背景執行?json改了沒反應?](/day23/README.md)
+### [Day23 Google Sheets-窗口凍結 & 欄位寬度調整](/day23/README.md)

@@ -1,210 +1,115 @@
 #### [回目錄](../README.md)
-## Day17 Google Sheets-判斷Sheet存在與否並自動創建
+## Day17 Google Sheets-讀取自己的sheet
 
-接下來這幾天的文章都會與之前的爬蟲程式做結合，我們一樣分析一下讓爬蟲自動化的進入Google Sheets的步驟：
-1. 爬蟲資料獲取完成(這部分在之前的程式已完成)
-2. 因為有FB粉專及IG粉專兩種，所以會有兩個Sheet
-3. 將FB粉專、IG粉專各自寫入正確的sheet
-4. 每日爬蟲時新的資料能寫入正確位置(如果有json裡面粉專新增或是刪除不會造成Google Sheets內容亂掉)
+昨天跟著教學做就能讀取到Google提供的範例sheet，而我們今天目標是讓程式讀取自己指定的Google Sheets  
 
-考慮到專案未來可能會有非常多的sheet，所以我也把這部分的工作自動化了，實踐步驟：
-1. 先將Google Sheets線上有的sheet全都抓下來
-2. 判斷線上的sheet是否有**FB粉專、IG粉專**這兩個
-3. 如果沒有該sheet就產生線上不重複的sheet_id(他是唯一值)
-4. 如果沒有該sheet就新增sheet
-
-建議大家在看我的解法前也要學習閱讀[官方的文件](https://developers.google.com/sheets/api/samples/sheet)，裡面有詳細的教學，畢竟不可能隨時都有中文資源讓你閱讀，如果一開始看不懂文件也沒關係，把他的範例程式複製貼上就對了XD，以今天 **addSheet** 的功能來說，你只需要看下面這個函式即可  
-```js
-async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的Google Sheets
-  const sheets = google.sheets({ version: 'v4', auth });
-  const request = {
-    // The ID of the spreadsheet
-    "spreadsheetId": process.env.SPREADSHEET_ID,
-    "resource": {
-      "requests": [{
-        "addSheet": {//這個request的任務是addSheet
-          // 你想給這個sheet的屬性
-          "properties": {
-            "sheetId": sheet_id,//必須為數字，且這個欄位是唯一值
-            "title": title//sheet的名稱，且這個欄位是唯一值
-          }
-        },
-      }]
-    }
-  };
-  try {
-    await sheets.spreadsheets.batchUpdate(request)
-    console.log('added sheet:' + title)
-  }
-  catch (err) {
-    console.log('The API returned an error: ' + err);
-  }
-}
-```
-
-判斷Sheet存在與否並自動創建
+分析官方範例程式
 ----
-下面思路是我考慮到執行時面對的各項可能性，你可以參考我的思路，googleSheets.js導讀如下：
-* getAuth : 考慮到每一個Google Sheets的api全部都需要同過憑證取得授權才能操作，所以我把這個步驟獨立成一個函式，由於取得授權這塊採用callback的函式，所以過去使用的await在這裡並不適用，你需要用Promise的方式來處理。他詳細的使用方法以及與async/await的搭配[這篇文章](https://noob.tw/js-async/)寫得非常棒
-    1. 讀取認證.json檔案
-    2. 取得Google Sheets授權
-    ```js
-    function getAuth () {
-      return new Promise((resolve, reject) => {
-        try {
-          const content = JSON.parse(fs.readFileSync('credentials/googleSheets.json'))
-          authorize(content, auth => {
-            resolve(auth)
-          })
-        } catch (err) {
-          console.error('憑證錯誤');
-          reject(err)
-        }
-      })
-    }
-    ```
-* updateGoogleSheets : 我們要設計一個給index.js呼叫來更新GoogleSheets的外部函式模組，這個函式目前要做兩件事
-  1. 取得Google Sheets授權
-  2. 檢查當前sheet狀態
-  ```js
-  exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
-  async function updateGoogleSheets () {
-    try {
-      const auth = await getAuth()
-      let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
-      console.log(sheets)
-    } catch (err) {
-      console.error('更新Google Sheets失敗');
-      console.error(err);
-    }
-  }
-  ```
-* getFBIGSheet : 取得線上FB、IG的sheet會分成三個動作
-  1. 我們要先知道目前已經存在的sheets是否有'FB粉專'、'IG帳號'這兩個，所以要取得線上sheets(getSheets)
-  2. 判斷sheet是否存在，不存在則產生不重複的id(genSheetId)，並且新增sheet(addSheet)
-  3. 返回最新的sheets參數
-  ```js
-  async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還沒被建立，就新增
-    const sheets = [//我們Google Sheets需要的sheet
-      { title: 'FB粉專', id: null },
-      { title: 'IG帳號', id: null }
-    ]
-    const online_sheets = await getSheets(auth)//抓目前存在的sheet
-    let sheet_id_array = []
-    online_sheets.forEach(online_sheet => {//抓出已經存在的sheet_id避免產生出一樣的id
-      sheet_id_array.push(online_sheet.properties.sheetId)
-    })
+首先要理解Google提供範例程式，理解程式最快的方式的就是從 **輸出結果的位置** 開始回推，所以我反推的順序會是：
+1. 找到輸出結果的console.log()位置 &rarr; *console.log('Name, Major:');*
+2. 確認是用哪個function來輸出 &rarr; *listMajors(auth)*
+3. 是誰call這個function &rarr; *authorize(JSON.parse(content), listMajors)*
+4. 首先要取得憑證才能夠授權 &rarr; *fs.readFile('credentials/googleSheets.json'*
 
-    for (sheet of sheets) {
-      online_sheets.forEach(online_sheet => {
-        if (sheet.title == online_sheet.properties.title) {// 如果線上已經存在相同的sheet title就直接使用相同id
-          sheet.id = online_sheet.properties.sheetId
-        }
-      })
-      if (sheet.id == null) {//如果該sheet尚未被建立，則建立
-        console.log(sheet.title + ':not exsit')
-        let sheet_id = genSheetId(sheet_id_array)
-        sheet_id_array.push(sheet_id)
-        try {
-          await addSheet(sheet.title, sheet_id, auth)//如果不存在就會新增該sheet
-          sheet.id = sheet_id
-        } catch (e) {
-          console.error(e)
-        }
+所以我們可以觀察到程式的邏輯都在 **listMajors** 這個函式中運行，並且可以看到兩個我們要特別注意的參數：  
+1. spreadsheetId：你的Google Sheets id
+2. range：你指定讀取的範圍
+
+知道我們要處理的元件後我們把今天的實作步驟分為：
+1. 取得spreadsheetId
+2. 撰寫自己的函式(listMySheet)讀取自己的sheet
+
+取得自己的spreadsheetId並加入程式
+----
+* 我們先觀察官方對 **listMajors** 這隻函式的註解
+  ```js
+  /**
+   * Prints the names and majors of students in a sample spreadsheet:
+   * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+   * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
+   */
+  ```
+* 你對比官方程式 **spreadsheetId** 的的位置
+  ```js
+  ...
+  sheets.spreadsheets.values.get({
+    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+    range: 'Class Data!A2:E',
+  }
+  ...
+  ```
+  就會發現他是在 https://docs.google.com/spreadsheets/d/ **1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms** /edit 這個位置，所以我們建立好Google Sheets後就把spreadsheetId替換成自己的(實際網頁位置如下圖紅框處)  
+  ![image](./article_img/googlesheet_url.png)  
+  並且因為spreadsheetId並不適合公開放到git上面(你應該不會想公布這份Google Sheets給全世界吧)，所以我們要把**spreadsheetId複製起來放到.env裡面設定為環境變數**
+  #### .env.exmaple
+  ```
+  #填寫自己登入IG的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
+  IG_USERNAME='ig username'
+  IG_PASSWORD='ig password'
+
+  #填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
+  FB_USERNAME='fb username'
+  FB_PASSWORD='fb password'
+
+  #填寫你目標放入的spreadsheetId
+  SPREADSHEET_ID='your spreadsheetId'
+  ```
+
+撰寫自己的函式(listMySheet)讀取自己的sheet
+----
+* 你點擊連結 https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit 就會發現昨天程式抓的是這個Google Sheets第一欄跟第五欄的值
+  ![image](./article_img/googlesheetex.png)
+* 可以先看一下官方的撰寫邏輯，接下來我們要將它改成非同步函式的結構
+  ```js
+  function listMajors(auth) {
+  const sheets = google.sheets({version: 'v4', auth});
+    sheets.spreadsheets.values.get({
+      spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+      range: 'Class Data!A2:E',
+    }, (err, res) => {
+      if (err) return console.log('The API returned an error: ' + err);
+      const rows = res.data.values;
+      if (rows.length) {
+        console.log('Name, Major:');
+        // Print columns A and E, which correspond to indices 0 and 4.
+        rows.map((row) => {
+          console.log(`${row[0]}, ${row[4]}`);
+        });
+      } else {
+        console.log('No data found.');
       }
-    }
-    return sheets;
+    });
   }
   ```
-  * getSheets : 取得Google Sheets所有的sheet
+* 在這裡我們把原本Google範例程式的listMajors()刪除，改寫成自己的listMySheet()函式  
+  **valueRenderOption** 這個參數是把資料抓出來時的類型，感興趣可參考[Google官方文件](https://developers.google.com/sheets/api/reference/rest/v4/ValueRenderOption)
   ```js
-  async function getSheets (auth) {//取得Google Sheets所有的sheet
+  async function listMySheet (auth) {
     const sheets = google.sheets({ version: 'v4', auth });
+    const title = '我的sheet'//請你更改成自己設定的sheet(工作表)名稱
     const request = {
       spreadsheetId: process.env.SPREADSHEET_ID,
-      includeGridData: false,
+      range: [
+        `'${title}'!A:ZZ`//這是指抓取的範圍，你也可以改寫成A1:A300(抓第1欄的第1列到第300列)
+      ],
+      valueRenderOption: "FORMULA"//FORMATTED_VALUE|UNFORMATTED_VALUE|FORMULA
     }
     try {
-      let response = (await sheets.spreadsheets.get(request)).data;
-      const sheets_info = response.sheets
-      return sheets_info
+      //這裡改寫為await，之後會有順序執行的需求
+      let values = (await sheets.spreadsheets.values.get(request)).data.values;
+      console.log(values)
     } catch (err) {
       console.error(err);
     }
   }
   ```
-  * genSheetId : 產生不重複id
-  ```js
-  function genSheetId (sheet_id_array) {
-    let sheet_id = parseInt(Math.random() * 10000)
-    while (sheet_id_array.includes(sheet_id)) {//如果存在就要在產生一次
-      sheet_id = parseInt(Math.random() * 10000)
-    }
-    return sheet_id
-  }
-  ```
-  * addSheet : 新增一個title與sheetId自訂的sheet
-  ```js
-  async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的Google Sheets
-    const sheets = google.sheets({ version: 'v4', auth });
-    const request = {
-      // The ID of the spreadsheet
-      "spreadsheetId": process.env.SPREADSHEET_ID,
-      "resource": {
-        "requests": [{
-          "addSheet": {//這個request的任務是addSheet
-            // 你想給這個sheet的屬性
-            "properties": {
-              "sheetId": sheet_id,//必須為數字，且這個欄位是唯一值
-              "title": title
-            }
-          },
-        }]
-      }
-    };
-    try {
-      await sheets.spreadsheets.batchUpdate(request)
-      console.log('added sheet:' + title)
-    }
-    catch (err) {
-      console.log('The API returned an error: ' + err);
-    }
-  }
-  ```
-* PS.如果你遇到了 **The API returned an error: Error: Insufficient Permission** 的錯誤是因為你對Google Sheets權限要求不足(原本只有readonly)， **請刪除原本的token.json** ，並且再修改這行後重新執行，Google會要求你再點一次連結重新取得授權碼，貼上後你就會發現sheet新增成功嚕  
-  ```js
-  // 原本的範本是有readonly，這樣只有讀取權限，拿掉後什麼權限都有了
-  const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
-  ```
+  上面的程式完成後你可以在自己的Google Sheets上面隨機輸入文字，看看輸出的結果是否符合你的預期～  
 
-* 因為要跟之前的爬蟲程式結合，所以index.js能呼要googleSheets.js提供的外部函式updateGoogleSheets()，為了方便測試今天的功能先把爬蟲的功能暫時註解
-  #### index.js
-  ```js
-  require('dotenv').config(); //載入.env環境檔
-  const { initDrive } = require("./tools/initDrive.js");
-  const { crawlerFB } = require("./tools/crawlerFB.js");
-  const { crawlerIG } = require("./tools/crawlerIG.js");
-  const { updateGoogleSheets } = require("./tools/googleSheets.js");
-
-  async function crawler () {
-      // const driver = initDrive();
-      // //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
-      // await crawlerIG(driver)
-      // await crawlerFB(driver)
-      // driver.quit();
-      //處理Google Sheets相關動作
-      await updateGoogleSheets()
-  }
-
-  crawler()
-  ```
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，看看線上的Google Sheets是否有如你的設定新增sheets了呢？
+在專案資料夾的終端機(Terminal)執行指令 **node tools/googleSheets.js** 指令，看看輸出的結果是否與你的Google sheets上的一樣呢～ 
+![image](./article_img/googlesheet.png)  
 ![image](./article_img/terminal.png)  
-![image](./article_img/googlesheetex.png)
-如果你重複執行指令的話就只會回傳已經建立好sheet的id給你，不會再重新建立  
-![image](./article_img/terminal2.png)  
 
 專案原始碼
 ----
@@ -219,7 +124,6 @@ git pull origin master
 cd day17
 yarn
 在credentials資料夾放上自己的憑證
-調整你.env檔填上SPREADSHEET_ID
-yarn start
+node tools/googleSheets.js
 ```
-### [Day18 Google Sheets-將爬蟲資料寫入](/day18/README.md)
+### [Day18 Google Sheets-判斷Sheet存在與否並自動創建](/day18/README.md)

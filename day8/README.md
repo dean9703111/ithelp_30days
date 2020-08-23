@@ -1,107 +1,97 @@
 #### [回目錄](../README.md)
-## Day8 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊
+## Day8 分析Facebook網頁結構，打造自動登入FaceBook的機器人
 
+如果昨天大家都能順利地啟動chrome前往自己想要去的網頁  
+那今天就來談如何拆解網頁的結構，今天所講的東西請一定要自己實作過一遍，因為FB更改網頁結構的速度很快，請培養自己解析網頁的能力  
 
-關閉擾人彈窗
+分析Facebook網頁結構
 ----
-昨天完成登入FB的時候應該大部分的人畫面都會長這樣  
-![image](./article_img/fb_notify.png)  
+* 先請大家用chrome無痕模式打開[Facebook登入頁面](https://www.facebook.com/login)  
+<img src="./article_img/chrome.png" width="300" height="210"/>  
 
-這個彈窗會干擾到你的爬蟲的操作(無法抓取元件)，所以你必須要關閉這個彈窗  
-請將下面的程式加入函式上方宣告
+* 打開後的FB的登入畫面  
+![image](./article_img/fb_login.png)
+
+* 接下來便可以進行結構分析，把你平常登入FB的動作分幾個步驟：
+    1. 輸入電子郵件或電話
+    2. 輸入密碼
+    3. 按下登入按鈕
+
+* 步驟出來後我們需要知道他在FB的哪些位置(以紅框標示處)  
+![image](./article_img/fb_login_analysis.png)
+* 接著對元件按下滑鼠右鍵點擊檢查進入開發者的介面
+![image](./article_img/fb_login_right_click.png)
+* 然後你就會看到一堆不友善的程式碼，這個時候別緊張，我們原則上不需要理解他們在寫什麼，我們只要知他**在什麼位置就好**
+![image](./article_img/fb_login_right_click2.png)
+* 想知道他位置的方法也很簡單，對開發者頁面的那個程式碼按右鍵->Copy->Copy Xpath
+![image](./article_img/fb_login_right_click3.png)
+    你就會得到 **電子郵件或電話** 元件在這個頁面的位置如下
+    ```
+    //*[@id="email"]
+    ```
+    重複上面的步驟你面可以取得 **密碼** 元件的位置
+    ```
+    //*[@id="pass"]
+    ```
+    以及 **登入按鈕** 元件的位置
+    ```
+    //*[@id="loginbutton"]
+    ```
+    取得這三個元件的Xpath後我們便可以開始撰寫程式  
+
+打造自動登入FaceBook的機器人
+----
+1. 先填寫好自己.env的參數提供主程式使用
 ```js
-const chrome = require('selenium-webdriver/chrome');
-const options = new chrome.Options();
-options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
+require('dotenv').config(); //載入.env環境檔
+
+//請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
+const fb_username = process.env.FB_USERNAME
+const fb_userpass = process.env.FB_PASSWORD
 ```
-加入上面對瀏覽器的設定後於終端機(Terminal)執行 **yarn start** 你會發現彈窗提示不見了
+2. 將套件中會使用到的函式引入
+```js
+const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+    until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
+const chrome = require('selenium-webdriver/chrome');
+const path = require('path');//用於處理文件路徑的小工具
+const fs = require("fs");//讀取檔案用
+```
+3. 把主程式邏輯加上去
+```js
+async function loginFacebook () {
+    
+    checkDriver()// 檢查Driver是否是設定
 
-分析FB粉專結構並取得追蹤人數資訊
-------------------------
-* 我們先將**粉絲團取資料**分成幾個步驟：
-    1. 進入粉絲團網頁
-    2. 找出追蹤者人數的元件位置
-    3. 關閉瀏覽器
+    let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
+    const web = 'https://www.facebook.com/login';//我們要前往FB
+    await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
-建議大家可以自己先按照昨天所提供的方法來實做看看會遇到什麼樣的問題，再來看下面我我所遇到的狀況及解決方式  
+    //填入fb登入資訊
+    //使用until是要求直到網頁顯示了這個元件才能執行下一步
+    const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));//找出填寫email的元件
+    fb_email_ele.sendKeys(fb_username)//將使用者的資訊填入
+    const fb_pass_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="pass"]`)));
+    fb_pass_ele.sendKeys(fb_userpass)
+    
+    //抓到登入按鈕然後點擊
+    const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="loginbutton"]`)))
+    login_elem.click()
+}
+loginFacebook()//登入FB
+```
+PS.因為javascript支援非同步語法，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序跟你想的不一樣 **(並非完成前面工作才執行下一步的順序)**，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
 
-1. **進入粉絲團網頁**  
-    登入後導向網頁到粉絲專頁非常簡單，兩行程式碼就解決
-    ```js
-    //登入成功後要前往粉專頁面
-    const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-    await driver.get(fanpage)
-    ```
-    但實際執行後你會發現很詭異的事情，就是在你登入成功前你的網頁就直接導向到粉絲專頁了  
-    這是因為FB在執行登入作業時需要等待server回應資料確認使用者身份，所以你在按下登入的按鈕後要先給瀏覽器一些時間回應  
-    所以我們要先 **找出登入後才會有的元件** ，像是我們一定要在登入後Facebook才會有名字顯示 
-    ![image](./article_img/fb_header.png)  
-    加上 **判斷名字區塊已經存在才能繼續** 這個邏輯就能保證我們成功登入後再前往粉絲頁  
-    ```js
-    //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
-    await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
-
-    //登入成功後要前往粉專頁面
-    const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-    await driver.get(fanpage)
-    ```
-2. **找出追蹤者人數的元件位置**
-    ![image](./article_img/baobao_fans.png)  
-    你把紅框位置的Xpath複製出來會長這樣
-    ```
-    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[1]/div/div[1]/div[4]/div/div[2]/div
-    ```
-    如果你只要爬這個粉絲團的話用這個Xpath就足夠了，但你如果常逛粉絲團，你會發現每個粉絲團顯示追蹤人數的Xpath位置都不一樣  
-    下面提供幾個粉絲團網址你可以點進去試試看  
-    [小姐非常有事](https://www.facebook.com/missunexpected2015/)
-    ```
-    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[1]/div/div[2]/div[4]/div/div[2]/div
-    ```
-    [人類圖澳洲](https://www.facebook.com/HumanDesignAu/)
-    ```
-    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[3]/div/div[2]/div[4]/div/div[2]/div
-    ```
-    你仔細看會發現 **每個Xpath都會有細微的不同** ，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
-    下面的幾張圖你可以觀察到這個追蹤者的資訊都在相同的 **class="_4bl9"** 之下  
-    <img src="./article_img/fb_trace_code1.png" width="200" height="140"/>
-    <img src="./article_img/fb_trace_code2.png" width="200" height="140"/>
-    <img src="./article_img/fb_trace_code3.png" width="200" height="140"/>  
-    但是Facebook有很多的元件都使用到這個class所以我們需要把所有符合的class都抓下來，透過分析字串來抓取正確的資訊  
-
-    #### index.js
-    ```js
-    ...
-    let fb_trace = 0;//這是紀錄FB追蹤人數
-    //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
-    const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
-    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
-    for (const fb_trace_ele of fb_trace_eles) {
-        const fb_text = await fb_trace_ele.getText()
-        if (fb_text.includes('人在追蹤')) {
-            fb_trace = fb_text
-            break
-        }
-    }
-    console.log(`追蹤人數：${fb_trace}`)
-    ...
-    ```
-    這裡使用的是 **for/of迴圈** ，特別說明一下[foreach裡面是不能用await去跑的](https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop)，這裡有[介紹各種for迴圈的文章](https://www.jishuwen.com/d/2M0c/zh-tw)歡迎參考  
-
-3. **關閉瀏覽器**
-    如果你執行完後想要關閉瀏覽器只需要加入這行程式  
-    ```js
-    driver.quit();
-    ```
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到Facebook自動登入 &rarr; 跳轉到粉絲頁 &rarr; 關閉，如果能正確輸出該粉專的追蹤人數你就成功嚕～  
-![image](./article_img/terminal.png)
-
-相信到這裡大家都能成功地抓出粉專的追蹤者人數了，並對於這個爬蟲專案應該充滿了信心吧！
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** ，你會看到chrome的應用程式自動打開並且成功登入Facebook  
+![image](./article_img/fb_notify.png)
+如果模擬器讓你成功登入FB可以在下方留言讓我知道喔，登入成功的瞬間有沒有充滿成就感呢？
 
 專案原始碼
 ----
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day8)找到喔
+全部的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day8)找到喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -114,4 +104,7 @@ cd day8
 yarn
 yarn start
 ```
-### [Day9 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](../day9/README.md)
+
+參考資源 :  
+1. [Python 爬蟲解析：以爬取臉書社團為案例，使用 Selenium 來進行網頁模擬爬蟲](https://blog.happycoding.today/python-crawler-analysis/)
+### [Day9 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day9/README.md)

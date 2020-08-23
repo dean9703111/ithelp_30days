@@ -1,127 +1,65 @@
 #### [回目錄](../README.md)
-## Day6 selenium-爬蟲起手式
+## Day6 gitignore-請勿上傳敏感、主程式以外的資料
 
-selenium-webdriver
+今天介紹一個好用的東西 **.gitignore**，他是一份忽略清單，通常忽略清單上的都是不需要加入版本控制的檔案  
+常見在忽略清單的檔案類型如下：
+1. 機敏性資料(資料庫帳號密碼、存取權限的權杖(token)、憑證(credentials)...)
+2. 環境變數(.env檔，裡面通常存有ip、port...等環境參數)
+3. 套件資料夾(node_module、vendor...)
+4. 日誌檔案(.log相關紀錄)
+5. 程式編譯時產生的檔案(快取檔案、暫存檔案、編譯結果)
+
+透過這份清單，大家可以想一下昨天的專案有哪些檔案及資料夾是要加入這份忽略清單的呢  
+
+.gitignore使用時機 & 範例
 ----
-先前說過由於 FB & IG 的隱私權政策導致我們無法透過api直接取得我們所想要的資訊  
-所以我們需要借助 **selenium-webdriver** 這個套件來開啟並執行你想要對網頁做的事情
-我的文章會慢慢使用到它的各種功能，如果有迫不及待的小夥伴也可以先去[官網](https://www.selenium.dev/documentation/en/)來更深刻的了解他  
 
-先在終端機(Terminal)下指令安裝他  
-```
-yarn add selenium-webdriver
-```
-因為本專案使用的模擬器是chrome，電腦還沒裝的請先[下載](https://www.google.com/intl/zh-TW/chrome/)
-因為跑selenium需要用到driver，大家可以依照自己的作業系統做設定
-+ mac 作業系統  
-    * 如果你用的電腦是mac，恭喜你，不要需要額外下載chrome driver就能夠直接寫使用(不過chrome還是要下載)  
-+ windows 作業系統  
-    * 請下載[chrome driver](http://chromedriver.storage.googleapis.com/index.html)  
-    * 這個driver需要跟你的[chrome版本相同](chrome://settings/help)  
-    * 請將將這個**chromedriver.exe放到專案根目錄下**  
+1. 上一篇有提到我們這次的爬蟲會用FB & IG 的帳號及密碼還有你google sheet的id，**這些資訊我們統一設定在.env環境變數裡面**，我相信大家都不希望把這些機敏資訊放到git外流出去  
+2. 另外我們**透過yarn安裝的dotenv套件也產生了一個node_modules的資料夾**，從經以後你所安裝的套件都會儲存到這個資料夾裡面，通常一個中型專案套件他的大小都高達300MB以上，所以這個node_modules的資料夾是不適合上傳到到git的(這些套件到新環境下指令yarn就能安裝)  
 
-接下來就可以嘗試用selenium-webdriver打開爬蟲用網頁了
-#### index.js
-```js
-require('dotenv').config(); //載入.env環境檔
-const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
-
-function openCrawlerWeb() {
-    
-    // 建立這個broswer的類型
-    let driver = new webdriver.Builder().forBrowser("chrome").build();
-    const web = 'https://www.google.com/';//填寫你想要前往的網站
-    driver.get(web)//透國這個driver打開網頁
-}
-openCrawlerWeb()//打開爬蟲網頁
-```
-執行程式
-----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** ，如果執行順利，你會看到chrome的應用程式自動打開並且進入google的首頁  
-![image](./article_img/chrome.png)
-
-
-如果windows無法自動讀取chromedriver.exe路徑
-----
-因為有人回報部分windows就算把chromedriver.exe放在專案根目錄也讀不到，所以特別寫了一個函式來自定義讀取chromedriver.exe的路徑  
-
-* try-catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理；如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)  
-* **__dirname** 這個變數為目前檔案所在的資料夾路徑  
-```js
-const chrome = require('selenium-webdriver/chrome');
-const path = require('path');//用於處理文件路徑的小工具
-const fs = require("fs");//讀取檔案用
-
-function checkDriver () {
-    try {
-        chrome.getDefaultService()//確認是否有預設        
-    } catch {
-        console.log('找不到預設driver!');
-        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
-        console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
-        if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
-            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
-            chrome.setDefaultService(service);
-            console.log('設定driver路徑');
-        } else {
-            console.log('無法設定driver路徑');
-        }
-    }
-}
-```
-
-#### 將chromedriver.exe放到根目錄後記得在.gitignore把它加進去忽略清單喔，他不屬於需要版控的檔案
+整理一下你的忽略清單會長這樣
 #### .gitignore
 ```
 node_modules
 .env
-chromedriver.exe
 ```
-
-與原程式統整
+VSCode觀察.gitignore調整前後
 ----
-加入 **檢查Driver是否是設定的函式** 是比較完整的程式規劃，因為他能明確的告訴你執行錯誤的位置，之後會有文章來討論try-catch的重要性，統整後程式如下
-#### index.js
-```js
-require('dotenv').config(); //載入.env環境檔
-const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
-const chrome = require('selenium-webdriver/chrome');
-const path = require('path');//用於處理文件路徑的小工具
-const fs = require("fs");//讀取檔案用
+如果你也是用VSCode當成編輯器，你可以觀察使用.gitignore的前後變化
+* 使用.gitignore前.env及node_modules會被列入變更(綠色的字代表有新增的檔案，棕色的字代表有改變的檔案)  
+    <img src="./article_img/vscode2.png" width="240" height="315"/>
+    <img src="./article_img/vscode3.png" width="240" height="330"/>  
 
-function checkDriver () {
-    try {
-        chrome.getDefaultService()//確認是否有預設        
-    } catch {
-        console.log('找不到預設driver!');
-        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
-        console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
-        if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
-            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
-            chrome.setDefaultService(service);
-            console.log('設定driver路徑');
-        } else {
-            console.log('無法設定driver路徑');
-        }
-    }
-}
+* 使用.gitignore後.env及node_modules會變成淺灰色，代表不會被列入變更  
+    <img src="./article_img/vscode1.png" width="240" height="315"/>  
 
-function openCrawlerWeb() {
+**這份忽略清單會隨著你專案的變動而調整**，如果你在撰寫其他種類程式語言可以參考[這個網站](https://github.com/github/gitignore)來調整自己的.gitignore  
 
-    checkDriver()// 檢查Driver是否是設定
-    
-    // 建立這個broswer的類型
-    let driver = new webdriver.Builder().forBrowser("chrome").build();
-    const web = 'https://www.google.com/';//填寫你想要前往的網站
-    driver.get(web)//透國這個driver打開網頁
-}
-openCrawlerWeb()//打開爬蟲網頁
-```
+>**筆者碎碎念** 
+在文章的最後我分享一下.gitignore的重要性
+我目前在公司兼職MIS，公司內部有架一個gitlab提供內部使用
+但每個人對git使用的習慣相差很大，有個部門的同事根本就沒在管什麼.gitignore，每次push都上傳一大包(各種執行檔、暫存檔全部上傳，根本把git當成NAS在用...)  
+因為git版本控管的特性，他的專案在gitlab就越來越肥  
+儘管跟他溝通很多次這樣程式的寫法很有問題但都被當成耳邊風   
+直到有一天gitlab的硬碟終於被他用完了...(他一個專案就用了15GB的容量)他才開始正視.gitignore的重要性  
+請正確的使用git來做版本控管，不要上傳多餘的資料到git上面，他們只會造成你觀察每個版本變更時的閱讀障礙  
+
+
+下個階段
+----
+關於撰寫程式的一些基礎工具就介紹到今天，從明天會開始**撰寫爬蟲**，這裡先跟各位說明一下我執行專案的思考邏輯以及技術文章未來的規劃
+
+* 哪個功能項目需要最先研究
+    我們先前列出很多功能項目，我個人對於研究的前後順序是**先把不熟悉的完成**，因為他通常會花你最多時間  
+    如果中間有遇到無法解決的問題，最慘的結果就是你必須放棄這個專案，所以我建議這個不熟悉的東西你最好再接案前要事先做一下功課，確認是可以完成的，這就是你從最難的部分開始實作的好處：及時止損，避免你完成大部分功能最後因為卡在一個關鍵功能無法完成交付  
+* 這個專案的撰寫順序
+    我會按照我當時撰寫的思路完整的呈現給大家，目前的順序是：
+    爬蟲功能 &rarr; 儲存到雲端Google Sheets &rarr; 電腦自動排程執行 &rarr; LINE通知提醒執行結果  
 
 
 專案原始碼
 ----
-完整的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day6)找到喔
+上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day6)找到喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -130,7 +68,6 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 ```
 git pull origin master
 cd day6
-yarn
 yarn start
 ```
-### [Day7 分析Facebook網頁結構，打造自動登入FaceBook的機器人](../day7/README.md)
+### [Day7 selenium-爬蟲起手式](/day7/README.md)

@@ -1,106 +1,155 @@
 #### [回目錄](../README.md)
-## Day12 try-catch讓程式更穩定
+## Day12 refactor-重構程式碼，讓合作夥伴對你比讚
 
-在[Day6 selenium-爬蟲起手式](../day6/README.md)有使用到try-catch來解決如果抓不到chrome driver的例外事件，今天我們會更清楚的說明如何讓try-catch幫助你更高效的debug以及增加程式穩定性  
-
-try-catch使用情境
+程式的重構
 ----
-實際上我們現在的程式是非常脆落的，只要發生例外事件很容易就會崩潰，下面讓我舉例讓程式崩潰(或是卡住)的方式：  
-1. 把Facebook跟Instagram網址改成不存在的網址 &rarr; 會因為網頁不存在而卡在那個畫面
-2. 把粉專的網址改成不存在的網址 &rarr; 程式會因為無法抓到要讀取的元件而崩潰
-3. 把粉專的網址改成不存在的粉專(或是移除的粉專) &rarr; 程式會因為無法抓到要讀取的元件而崩潰
+昨天我們完成了一個**跑得動的程式**，但很明顯並**不是一個好的程式**  
+不知道有沒有人覺得這幾天下來隨著程式越來越長感覺到對他的掌握力下降  
+根據clean code的原則而言就是程式寫得很爛XD  
+很多人為了追求程式的功能埋頭狂寫，這樣很容易導致你日後維護以及交接的困難性  
 
-以上舉例幾個最直覺讓程式壞掉的案例，為了避免這些悲劇的發生，try-catch就是我們的好朋友，以下是要注意的地方：  
-1. 你的try-catch建議不要一次包含太多的程式碼，過於冗長的程式碼會增加你除錯難度
-2. 除了系統自行吐出的exception以外，建議你也要附上console.error('我在哪個步驟錯了')
-3. 因為我們在抓網頁元件時用了wait...until的結構，如果我們沒有設定他最多等待幾秒，他會等到天荒地老，所以請全部加上等待的時間，否則try-catch也幫不了你
-4. 能透過例外處理減少多餘的步驟，像是Instagram我們一定要登入後才能爬蟲，所以我們就可以設定當登入失敗時(讓函式return false)不會執行後續步驟
-
-try-catch實作
+專案犯下的錯誤:
 ----
-* 下面以IG爬蟲舉例，大家可以參考看看並思考FB爬蟲的部分你要如何改寫，若其中有一個條件錯誤就會拋出錯誤訊息
-    1. **登入Instagram函式(loginInstagram)**
-        * 登入的網址是否為網址  
-            ex : 將 *const web = 'https://www.instagram.com/accounts/login';* 這段改為*const web = 'error'; 會因不符合網址格式跳錯誤訊息
-            ![image](./article_img/err_ig_terminal1.png)
-        * 登入頁面是否有username、password、submit的元件  
-            ex : 將 *const web = 'https://www.instagram.com/accounts/login';* 這段改為*const web = 'https://www.google.com'; 會因找不到元件超時而跳錯誤訊息)
-            ![image](./article_img/err_ig_terminal2.png)
-        * 若用到driver.wait皆需要設定最多等待時間否則會卡住
-        * 登入成功後是否有_47KiJ的class
-        ```js
-        async function loginInstagram (driver) {
-            const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
-            try {
-                await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
+1. **主程式做了太多事情**  
+    主程式只需要知道他該執行哪個函式就足夠了，我們應該把這些函式轉移到另外的資料夾(ex:tools)，依據大功能去命名檔名，範例如下:  
+    1. 主程式 - index.js
+    2. 初始化瀏覽器 - tools/initDrive.js
+    3. Facebook爬蟲 - tools/crawlerFB.js
+    3. Instagram爬蟲 - tools/crawlerIG.js
+    在這樣的分工後我們的主程式是不是變得很乾淨呢？
+    #### index.js
+    ```js
+    require('dotenv').config(); //載入.env環境檔
+    const { initDrive } = require("./tools/initDrive.js");
+    const { crawlerFB } = require("./tools/crawlerFB.js");
+    const { crawlerIG } = require("./tools/crawlerIG.js");
 
-                //填入ig登入資訊
-                let ig_username_ele = await driver.wait(until.elementLocated(By.css("input[name='username']")), 3000);
-                ig_username_ele.sendKeys(ig_username)
-                let ig_password_ele = await driver.wait(until.elementLocated(By.css("input[name='password']")), 3000);
-                ig_password_ele.sendKeys(ig_userpass)
+    async function crawler () {
 
-                //抓到登入按鈕然後點擊
-                const login_elem = await driver.wait(until.elementLocated(By.css("button[type='submit']")), 3000)
-                login_elem.click()
+        const driver = initDrive();
+        //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
+        await crawlerIG(driver)
+        await crawlerFB(driver)
 
-                //登入後才會有右上角的頭像，我們以這個來判斷是否登入
-                await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)), 3000)
-                return true
-            } catch (e) {
-                console.error('IG登入失敗')
-                console.error(e)
-                return false
+        driver.quit();
+    }
+
+    crawler()
+    ```
+2. **一個函式做了太多事情**  
+    現在我們把FB的登入以及取得追蹤人數寫在同一隻函式，這樣會增加你日後維護的困難度，因為函式越長，你越難抓出錯誤的點；以loginFacebookGetTrace這隻函式舉例，它實際上可以解構成幾個部分：  
+    1. Facebook爬蟲 - crawlerFB
+    2. 登入Facebook - loginFacebook
+    3. 前往粉絲頁 - goFansPage
+    4. 取得追蹤人數 - getTrace
+    把每個功能獨立成函式，你就能輕鬆除錯(debug)。下面是FB的範例，你可以自己練習改寫IG的部分喔  
+    #### crawlerFB.js
+    ```js
+    const fb_username = process.env.FB_USERNAME
+    const fb_userpass = process.env.FB_PASSWORD
+    const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
+    exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
+
+    async function crawlerFB (driver) {
+        await loginFacebook(driver)
+        const fanpage = "https://www.facebook.com/baobaonevertell/" 
+        await goFansPage(driver, fanpage)
+        await getTrace(driver)
+    }
+
+    async function loginFacebook (driver) {
+        const web = 'https://www.facebook.com/login';//我們要前往FB
+        await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
+
+        //填入fb登入資訊
+        const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));
+        fb_email_ele.sendKeys(fb_username)
+        const fb_pass_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="pass"]`)));
+        fb_pass_ele.sendKeys(fb_userpass)
+
+        //抓到登入按鈕然後點擊
+        const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="loginbutton"]`)))
+        login_elem.click()
+
+        //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
+        await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
+    }
+
+    async function goFansPage (driver, web_url) {
+        //登入成功後要前往粉專頁面
+        await driver.get(web_url)
+    }
+
+    async function getTrace (driver) {
+        let fb_trace = 0;//這是紀錄FB追蹤人數
+        //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
+        const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
+        const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
+        for (const fb_trace_ele of fb_trace_eles) {
+            const fb_text = await fb_trace_ele.getText()
+            if (fb_text.includes('人在追蹤')) {
+                fb_trace = fb_text.replace(/\D/g, '')//只取數字
+                break
             }
         }
-        ```
-    2. **前往Instagram帳號函式(goFansPage)**
-        * 確認網址是否有效  
-            ex : 若 *web_url* 傳入參數並非網址(如：xzz://error_page)則會因不符合網址格式跳錯誤訊息
-        ```js
-        async function goFansPage (driver, web_url) {
-            //登入成功後要前往粉專頁面
-            try {
-                await driver.get(web_url)
-            } catch (e) {
-                console.error('無效的網址')
-                console.error(e)
-                return false
+        console.log(`FB追蹤人數：${fb_trace}`)
+    }
+    ```
+3. **將宣告的複雜的物件獨立成為函式**  
+    你可以觀察到有幾個**變數會被高頻率使用**，但是他的宣告真的超級複雜  
+    這時候我們就**應該把他獨立出來**，這樣你只需要在這隻副程式確認你宣告的物件是否都正常設定，而主程式很單純的使用回傳的物件即可
+    #### initDrive.js
+    ```js
+    exports.initDrive = initDrive;//讓其他程式在引入時可以使用這個函式
+
+    const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
+    const chrome = require('selenium-webdriver/chrome');
+    const options = new chrome.Options();
+    options.setUserPreferences({ 'profile.default_content_setting_values.notifications': 1 });//因為FB會有notifications干擾到爬蟲，所以要先把它關閉
+
+    const path = require('path');//用於處理文件路徑的小工具
+    const fs = require("fs");//讀取檔案用
+
+    function initDrive () {
+        checkDriver()//檢查driver是否設定
+
+        let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
+        //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
+        driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
+
+        return driver
+    }
+
+    function checkDriver () {
+        try { //確認driver是否設定
+            chrome.getDefaultService()
+        } catch {
+            console.log('找不到預設driver!');
+            const file_path = '../../chromedriver.exe'//請注意因為改到tools底下執行，所以chromedriver.exe的相對位置需要變更
+            console.log(path.join(__dirname, file_path));
+            if (fs.existsSync(path.join(__dirname, file_path))) {
+                const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();
+                chrome.setDefaultService(service);
+                console.log('設定driver路徑');
+            } else {
+                console.log('無法設定driver路徑');
             }
+
         }
-        ```
-    3. **獲取Instagram帳號追蹤人數函式(getTrace)**
-        * 確認追蹤人數的元件是否存在
-            ex : 當導向的並非Instagram帳號頁面，或者該帳號不存在時，會因找不到元件超時而跳錯誤訊息
-            ![image](./article_img/err_instagram.png)
-            ![image](./article_img/err_ig_terminal3.png)
-        * 確認該元件是否有title的Attribute
-        ```js
-        async function getTrace (driver) {
-            let ig_trace = 0;//這是紀錄IG追蹤人數
-            try {
-                const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
-                const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
-                // ig因為當人數破萬時文字不會顯示，所以改抓title
-                ig_trace = await ig_trace_ele.getAttribute('title')
-                ig_trace = ig_trace.replace(/\D/g, '')//只取數字
+    }
+    ```
 
-                return ig_trace
-            } catch (e) {
-                console.error('無法抓取IG追蹤人數')
-                console.error(e)
-                return null
-            }
-        }
-        ```
+我這篇文章是以自己的程式作為範例講解，如果你想更深入了解重構請，請閱讀[重構—改善既有的程式設計](https://medium.com/%E5%BE%8C%E7%AB%AF%E6%96%B0%E6%89%8B%E6%9D%91/%E7%AD%86%E8%A8%98-%E9%87%8D%E6%A7%8B-chapter-1-2-%E7%AC%AC%E4%B8%80%E5%80%8B%E7%AF%84%E4%BE%8B-%E9%87%8D%E6%A7%8B%E5%8E%9F%E5%89%87-ca57a6d40f42)，他深入淺出說明重構的原則讓我受益良多
 
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到瀏覽器依序登入IG & FB並跳轉到指定粉專，爬完資料關閉後，你就能看到FB & IG的追蹤人數嚕～  
+![image](./article_img/terminal.png)  
+如果你還有什麼問題或是覺得有可以改善的地方歡迎在下方留言討論  
 
->**筆者碎碎念**  
-try-catch的機制在程式越龐大的越重要，因為隨著開發的時間軸拉的越長，你對過去撰寫的程式掌握度會越來越低，甚至會忘記自己曾經寫了這一段程式碼；萬一在遙遠的某一天運轉好好的程式突然崩潰了，沒有撰寫try-catch的人在debug會浪費非常多的時間，因為他無法掌握是哪裡出錯了，所以建議大家培養撰寫try-catch的好習慣
-
-如果有時麼解釋不夠清楚的歡迎在下方留言討論喔    
-
-加入try-catch過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day12)喔
+專案原始碼
+----
+完整的重構過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day12)喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -113,4 +162,7 @@ cd day12
 yarn
 yarn start
 ```
-### [Day13 善用json讓你批量爬蟲](../day13/README.md)
+
+參考資料 : 
+1. [[Nodejs] module.exports 與 exports 的差別](https://blog.camel2243.com/2017/06/24/nodejs-module-exports-%E8%88%87-exports-%E7%9A%84%E5%B7%AE%E5%88%A5/)  
+### [Day13 try & catch讓程式更穩定](/day13/README.md)

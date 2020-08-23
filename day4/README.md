@@ -1,89 +1,84 @@
 #### [回目錄](../README.md)
-## Day4 env-程式的環境變數
+## Day4 開始Node.js旅程
 
-如果你曾經有撰寫網頁端的經驗，你也許體會過以下狀況
-1. 某些function只能在測試環境中使用，正式環境禁止執行
-2. 資料庫搬移到新環境，ip、username、password都需要修正
-3. 這份專案由多人維護，每個人都有個別的設定
-4. 專案在不同伺服器儲存的位置不一樣
-5. ...
-如果這些參數都分散在各個檔案，你在不同環境發佈的時候會改到很想死...
+相信大家應該都已經準備好開發的環境了  
+在開始前我會建議你在[github官網](https://github.com/)上面開一個帳號，這個網站會是一個讓你管理專案非常方便的工具，透過版本控管，你可以很清楚自己每天做了什麼事情，詳細的教學可以看參考[開始使用 GitHub， 註冊與建立repo](https://progressbar.tw/posts/3)這篇文章，裡面說的很詳細  
 
-所以環境變數的功能就是把這些**散佈在各個檔案且會在不同環境需要調整的參數集合到一個檔案**裡面，這樣就能讓你的程式在不同環境中快速發布   
-常用情境如下：
-1. 用來區分正式/測試環境
-2. 設定重要不得外流的資料(資料庫帳號、密碼，使用者權杖...)
-3. 需要統一設定的變數內容(系統ip、網址、port...)
+昨天所提到clean code的議題是困擾工程師的日常，我每天也還在為了達到這些目標而努力  
+而想要掌握clean code最快的方法就是實戰，你實戰的經驗越多，你的程式也會越朝著clean code前進，所以接下來我們先從Hello world這個簡單到爆炸的範例帶你進入nodejs的世界吧  
 
-不過今天講的是爬蟲，所以大家可以想一下以爬蟲來說有哪些資訊是需要放在環境變數的呢？  
-
-環境變數使用時機 & 範例
+第一個nodejs專案
 ----
-
-以下是需要放進環境變數的資料  
-1. **FB & IG的帳號密碼**
-原本我想要使用 FB & IG 提供的 api 來抓取我想要的追蹤者人數即每日發文篇數等等資訊，但實際研究後發現由於隱私安全相關問題，所以他們提供的api只能查自己有權限的粉專，所以我**放棄使用官方api 改用 selenium 網頁模擬器**來做爬蟲，在實際操作中發現以下規則，所以只能使用真實存在的帳戶來作為爬蟲帳戶:
-    + FB 部分粉專必須要登入後才能觀看
-    + IG則是全部都要登入，部分粉專要按追蹤才能觀看    
-2. **google sheet的id**
-比起產生一份excel文件，我認為雲端的google sheet是更好的方法，因為你可以隨時隨地觀看
-3. **執行爬蟲時間**
-因為執行爬蟲時間可能每個人都不一樣，所以把他列為可變參數
-
-以下為環境變數的範例檔
-##### .env.exmaple
-```
-#填寫你目標放入的sheet id
-SPREADSHEET_ID='your sheet id'
-
-#你FB及IG的帳號密碼(建議用小帳號)
-IG_USERNAME='ig username'
-IG_PASSWORD='ig password'
-FB_USERNAME='fb username'
-FB_PASSWORD='fb password'
-
-#這是設定排程的時間參數(目前預設每日22:30準時執行)
-CRONJOB_TIME='0 30 20 * * *'
-```
-實作上你需要將他複製一份到.env檔到你的專案資料夾，並填上自己正確的資訊(但這份檔案千萬不要上傳到git上面，如何操作再下一篇會有詳細說明)
-
-在node.js專案讀取.env的資料
-----
-我們需要安裝一個 **dotenv** 的套件來抓.env的資料
-```
-yarn add dotenv
-```
-透過這個套件，我們便可以在程式中以 **process.env.xxx(xxx是你的命名)** 來讀取環境變數
-##### index.js
+請你先建立好專案的資料夾，並使用VScode打開它  
+接著新增一個 **index.js** 的檔案，內容如下
 ```js
-require('dotenv').config(); //載入.env環境檔
-function getEnvVariable () {
-    const env_variable= process.env.YOUR_VARIABLE // 取出環境變數
-    console.log(env_variable)
+function helloWorld () { // 創建函式
+    const content = 'helloWorld' // 給變數內容
+    console.log(content) // 用日誌將內容印出來
 }
-getEnvVariable()
+helloWorld() // 一進入就觸發
 ```
-設定環境檔內容
-##### .env
-```
-YOUR_VARIABLE='這是環境變數'
-```
+在這短短5行的程式裡面其實就有很多需要注意的事情
+1. 函式命名規則
+2. 變數命名規則
+3. 宣告變數
+4. 程式日誌
+5. 註解  
+
+大家可以用這超級簡短的程式與昨日提到clean code做相互印證  
+
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** 如果有輸出"這是環境變數"的字串就代表你成功嚕～
+新增完檔案後打開終端機(Termial)如下圖
 ![image](./article_img/terminal.png)  
 
-專案原始碼
+在專案資料夾的終端機(Terminal)執行指令 **node index.js** 如果有印出 **helloWorld** 的字串那就代表你踏出成功的第一步了
+![image](./article_img/terminal2.png)  
+
+package.json讓你站在巨人的肩膀 
 ----
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day4)找到喔
-你可以整個專案clone下來  
+在昨天的文章有提到**不要重複造輪子**，多使用別人已經完善的套件  
+請輸入指令來建立package.json，裡面會問你一些問題，你可以自由填寫，這些內容之後都可以修改
 ```
-git clone https://github.com/dean9703111/ithelp_30days.git
+npm init
 ```
-如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
+下面是建立好的範例pacakge.json(真實的package.json不可以用//來當備註喔，下面範例加上備註只是為了讓大家方便理解)
+```js
+{
+  "name": "crawler",// 專案名稱，全部小寫，不允許空格
+  "version": "0.0.1",// 須符合x.x.x的格式
+  "description": "FB & IG 爬蟲30天鐵人文章",//專案描述
+  "author": "dean lin",//作者名字
+  "dependencies": {},//在正式環境中會用到的pacakge
+  "devDependencies": {},//在開發、測試環境中會用到的pacakge
+  "scripts": {//支援的command
+    "start": "node index.js"
+  },
+  "main": "index.js",//入口檔案
+  "license": "ISC"//協議
+}
 ```
-git pull origin master
-cd day4
+license有區分成很多種，如果有興趣的朋友可以參考[文章1](https://www.jianshu.com/p/86251523e898)(簡中)、[文章2](https://medium.com/@yo8568/git-%E5%B0%8F%E7%AD%86%E8%A8%98-github-%E4%B8%8A-commit-fdc95aaf3099)裡面講解的很詳細喔  
+
+善用scripts(腳本)執行程式
+----
+我想聰明的讀者們應該注意到我在scripts裡面寫 **"start": "node index.js"** 這段指令了  
+scripts可以讓你自由定義這個專案底下的command，以這個package.json為範例，你可以在終端機(Termial)改用如下指令來執行index.js
+```
+npm start
+```
+如果你有乖乖安裝yarn的環境，也可以用如下指令執行
+```
 yarn start
 ```
-### [Day5 gitignore-請勿上傳敏感、主程式以外的資料](../day5/README.md)
+專案原始碼
+----
+上面這些專案的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day4)找到喔，或是你可以整個專案clone下來
+```
+git clone https://github.com/dean9703111/ithelp_30days.git
+cd ithelp_30days/day4
+yarn start
+```
+
+如果大家對於文章的內容有任何想法歡迎討論，希望這片文章有給正在學習程式的人一些幫助與方向
+### [Day5 env-程式的環境變數](/day5/README.md)

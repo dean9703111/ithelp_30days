@@ -1,7 +1,6 @@
 const fs = require('fs');
 const readline = require('readline');
-const { google } = require('googleapis');
-require('dotenv').config(); //載入.env環境檔
+const {google} = require('googleapis');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
@@ -14,7 +13,7 @@ const TOKEN_PATH = 'token.json';
 fs.readFile('credentials/googleSheets.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Sheets API.
-  authorize(JSON.parse(content), listMySheet);
+  authorize(JSON.parse(content), listMajors);
 });
 
 /**
@@ -23,10 +22,10 @@ fs.readFile('credentials/googleSheets.json', (err, content) => {
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize (credentials, callback) {
-  const { client_secret, client_id, redirect_uris } = credentials.installed;
+function authorize(credentials, callback) {
+  const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
-    client_id, client_secret, redirect_uris[0]);
+      client_id, client_secret, redirect_uris[0]);
 
   // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, (err, token) => {
@@ -42,7 +41,7 @@ function authorize (credentials, callback) {
  * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
  * @param {getEventsCallback} callback The callback for the authorized client.
  */
-function getNewToken (oAuth2Client, callback) {
+function getNewToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES,
@@ -67,22 +66,27 @@ function getNewToken (oAuth2Client, callback) {
   });
 }
 
-
-async function listMySheet (auth) {
-  const sheets = google.sheets({ version: 'v4', auth });
-  const title = '我的sheet'//請你更改成自己設定的sheet(工作表)名稱
-  const request = {
-    spreadsheetId: process.env.SPREADSHEET_ID,
-    range: [
-      `'${title}'!A:ZZ`//這是指抓取的範圍，你也可以改寫成A1:A300(抓第1欄的第1列到第300列)
-    ],
-    valueRenderOption: "FORMULA"//FORMATTED_VALUE|UNFORMATTED_VALUE|FORMULA
-  }
-  try {
-    //這裡改寫為await，之後會有順序執行的需求
-    let values = (await sheets.spreadsheets.values.get(request)).data.values;
-    console.log(values)
-  } catch (err) {
-    console.error(err);
-  }
+/**
+ * Prints the names and majors of students in a sample spreadsheet:
+ * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+ * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
+ */
+function listMajors(auth) {
+  const sheets = google.sheets({version: 'v4', auth});
+  sheets.spreadsheets.values.get({
+    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+    range: 'Class Data!A2:E',
+  }, (err, res) => {
+    if (err) return console.log('The API returned an error: ' + err);
+    const rows = res.data.values;
+    if (rows.length) {
+      console.log('Name, Major:');
+      // Print columns A and E, which correspond to indices 0 and 4.
+      rows.map((row) => {
+        console.log(`${row[0]}, ${row[4]}`);
+      });
+    } else {
+      console.log('No data found.');
+    }
+  });
 }

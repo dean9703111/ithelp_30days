@@ -85,4 +85,4 @@
 
 參考資源:  
 [101句 值得收藏的座右銘](https://arielhsu.tw/encourage-motto/)  
-### [Day2 工欲善其事，必先利其器，coding環境大補帖](../day2/README.md)
+### [Day2 工欲善其事，必先利其器，coding環境大補帖](/day2/README.md)

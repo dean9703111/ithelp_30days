@@ -1,106 +1,106 @@
 #### [回目錄](../README.md)
-## Day13 善用json讓你批量爬蟲
+## Day13 try-catch讓程式更穩定
 
-今天說的這個部分應該是大部分小編最關心的，要每天手動瀏覽那麼多的粉專想想都很崩潰  
-今天要來跟大家介紹的一個很棒的文本格式 **json** (JavaScript Object Notation) ，他同時也是網頁api回傳最常見的一種格式  
-我的文章偏向如何應用，如果你想對json有更深刻的理解請參考[這篇文章](https://www.footmark.info/programming-language/javascript/json-format-and-javascript/)裡面寫的超級詳盡、淺顯易動  
+在[Day7 selenium-爬蟲起手式](../day7/README.md)有使用到try-catch來解決如果抓不到chrome driver的例外事件，今天我們會更清楚的說明如何讓try-catch幫助你更高效的debug以及增加程式穩定性  
 
-json實作
+try-catch使用情境
 ----
-因為我們的目標就是搜集粉專並做分析，因為有多個粉專所以最外層是用 **陣列(array)** ，而單純從粉專連結上我們無法直覺的判斷出他是誰的粉專，所以裡面會用 **物件(object)** 來設定title及url這兩個屬性，json結構如下
-```json
-[
-    {
-        "title": "粉專A",
-        "url": "粉專A連結"
-    },
-    {
-        "title": "粉專B",
-        "url": "粉專B連結"
-    }  
-]
-```
+實際上我們現在的程式是非常脆落的，只要發生例外事件很容易就會崩潰，下面讓我舉例讓程式崩潰(或是卡住)的方式：  
+1. 把Facebook跟Instagram網址改成不存在的網址 &rarr; 會因為網頁不存在而卡在那個畫面
+2. 把粉專的網址改成不存在的網址 &rarr; 程式會因為無法抓到要讀取的元件而崩潰
+3. 把粉專的網址改成不存在的粉專(或是移除的粉專) &rarr; 程式會因為無法抓到要讀取的元件而崩潰
 
-大家請先在專案資料夾中建立 **json** 的資料夾專門存放你想要使用的json檔案，並在json資料夾中新增 **ig.json、fb.json** 這兩個檔案並寫入你希望去爬蟲的網址及他對應的名稱，如果把上面的json結構套用到 **ig.json** ，實際上就會長得像這樣(筆者是以下貼圖的狂熱愛好者，歡迎一起追蹤按愛心ＸＤ)
-#### ig.json
-```json
-[
-    {
-        "title": "寶寶不說",
-        "url": "https://www.instagram.com/baobaonevertell/"
-    },
-    {
-        "title": "松尼",
-        "url": "https://www.instagram.com/sweethouse.sl/"
-    },
-    {
-        "title": "麻糬爸",
-        "url": "https://www.instagram.com/mochi_dad/"
-    },
-    {
-        "title": "好想兔",
-        "url": "https://www.instagram.com/chien_chien0608/"
-    },
-    {
-        "title": "ㄇㄚˊ幾兔",
-        "url": "https://www.instagram.com/machiko324/"
-    }
-]
-```
+以上舉例幾個最直覺讓程式壞掉的案例，為了避免這些悲劇的發生，try-catch就是我們的好朋友，以下是要注意的地方：  
+1. 你的try-catch建議不要一次包含太多的程式碼，過於冗長的程式碼會增加你除錯難度
+2. 除了系統自行吐出的exception以外，建議你也要附上console.error('我在哪個步驟錯了')
+3. 因為我們在抓網頁元件時用了wait...until的結構，如果我們沒有設定他最多等待幾秒，他會等到天荒地老，所以請全部加上等待的時間，否則try-catch也幫不了你
+4. 能透過例外處理減少多餘的步驟，像是Instagram我們一定要登入後才能爬蟲，所以我們就可以設定當登入失敗時(讓函式return false)不會執行後續步驟
 
-程式撰寫要點
+try-catch實作
 ----
-* 只需要把這份json給引入(請注意路徑)就可以直接使用了  
-    ```js
-    const fanpage_array = require('../json/ig.json');
-    ```
-* 程式的部分只要改寫成for迴圈即可
-    ```js
-    for (fanpage of fanpage_array) {
-        // 撰寫你要對fanpage做的事       
-    }
-    ```
-* 我們要當個好爬蟲，每個頁面設定爬蟲間隔3-6秒(這裡我們使用Math.random()取得區間亂數)，不要因為自己的爬蟲造成別人伺服器的負擔
-    ```js
-    await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
-    ```
-* 統整後完整程式如下
-    #### crawlerIG.js
-    ```js
-    const fanpage_array = require('../json/ig.json');
-    const ig_username = process.env.IG_USERNAME
-    const ig_userpass = process.env.IG_PASSWORD
-    const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
-    exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
+* 下面以IG爬蟲舉例，大家可以參考看看並思考FB爬蟲的部分你要如何改寫，若其中有一個條件錯誤就會拋出錯誤訊息
+    1. **登入Instagram函式(loginInstagram)**
+        * 登入的網址是否為網址  
+            ex : 將 *const web = 'https://www.instagram.com/accounts/login';* 這段改為*const web = 'error'; 會因不符合網址格式跳錯誤訊息
+            ![image](./article_img/err_ig_terminal1.png)
+        * 登入頁面是否有username、password、submit的元件  
+            ex : 將 *const web = 'https://www.instagram.com/accounts/login';* 這段改為*const web = 'https://www.google.com'; 會因找不到元件超時而跳錯誤訊息)
+            ![image](./article_img/err_ig_terminal2.png)
+        * 若用到driver.wait皆需要設定最多等待時間否則會卡住
+        * 登入成功後是否有_47KiJ的class
+        ```js
+        async function loginInstagram (driver) {
+            const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
+            try {
+                await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
-    async function crawlerIG (driver) {
-        const isLogin = await loginInstagram(driver, By, until)
-        if (isLogin) {//如果登入成功才執行下面的動作
-            console.log(`IG開始爬蟲`)
-            for (fanpage of fanpage_array) {
-                await goFansPage(driver, fanpage.url)
-                const trace = await getTrace(driver, By, until)
-                if (trace === null) {
-                    console.log(`${fanpage.title}無法抓取追蹤人數`)
-                } else {
-                    console.log(`${fanpage.title}追蹤人數：${trace}`)
-                }
-                await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
+                //填入ig登入資訊
+                let ig_username_ele = await driver.wait(until.elementLocated(By.css("input[name='username']")), 3000);
+                ig_username_ele.sendKeys(ig_username)
+                let ig_password_ele = await driver.wait(until.elementLocated(By.css("input[name='password']")), 3000);
+                ig_password_ele.sendKeys(ig_userpass)
+
+                //抓到登入按鈕然後點擊
+                const login_elem = await driver.wait(until.elementLocated(By.css("button[type='submit']")), 3000)
+                login_elem.click()
+
+                //登入後才會有右上角的頭像，我們以這個來判斷是否登入
+                await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)), 3000)
+                return true
+            } catch (e) {
+                console.error('IG登入失敗')
+                console.error(e)
+                return false
             }
         }
-    }
-    ...
-    ```
+        ```
+    2. **前往Instagram帳號函式(goFansPage)**
+        * 確認網址是否有效  
+            ex : 若 *web_url* 傳入參數並非網址(如：xzz://error_page)則會因不符合網址格式跳錯誤訊息
+        ```js
+        async function goFansPage (driver, web_url) {
+            //登入成功後要前往粉專頁面
+            try {
+                await driver.get(web_url)
+            } catch (e) {
+                console.error('無效的網址')
+                console.error(e)
+                return false
+            }
+        }
+        ```
+    3. **獲取Instagram帳號追蹤人數函式(getTrace)**
+        * 確認追蹤人數的元件是否存在
+            ex : 當導向的並非Instagram帳號頁面，或者該帳號不存在時，會因找不到元件超時而跳錯誤訊息
+            ![image](./article_img/err_instagram.png)
+            ![image](./article_img/err_ig_terminal3.png)
+        * 確認該元件是否有title的Attribute
+        ```js
+        async function getTrace (driver) {
+            let ig_trace = 0;//這是紀錄IG追蹤人數
+            try {
+                const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
+                const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
+                // ig因為當人數破萬時文字不會顯示，所以改抓title
+                ig_trace = await ig_trace_ele.getAttribute('title')
+                ig_trace = ig_trace.replace(/\D/g, '')//只取數字
 
-執行程式
-----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到瀏覽器依序登入IG & FB並跳轉到你所列出的粉專，大概喝一口水的時間後，你就能看到FB & IG的追蹤人數嚕～  
-![image](./article_img/terminal.png)  
-搭配上json後有沒有覺得自己功力大增XD，上面的是IG的範例，大家可以自己嘗試看看FB部分的如何改寫喔～
+                return ig_trace
+            } catch (e) {
+                console.error('無法抓取IG追蹤人數')
+                console.error(e)
+                return null
+            }
+        }
+        ```
 
-專案原始碼
-----
-加入json後改寫的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day13)喔
+
+>**筆者碎碎念**  
+try-catch的機制在程式越龐大的越重要，因為隨著開發的時間軸拉的越長，你對過去撰寫的程式掌握度會越來越低，甚至會忘記自己曾經寫了這一段程式碼；萬一在遙遠的某一天運轉好好的程式突然崩潰了，沒有撰寫try-catch的人在debug會浪費非常多的時間，因為他無法掌握是哪裡出錯了，所以建議大家培養撰寫try-catch的好習慣
+
+如果有時麼解釋不夠清楚的歡迎在下方留言討論喔    
+
+加入try-catch過的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day13)喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -113,4 +113,4 @@ cd day13
 yarn
 yarn start
 ```
-### [Day14 優化爬蟲體驗 && 思路分享](../day14/README.md)
+### [Day14 善用json讓你批量爬蟲](/day14/README.md)

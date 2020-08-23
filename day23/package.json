@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node  -e 'require(\"./index\").crawler()'",
     "win_start": "node  -e \"require('./index').crawler()\"",
-    "forever":"forever stopall && forever --minUptime=1000 --spinSleepTime=1000 -w start tools/cron.js"
+    "cron":"node tools/cron.js"
   },
   "main": "index.js",
   "license": "ISC"
