@@ -1,7 +1,7 @@
 #### [回目錄](../README.md)
 ## Day12 try-catch讓程式更穩定
 
-在[Day6 爬蟲起手式selenium](../day6/README.md)有使用到try-catch來解決如果抓不到chrome driver的例外事件，今天我們會更清楚的說明如何讓try-catch幫助你更高效的debug以及增加程式穩定性  
+在[Day6 selenium-爬蟲起手式](../day6/README.md)有使用到try-catch來解決如果抓不到chrome driver的例外事件，今天我們會更清楚的說明如何讓try-catch幫助你更高效的debug以及增加程式穩定性  
 
 try-catch使用情境
 ----

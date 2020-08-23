@@ -163,4 +163,4 @@ cd day10
 yarn
 yarn start
 ```
-### [Day11 重構程式碼，讓合作夥伴對你比讚](../day11/README.md)
+### [Day11 refactor-重構程式碼，讓合作夥伴對你比讚](../day11/README.md)

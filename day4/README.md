@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day4 程式的環境變數
+## Day4 env-程式的環境變數
 
 如果你曾經有撰寫網頁端的經驗，你也許體會過以下狀況
 1. 某些function只能在測試環境中使用，正式環境禁止執行
@@ -86,4 +86,4 @@ git pull origin master
 cd day4
 yarn start
 ```
-### [Day5 請勿上傳敏感、主程式以外的資料](../day5/README.md)
+### [Day5 gitignore-請勿上傳敏感、主程式以外的資料](../day5/README.md)

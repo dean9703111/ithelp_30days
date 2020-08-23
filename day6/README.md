@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day6 爬蟲起手式selenium
+## Day6 selenium-爬蟲起手式
 
 selenium-webdriver
 ----

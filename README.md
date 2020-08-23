@@ -30,16 +30,16 @@
 
 * 專案基礎知識
     * [Day3 什麼是好的程式碼，開始Node.js旅程](/day3/README.md)
-    * [Day4 程式的環境變數](/day4/README.md)
-    * [Day5 請勿上傳敏感、主程式以外的資料](/day5/README.md)
+    * [Day4 env-程式的環境變數](/day4/README.md)
+    * [Day5 gitignore-請勿上傳敏感、主程式以外的資料](/day5/README.md)
 
 * 網頁爬蟲
-    * [Day6 爬蟲起手式selenium](/day6/README.md)
+    * [Day6 selenium-爬蟲起手式](/day6/README.md)
     * [Day7 分析Facebook網頁結構，打造自動登入FaceBook的機器人](/day7/README.md)
     * [Day8 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day8/README.md)
     * [Day9 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](/day9/README.md)
     * [Day10 小孩子才選擇，我要一隻程式爬完FB & IG粉專](/day10/README.md)
-    * [Day11 重構程式碼，讓合作夥伴對你比讚](/day11/README.md)
+    * [Day11 refactor-重構程式碼，讓合作夥伴對你比讚](/day11/README.md)
     * [Day12 try & catch讓程式更穩定](/day12/README.md)
     * [Day13 善用json讓你批量爬蟲](/day13/README.md)
     * [Day14 優化爬蟲體驗 && 思路分享](/day14/README.md)

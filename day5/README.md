@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day5 請勿上傳敏感、主程式以外的資料
+## Day5 gitignore-請勿上傳敏感、主程式以外的資料
 
 今天介紹一個好用的東西 **.gitignore**，他是一份忽略清單，通常忽略清單上的都是不需要加入版本控制的檔案  
 常見在忽略清單的檔案類型如下：
@@ -70,4 +70,4 @@ git pull origin master
 cd day5
 yarn start
 ```
-### [Day6 爬蟲起手式selenium](../day6/README.md)
+### [Day6 selenium-爬蟲起手式](../day6/README.md)
