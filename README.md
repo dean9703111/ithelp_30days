@@ -26,10 +26,10 @@
 
 * 起源
     * [Day1 技術陪你一陣子，邏輯陪你一輩子](/day1/README.md)
-    * [Day2 工欲善其事，必先利其器](/day2/README.md)
+    * [Day2 工欲善其事，必先利其器，coding環境大補帖](/day2/README.md)
 
 * 專案基礎知識
-    * [Day3 對工具的基礎掌握，開始Node.js旅程](/day3/README.md)
+    * [Day3 什麼是好的程式碼，開始Node.js旅程](/day3/README.md)
     * [Day4 程式的環境變數](/day4/README.md)
     * [Day5 請勿上傳敏感、主程式以外的資料](/day5/README.md)
 

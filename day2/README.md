@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day2 工欲善其事，必先利其器
+## Day2 工欲善其事，必先利其器，coding環境大補帖
 
 >**筆者碎碎念**  
 我想先分享一個心態，無論是面對工作還是外包都一樣  
@@ -121,4 +121,4 @@ VScode [官網](https://code.visualstudio.com/)
 參考資源:  
 1. [Windows 10 安裝並使用 nvm 切換 NodeJS 版本](https://hsiangfeng.github.io/nodejs/20200107/3738078915/)
 
-### [Day3 對工具的基礎掌握，開始Node.js旅程](../day3/README.md)
+### [Day3 什麼是好的程式碼，開始Node.js旅程](../day3/README.md)
