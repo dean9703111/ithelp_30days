@@ -29,7 +29,7 @@ try-catch實作
         * 若用到driver.wait皆需要設定最多等待時間否則會卡住
         * 登入成功後是否有_47KiJ的class
         ```js
-        async function loginInstagram (driver, By, until) {
+        async function loginInstagram (driver) {
             const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
             try {
                 await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
@@ -76,7 +76,7 @@ try-catch實作
             ![image](./article_img/err_ig_terminal3.png)
         * 確認該元件是否有title的Attribute
         ```js
-        async function getTrace (driver, By, until) {
+        async function getTrace (driver) {
             let ig_trace = 0;//這是紀錄IG追蹤人數
             try {
                 const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`

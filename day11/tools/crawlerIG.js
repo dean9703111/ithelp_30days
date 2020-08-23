@@ -1,16 +1,18 @@
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
-
+const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+    until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
 exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
 
-async function crawlerIG (driver, By, until) {
-    await loginInstagram(driver, By, until)
+async function crawlerIG(driver) {
+    await loginInstagram(driver)
     const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await goFansPage(driver, fanpage)
-    await getTrace(driver, By, until)
+    await getTrace(driver)
 }
 
-async function loginInstagram (driver, By, until) {
+async function loginInstagram(driver) {
     const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
@@ -28,12 +30,12 @@ async function loginInstagram (driver, By, until) {
     await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)))
 }
 
-async function goFansPage (driver, web_url) {
+async function goFansPage(driver, web_url) {
     //登入成功後要前往粉專頁面
     await driver.get(web_url)
 }
 
-async function getTrace (driver, By, until) {
+async function getTrace(driver) {
     let ig_trace = 0;//這是紀錄IG追蹤人數
     const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
     const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    

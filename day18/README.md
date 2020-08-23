@@ -42,7 +42,7 @@ async function writeSheet (title, array, auth) {//auth為憑證通過後取得
   3. trace: 追蹤人數
   下面以 **crawlerFB** 為範例，我們在try-catch的後面加上 **finally** ，finally代表在try-catch結束後會執行的任務，我將把object存入array的任務放在最後執行，並在跑完for迴圈後return這個array
   ```js
-  async function crawlerFB (driver, By, until) {
+  async function crawlerFB (driver) {
       const isLogin = await loginFacebook(driver, By, until)
       if (isLogin) {//如果登入成功才執行下面的動作
           console.log(`FB開始爬蟲`)
@@ -75,8 +75,8 @@ async function writeSheet (title, array, auth) {//auth為憑證通過後取得
   ```
 * 主程式index.js在收到crawlerIG、crawlerFB回傳的array後提供給updateGoogleSheets當參數
   ```js
-  const ig_result_array = await crawlerIG(driver, By, until)
-  const fb_result_array = await crawlerFB(driver, By, until)
+  const ig_result_array = await crawlerIG(driver)
+  const fb_result_array = await crawlerFB(driver)
   driver.quit();
   //處理Google Sheets相關動作
   await updateGoogleSheets(ig_result_array, fb_result_array)

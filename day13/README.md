@@ -70,9 +70,12 @@ json實作
     const fanpage_array = require('../json/ig.json');
     const ig_username = process.env.IG_USERNAME
     const ig_userpass = process.env.IG_PASSWORD
+    const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+        By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+        until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
     exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
 
-    async function crawlerIG (driver, By, until) {
+    async function crawlerIG (driver) {
         const isLogin = await loginInstagram(driver, By, until)
         if (isLogin) {//如果登入成功才執行下面的動作
             console.log(`IG開始爬蟲`)

@@ -1,9 +1,12 @@
 const fanpage_array = require('../json/fb.json');
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
+const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+    until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
 exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
 
-async function crawlerFB (driver, By, until) {
+async function crawlerFB (driver) {
     const isLogin = await loginFacebook(driver, By, until)
     if (isLogin) {//如果登入成功才執行下面的動作
         console.log(`FB開始爬蟲`)
@@ -20,7 +23,7 @@ async function crawlerFB (driver, By, until) {
     }
 }
 
-async function loginFacebook (driver, By, until) {
+async function loginFacebook (driver) {
     const web = 'https://www.facebook.com/login';//我們要前往FB
     try {
         await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
@@ -56,7 +59,7 @@ async function goFansPage (driver, web_url) {
     }
 }
 
-async function getTrace (driver, By, until) {
+async function getTrace (driver) {
     let fb_trace = 0;//這是紀錄FB追蹤人數
     try {
         //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析

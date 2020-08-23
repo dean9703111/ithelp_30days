@@ -91,13 +91,13 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
     ]
     const online_sheets = await getSheets(auth)//抓目前存在的sheet
     let sheet_id_array = []
-    online_sheets.forEach(online_sheet => {//抓出已經存在的sheet_id壁面產生出一樣的id
+    online_sheets.forEach(online_sheet => {//抓出已經存在的sheet_id避免產生出一樣的id
       sheet_id_array.push(online_sheet.properties.sheetId)
     })
 
     for (sheet of sheets) {
       online_sheets.forEach(online_sheet => {
-        if (sheet.title == online_sheet.properties.title) {
+        if (sheet.title == online_sheet.properties.title) {// 如果線上已經存在相同的sheet title就直接使用相同id
           sheet.id = online_sheet.properties.sheetId
         }
       })
@@ -187,10 +187,10 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
   const { updateGoogleSheets } = require("./tools/googleSheets.js");
 
   async function crawler () {
-      // const { driver, By, until } = initDrive();
+      // const driver = initDrive();
       // //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
-      // await crawlerIG(driver, By, until)
-      // await crawlerFB(driver, By, until)
+      // await crawlerIG(driver)
+      // await crawlerFB(driver)
       // driver.quit();
       //處理Google Sheets相關動作
       await updateGoogleSheets()

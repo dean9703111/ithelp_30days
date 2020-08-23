@@ -164,7 +164,7 @@
         ```
 編輯.gitignore
 --------------------------------------------------------
-無論是最後產生的token.json還是在credentials資料夾裡面的憑證都不適合上傳到git上面，所以你要調整.gitignore如下  
+無論是最後產生的token.json還是在credentials資料夾裡面的憑證都不適合上傳到git上面，所以你要調整.gitignore如下，不熟悉的朋友可以參考[Day5 請勿上傳敏感、主程式以外的資料](../day5/README.md)的文章喔  
 ```
 node_modules
 .env

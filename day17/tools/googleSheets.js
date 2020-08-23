@@ -118,13 +118,13 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
   ]
   const online_sheets = await getSheets(auth)//抓目前存在的sheet
   let sheet_id_array = []
-  online_sheets.forEach(online_sheet => {//抓出已經存在的sheet_id壁面產生出一樣的id
+  online_sheets.forEach(online_sheet => {//抓出已經存在的sheet_id避免產生出一樣的id
     sheet_id_array.push(online_sheet.properties.sheetId)
   })
 
   for (sheet of sheets) {
     online_sheets.forEach(online_sheet => {
-      if (sheet.title == online_sheet.properties.title) {
+      if (sheet.title == online_sheet.properties.title) {// 如果線上已經存在相同的sheet title就直接使用相同id
         sheet.id = online_sheet.properties.sheetId
       }
     })
