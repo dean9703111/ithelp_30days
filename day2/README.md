@@ -108,12 +108,12 @@ VScode [官網](https://code.visualstudio.com/)
 
 現在已經過了用記事本在打程式的年代了，透過IDE(整合開發環境)可以大幅增加你撰寫程式的速度
 ##### 優點
-1. 適合新手：不需再在終端機下安裝及設定各種前置作業，能節省建立開發環境的成本，並加速對開發環境的了解。
-2. 執行代碼：可以在IDE內直接執行一段程式碼，不需離開編輯器。
-3. 代碼高亮：將原始碼以不同顏色顯現，讓我們閱讀更方便。
-4. 代碼智能格式化：當輸入if或while時，編輯器知道下一行要縮進。
+1. 適合新手：不需在終端機(Terminal)安裝及設定各種前置作業，能節省建立開發環境的成本，並加速對開發環境的了解。
+2. 執行程式：可以在IDE內直接執行一段程式碼，不需離開編輯器。
+3. 程式碼高亮：將原始碼以不同顏色顯現，讓我們閱讀更方便。
+4. 程式碼自動格式化：當輸入if或while時，他會自動縮排。
 5. 版本控制方便：git add、git commit有GUI可以操作，並且有work tree讓你比對自己更改了哪些地方
->以上文字擷取於[一應俱全的整合開發環境IDE](https://docs.f5ezcode.in/cs-basic/di-ba-zhang-gong-cheng-de-gong-ju/8.1-zheng-he-jing-ide)文章段落
+6. 功能擴充方便：能透過Extentions來安裝所需要的擴充的套件
 
 [VScode下載頁面](https://code.visualstudio.com/)  
 
@@ -121,5 +121,5 @@ VScode [官網](https://code.visualstudio.com/)
 
 參考資源:  
 1. [Windows 10 安裝並使用 nvm 切換 NodeJS 版本](https://hsiangfeng.github.io/nodejs/20200107/3738078915/)
-
+2. [一應俱全的整合開發環境IDE](https://docs.f5ezcode.in/cs-basic/di-ba-zhang-gong-cheng-de-gong-ju/8.1-zheng-he-jing-ide)
 ### [Day3 什麼是好的程式碼，開始Node.js旅程](/day3/README.md)
