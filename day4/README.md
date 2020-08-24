@@ -1,31 +1,29 @@
 #### [回目錄](../README.md)
 ## Day4 開始Node.js旅程
 
-相信大家應該都已經準備好開發的環境了  
-在開始前我會建議你在[github官網](https://github.com/)上面開一個帳號，這個網站會是一個讓你管理專案非常方便的工具，透過版本控管，你可以很清楚自己每天做了什麼事情，詳細的教學可以看參考[開始使用 GitHub， 註冊與建立repo](https://progressbar.tw/posts/3)這篇文章，裡面說的很詳細  
+相信大家都已經準備好開發的環境了  
+在開始前我會建議你在[github官網](https://github.com/)上面開一個帳號，這個網站會是一個讓你管理專案非常方便的工具，透過版本控管，你可以很清楚自己每天做了什麼事情，如果commit寫得詳細一點會讓你未來想要復活某一個已經刪除的功能時有很大幫助(或是找出bug兇手時很有用XD)
 
 昨天所提到clean code的議題是困擾工程師的日常，我每天也還在為了達到這些目標而努力  
-而想要掌握clean code最快的方法就是實戰，你實戰的經驗越多，你的程式也會越朝著clean code前進，所以接下來我們先從Hello world這個簡單到爆炸的範例帶你進入nodejs的世界吧  
+而想要掌握clean code最快的方法就是實戰，你實戰的經驗越多，你的程式也會越朝著clean code前進  
+
+本日目標
+---
+1. 建立node.js專案
+2. 學會如何在終端機下指令執行node.js
+3. 了解package.json各項參數的意義，並且會使用scipts來執行node.js
 
 第一個nodejs專案
 ----
-請你先建立好專案的資料夾，並使用VScode打開它  
-接著新增一個 **index.js** 的檔案，內容如下
-```js
-function helloWorld () { // 創建函式
-    const content = 'helloWorld' // 給變數內容
-    console.log(content) // 用日誌將內容印出來
-}
-helloWorld() // 一進入就觸發
-```
-在這短短5行的程式裡面其實就有很多需要注意的事情
-1. 函式命名規則
-2. 變數命名規則
-3. 宣告變數
-4. 程式日誌
-5. 註解  
-
-大家可以用這超級簡短的程式與昨日提到clean code做相互印證  
+1. 請你先建立好專案的資料夾，並使用VScode打開它  
+2. 接著新增一個 **index.js** 的檔案，內容如下
+    ```js
+    function helloWorld () { // 創建函式
+        const content = 'helloWorld' // 給變數內容
+        console.log(content) // 用日誌將內容印出來
+    }
+    helloWorld() // 觸發
+    ```
 
 執行程式
 ----
@@ -55,10 +53,23 @@ npm init
     "start": "node index.js"
   },
   "main": "index.js",//入口檔案
-  "license": "ISC"//協議
+  "license": "MIT"//協議
 }
 ```
-license有區分成很多種，如果有興趣的朋友可以參考[文章1](https://www.jianshu.com/p/86251523e898)(簡中)、[文章2](https://medium.com/@yo8568/git-%E5%B0%8F%E7%AD%86%E8%A8%98-github-%E4%B8%8A-commit-fdc95aaf3099)裡面講解的很詳細喔  
+### license
+這裡特別獨立說明一下license，因為他會影響到使用者的權益
+1. 你可以依據下圖[來源](https://progressbar.tw/posts/61)，釐清自己的需求來做選擇
+![image](./article_img/content_License.png)
+
+2. 或者用表格[來源](https://noob.tw/open-source-licenses/)看是否符合需求
+|條款             |GPL|LGPL|BSD|APACHE|MIT|
+|---|---|---|---|---|---|
+|公開原始碼        |✓  |✓   |		|       |  |	
+|以同樣方式授權     |✓  |✓   |	 |       |	|	
+|標註修改的部分     |✓  |✓   |	 |✓      |  |
+|必須包含 Copyright|✓  |✓   |✓	|✓      |✓ |
+|必須包含 License  |✓  |✓   |		|✓      |✓ |
+
 
 善用scripts(腳本)執行程式
 ----
@@ -80,5 +91,11 @@ cd ithelp_30days/day4
 yarn start
 ```
 
-如果大家對於文章的內容有任何想法歡迎討論，希望這片文章有給正在學習程式的人一些幫助與方向
+如果大家對於文章的內容有任何想法歡迎討論，希望這片文章有給正在學習程式的人一些幫助與方向  
+
+參考資源:
+1. [開始使用 GitHub， 註冊與建立repo](https://progressbar.tw/posts/3)
+2. [Choose an open source license](https://choosealicense.com/)
+3. [常見的五個開源專案授權條款，使用軟體更自由](https://noob.tw/open-source-licenses/)
+4. [在開源時代的興起下，如何透過License共享並保有權益](https://progressbar.tw/posts/61)
 ### [Day5 env-程式的環境變數](/day5/README.md)

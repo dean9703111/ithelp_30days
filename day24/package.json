@@ -17,5 +17,5 @@
     "forever":"forever stopall && forever --minUptime=1000 --spinSleepTime=1000 -w start tools/cron.js"
   },
   "main": "index.js",
-  "license": "ISC"
+  "license": "MIT"
 }

@@ -12,5 +12,5 @@
     "start": "node  index.js"
   },
   "main": "index.js",
-  "license": "ISC"
+  "license": "MIT"
 }

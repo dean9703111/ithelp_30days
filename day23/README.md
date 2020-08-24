@@ -154,7 +154,7 @@ yarn add cron
         "cron":"node tools/cron.js"
       },
       "main": "index.js",
-      "license": "ISC"
+      "license": "MIT"
     }
     ```
 
