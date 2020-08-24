@@ -57,8 +57,8 @@ npm init
 }
 ```
 ### license
-這裡特別獨立說明一下license，因為他會影響到使用者的權益
-1. 你可以依據下圖釐清自己的需求來做選擇，[圖片來源](https://progressbar.tw/posts/61)  
+這裡特別獨立說明一下license，因為他會影響到這份專案的使用權益
+1. 你可以依據流程圖釐清自己的需求來做選擇，[圖片來源](https://progressbar.tw/posts/61)  
     ![image](./article_img/content_License.png)
 
 2. 或者用表格看是否符合需求，[表格來源](https://noob.tw/open-source-licenses/)  
