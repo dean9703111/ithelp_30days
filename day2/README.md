@@ -112,6 +112,7 @@ VScode [官網](https://code.visualstudio.com/)
 2. 執行代碼：可以在IDE內直接執行一段程式碼，不需離開編輯器。
 3. 代碼高亮：將原始碼以不同顏色顯現，讓我們閱讀更方便。
 4. 代碼智能格式化：當輸入if或while時，編輯器知道下一行要縮進。
+5. 版本控制方便：git add、git commit有GUI可以操作，並且有work tree讓你比對自己更改了哪些地方
 >以上文字擷取於[一應俱全的整合開發環境IDE](https://docs.f5ezcode.in/cs-basic/di-ba-zhang-gong-cheng-de-gong-ju/8.1-zheng-he-jing-ide)文章段落
 
 [VScode下載頁面](https://code.visualstudio.com/)  
