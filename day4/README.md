@@ -62,6 +62,7 @@ npm init
 ![image](./article_img/content_License.png)
 
 2. 或者用表格看是否符合需求，[表格來源](https://noob.tw/open-source-licenses/)  
+
 |條款             |GPL|LGPL|BSD|APACHE|MIT|
 |---|---|---|---|---|---|
 |公開原始碼        |✓  |✓   |		|       |  |	
