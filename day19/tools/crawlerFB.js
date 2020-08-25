@@ -8,30 +8,16 @@ async function crawlerFB (driver) {
     const isLogin = await loginFacebook(driver, By, until)
     if (isLogin) {//如果登入成功才執行下面的動作
         console.log(`FB開始爬蟲`)
-        let result_array = []
         for (fanpage of fanpage_array) {
-            let trace
-            try {
-                await goFansPage(driver, fanpage.url)
-                trace = await getTrace(driver, By, until)
-                if (trace === null) {
-                    console.log(`${fanpage.title}無法抓取追蹤人數`)
-                } else {
-                    console.log(`${fanpage.title}追蹤人數：${trace}`)
-                }
-                await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
-            } catch (e) {
-                console.error(e);
-                continue;
-            } finally {
-                result_array.push({
-                    url: fanpage.url,
-                    title: fanpage.title,
-                    trace: trace
-                })
+            await goFansPage(driver, fanpage.url)
+            const trace = await getTrace(driver, By, until)
+            if (trace === null) {
+                console.log(`${fanpage.title}無法抓取追蹤人數`)
+            } else {
+                console.log(`${fanpage.title}追蹤人數：${trace}`)
             }
+            await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
         }
-        return result_array
     }
 }
 

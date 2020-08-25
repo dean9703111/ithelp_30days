@@ -31,39 +31,39 @@
 * 專案基礎知識
     * [Day3 什麼是好的程式碼](/day3/README.md)
     * [Day4 開始Node.js旅程](/day4/README.md)
-    * [Day5 環境變數 & 套件安奘與控管](/day5/README.md)
-    * [Day6 gitignore-請勿上傳敏感、主程式以外的資料](/day6/README.md)
+    * [Day5 yarn-讓全世界的大神幫你一把，如何安裝及控管套件](/day5/README.md)
+    * [Day6 env-善用環境變數幫你做到快速遷移專案](/day6/README.md)
+    * [Day7 gitignore-請勿上傳敏感、主程式以外的資料](/day7/README.md)
 
 * 網頁爬蟲
-    * [Day7 selenium-爬蟲起手式](/day7/README.md)
-    * [Day8 分析Facebook網頁結構，打造自動登入FaceBook的機器人](/day8/README.md)
-    * [Day9 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day9/README.md)
-    * [Day10 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](/day10/README.md)
-    * [Day11 小孩子才選擇，我要一隻程式爬完FB & IG粉專](/day11/README.md)
-    * [Day12 refactor-重構程式碼，讓合作夥伴對你比讚](/day12/README.md)
-    * [Day13 try & catch讓程式更穩定](/day13/README.md)
-    * [Day14 善用json讓你批量爬蟲](/day14/README.md)
-    * [Day15 優化爬蟲體驗 && 思路分享](/day15/README.md)
+    * [Day8 selenium-爬蟲起手式](/day8/README.md)
+    * [Day9 分析Facebook網頁結構，打造自動登入FaceBook的機器人](/day9/README.md)
+    * [Day10 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day10/README.md)
+    * [Day11 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](/day11/README.md)
+    * [Day12小孩子才選擇，我要一隻程式爬完FB & IG粉專](/day12/README.md)
+    * [Day13 refactor-重構程式碼，讓合作夥伴對你比讚](/day13/README.md)
+    * [Day14 try & catch讓程式更穩定](/day14/README.md)
+    * [Day15 善用json讓你批量爬蟲](/day15/README.md)
+    * [Day16 優化爬蟲體驗 && 思路分享](/day16/README.md)
 
 * Google Sheets
-    * [Day16 Google Sheets-起手式，取得讀寫權杖(token)](/day16/README.md)
-    * [Day17 Google Sheets-讀取自己的sheet](/day17/README.md)
-    * [Day18 Google Sheets-判斷Sheet存在與否並自動創建](/day18/README.md)
-    * [Day19 Google Sheets-將爬蟲資料寫入](/day19/README.md)
-    * [Day20 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位](/day20/README.md)
-    * [Day21 Google Sheets-倒序插入](/day21/README.md)
-    * [Day22 Google Sheets-窗口凍結 & 欄位寬度調整](/day22/README.md)
+    * [Day17 Google Sheets-起手式，取得寫入google sheets的憑證(credentials)](/day17/README.md)
+    * [Day18 Google Sheets-讀取自己的sheet](/day18/README.md)
+    * [Day19 Google Sheets-判斷Sheet存在與否並自動創建](/day19/README.md)
+    * [Day20 Google Sheets-將爬蟲資料寫入](/day20/README.md)
+    * [Day21 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位](/day21/README.md)
+    * [Day22 Google Sheets-倒序插入](/day22/README.md)
+    * [Day23 Google Sheets-窗口凍結 & 欄位寬度調整](/day23/README.md)
 
 * 自動化
-    * [Day23 Google Sheets-窗口凍結 & 欄位寬度調整](/day23/README.md)
-    * [Day24 排程永久背景執行?json改了沒反應?](/day24/README.md)
-    * [Day25 windows & mac 手把手排程設定](/day25/README.md)
+    * [Day24 排程設定](/day24/README.md)
+    * [Day25 排程永久背景執行?json改了沒反應?](/day25/README.md)
+    * [Day26 windows & mac 手把手排程設定](/day26/README.md)
 
 * 通知設定
-    * Day26 LINE權杖取得，用POSTMAN測試
-    * Day27 nodejs如何使用https的POST
-    * Day28 重構程式整合訊息
-    * Day29 在完成後call LINE通知的function提醒使用者
+    * Day27 LINE權杖取得，用POSTMAN測試
+    * Day28 nodejs如何使用https的POST
+    * Day29 重構程式整合訊息，用LINE通知提醒使用者
 
 * 後話
     * [Day30 總結](/day/30/README.md)

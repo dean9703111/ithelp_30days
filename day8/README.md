@@ -1,97 +1,127 @@
 #### [回目錄](../README.md)
-## Day8 分析Facebook網頁結構，打造自動登入FaceBook的機器人
+## Day8 selenium-爬蟲起手式
 
-如果昨天大家都能順利地啟動chrome前往自己想要去的網頁  
-那今天就來談如何拆解網頁的結構，今天所講的東西請一定要自己實作過一遍，因為FB更改網頁結構的速度很快，請培養自己解析網頁的能力  
-
-分析Facebook網頁結構
+selenium-webdriver
 ----
-* 先請大家用chrome無痕模式打開[Facebook登入頁面](https://www.facebook.com/login)  
-<img src="./article_img/chrome.png" width="300" height="210"/>  
+先前說過由於 FB & IG 的隱私權政策導致我們無法透過api直接取得我們所想要的資訊  
+所以我們需要借助 **selenium-webdriver** 這個套件來開啟並執行你想要對網頁做的事情
+我的文章會慢慢使用到它的各種功能，如果有迫不及待的小夥伴也可以先去[官網](https://www.selenium.dev/documentation/en/)來更深刻的了解他  
 
-* 打開後的FB的登入畫面  
-![image](./article_img/fb_login.png)
+先在終端機(Terminal)下指令安裝他  
+```
+yarn add selenium-webdriver
+```
+因為本專案使用的模擬器是chrome，電腦還沒裝的請先[下載](https://www.google.com/intl/zh-TW/chrome/)
+因為跑selenium需要用到driver，大家可以依照自己的作業系統做設定
++ mac 作業系統  
+    * 如果你用的電腦是mac，恭喜你，不要需要額外下載chrome driver就能夠直接寫使用(不過chrome還是要下載)  
++ windows 作業系統  
+    * 請下載[chrome driver](http://chromedriver.storage.googleapis.com/index.html)  
+    * 這個driver需要跟你的[chrome版本相同](chrome://settings/help)  
+    * 請將將這個**chromedriver.exe放到專案根目錄下**  
 
-* 接下來便可以進行結構分析，把你平常登入FB的動作分幾個步驟：
-    1. 輸入電子郵件或電話
-    2. 輸入密碼
-    3. 按下登入按鈕
-
-* 步驟出來後我們需要知道他在FB的哪些位置(以紅框標示處)  
-![image](./article_img/fb_login_analysis.png)
-* 接著對元件按下滑鼠右鍵點擊檢查進入開發者的介面
-![image](./article_img/fb_login_right_click.png)
-* 然後你就會看到一堆不友善的程式碼，這個時候別緊張，我們原則上不需要理解他們在寫什麼，我們只要知他**在什麼位置就好**
-![image](./article_img/fb_login_right_click2.png)
-* 想知道他位置的方法也很簡單，對開發者頁面的那個程式碼按右鍵->Copy->Copy Xpath
-![image](./article_img/fb_login_right_click3.png)
-    你就會得到 **電子郵件或電話** 元件在這個頁面的位置如下
-    ```
-    //*[@id="email"]
-    ```
-    重複上面的步驟你面可以取得 **密碼** 元件的位置
-    ```
-    //*[@id="pass"]
-    ```
-    以及 **登入按鈕** 元件的位置
-    ```
-    //*[@id="loginbutton"]
-    ```
-    取得這三個元件的Xpath後我們便可以開始撰寫程式  
-
-打造自動登入FaceBook的機器人
-----
-1. 先填寫好自己.env的參數提供主程式使用
+接下來就可以嘗試用selenium-webdriver打開爬蟲用網頁了
+#### index.js
 ```js
 require('dotenv').config(); //載入.env環境檔
+const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
 
-//請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
-const fb_username = process.env.FB_USERNAME
-const fb_userpass = process.env.FB_PASSWORD
+function openCrawlerWeb() {
+    
+    // 建立這個broswer的類型
+    let driver = new webdriver.Builder().forBrowser("chrome").build();
+    const web = 'https://www.google.com/';//填寫你想要前往的網站
+    driver.get(web)//透國這個driver打開網頁
+}
+openCrawlerWeb()//打開爬蟲網頁
 ```
-2. 將套件中會使用到的函式引入
+執行程式
+----
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** ，如果執行順利，你會看到chrome的應用程式自動打開並且進入google的首頁  
+![image](./article_img/chrome.png)
+
+
+如果windows無法自動讀取chromedriver.exe路徑
+----
+因為有人回報部分windows就算把chromedriver.exe放在專案根目錄也讀不到，所以特別寫了一個函式來自定義讀取chromedriver.exe的路徑  
+
+* try-catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理；如果你有興趣可以先看這篇[文章](https://pjchender.blogspot.com/2017/12/js-error-handling.html)  
+* **__dirname** 這個變數為目前檔案所在的資料夾路徑  
 ```js
-const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
-    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
-    until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
 const chrome = require('selenium-webdriver/chrome');
 const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
-```
-3. 把主程式邏輯加上去
-```js
-async function loginFacebook () {
-    
-    checkDriver()// 檢查Driver是否是設定
 
-    let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
-    const web = 'https://www.facebook.com/login';//我們要前往FB
-    await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
-
-    //填入fb登入資訊
-    //使用until是要求直到網頁顯示了這個元件才能執行下一步
-    const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));//找出填寫email的元件
-    fb_email_ele.sendKeys(fb_username)//將使用者的資訊填入
-    const fb_pass_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="pass"]`)));
-    fb_pass_ele.sendKeys(fb_userpass)
-    
-    //抓到登入按鈕然後點擊
-    const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="loginbutton"]`)))
-    login_elem.click()
+function checkDriver () {
+    try {
+        chrome.getDefaultService()//確認是否有預設        
+    } catch {
+        console.log('找不到預設driver!');
+        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
+        console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
+        if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
+            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
+            chrome.setDefaultService(service);
+            console.log('設定driver路徑');
+        } else {
+            console.log('無法設定driver路徑');
+        }
+    }
 }
-loginFacebook()//登入FB
 ```
-PS.因為javascript支援非同步語法，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序跟你想的不一樣 **(並非完成前面工作才執行下一步的順序)**，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
 
-執行程式
+#### 將chromedriver.exe放到根目錄後記得在.gitignore把它加進去忽略清單喔，他不屬於需要版控的檔案
+#### .gitignore
+```
+node_modules
+.env
+chromedriver.exe
+```
+
+與原程式統整
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** ，你會看到chrome的應用程式自動打開並且成功登入Facebook  
-![image](./article_img/fb_notify.png)
-如果模擬器讓你成功登入FB可以在下方留言讓我知道喔，登入成功的瞬間有沒有充滿成就感呢？
+加入 **檢查Driver是否是設定的函式** 是比較完整的程式規劃，因為他能明確的告訴你執行錯誤的位置，之後會有文章來討論try-catch的重要性，統整後程式如下
+#### index.js
+```js
+require('dotenv').config(); //載入.env環境檔
+const webdriver = require('selenium-webdriver') // 加入虛擬網頁套件
+const chrome = require('selenium-webdriver/chrome');
+const path = require('path');//用於處理文件路徑的小工具
+const fs = require("fs");//讀取檔案用
+
+function checkDriver () {
+    try {
+        chrome.getDefaultService()//確認是否有預設        
+    } catch {
+        console.log('找不到預設driver!');
+        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
+        console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
+        if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
+            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
+            chrome.setDefaultService(service);
+            console.log('設定driver路徑');
+        } else {
+            console.log('無法設定driver路徑');
+        }
+    }
+}
+
+function openCrawlerWeb() {
+
+    checkDriver()// 檢查Driver是否是設定
+    
+    // 建立這個broswer的類型
+    let driver = new webdriver.Builder().forBrowser("chrome").build();
+    const web = 'https://www.google.com/';//填寫你想要前往的網站
+    driver.get(web)//透國這個driver打開網頁
+}
+openCrawlerWeb()//打開爬蟲網頁
+```
+
 
 專案原始碼
 ----
-全部的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day8)找到喔
+完整的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day7)找到喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -99,12 +129,8 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
 ```
 git pull origin master
-cd day8
-調整你.env檔填上FB登入資訊
+cd day7
 yarn
 yarn start
 ```
-
-參考資源 :  
-1. [Python 爬蟲解析：以爬取臉書社團為案例，使用 Selenium 來進行網頁模擬爬蟲](https://blog.happycoding.today/python-crawler-analysis/)
-### [Day9 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day9/README.md)
+### [Day9 分析Facebook網頁結構，打造自動登入FaceBook的機器人](/day9/README.md)

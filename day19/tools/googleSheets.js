@@ -1,7 +1,6 @@
 const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
-const dateFormat = require('dateformat');
 require('dotenv').config(); //載入.env環境檔
 exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
 
@@ -143,90 +142,6 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
   }
   return sheets;
 }
-
-async function writeSheet (title, result_array, auth) {
-  // 先在第一欄寫入title(粉專名稱)
-  let title_array = result_array.map(fanpage => [fanpage.title]);
-  // 填上名稱
-  title_array.unshift([title])//unshift是指插入陣列開頭
-  await writeTitle(title, title_array, auth)
-
-  // 取得目前最後一欄
-  let lastCol = await getLastCol(title, auth)
-
-  // 再寫入trace(追蹤人數)
-  let trace_array = result_array.map(fanpage => [fanpage.trace]);
-  // 抓取當天日期
-  const datetime = new Date()
-  trace_array.unshift([dateFormat(datetime, "GMT:yyyy/mm/dd")])
-  await writeTrace(title, trace_array, lastCol, auth)
-}
-
-async function writeTitle (title, title_array, auth) {//title都是寫入第一欄
-  const sheets = google.sheets({ version: 'v4', auth });
-  const request = {
-    spreadsheetId: process.env.SPREADSHEET_ID,
-    valueInputOption: "USER_ENTERED",// INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
-    range: [
-      `'${title}'!A:A`
-    ],
-    resource: {
-      values: title_array
-    }
-  }
-  try {
-    await sheets.spreadsheets.values.update(request);
-    console.log(`updated ${title} title`);
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-async function getLastCol (title, auth) {
-  const sheets = google.sheets({ version: 'v4', auth });
-  const request = {
-    spreadsheetId: process.env.SPREADSHEET_ID,
-    ranges: [
-      `'${title}'!A1:ZZ1`
-    ],
-    majorDimension: "COLUMNS",
-  }
-  try {
-    let values = (await sheets.spreadsheets.values.batchGet(request)).data.valueRanges[0].values;
-    // console.log(title + " StartCol: " + toColumnName(values.length + 1))
-    return toColumnName(values.length + 1)
-    // return web_name_array
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為英文才能使用
-  for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
-    ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
-  }
-  return ret;
-}
-
-async function writeTrace (title, trace_array, lastCol, auth) {//填入追蹤者人數
-  const sheets = google.sheets({ version: 'v4', auth });
-  const request = {
-    spreadsheetId: process.env.SPREADSHEET_ID,
-    valueInputOption: "USER_ENTERED",// INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
-    range: [
-      `'${title}'!${lastCol}:${lastCol}`
-    ],
-    resource: {
-      values: trace_array
-    }
-  }
-  try {
-    await sheets.spreadsheets.values.update(request);
-    console.log(`updated ${title} trace`);
-  } catch (err) {
-    console.error(err);
-  }
-}
 function getAuth () {
   return new Promise((resolve, reject) => {
     try {
@@ -240,18 +155,11 @@ function getAuth () {
     }
   })
 }
-async function updateGoogleSheets (ig_result_array, fb_result_array) {
+async function updateGoogleSheets () {
   try {
     const auth = await getAuth()
     let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
-    for (sheet of sheets) {
-      if (sheet.title === 'FB粉專') {
-        await writeSheet(sheet.title, fb_result_array, auth)
-      } else if (sheet.title === 'IG帳號') {
-        await writeSheet(sheet.title, ig_result_array, auth)
-      }
-    }
-    console.log('成功更新Google Sheets');
+    console.log(sheets)
   } catch (err) {
     console.error('更新Google Sheets失敗');
     console.error(err);

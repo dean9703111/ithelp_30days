@@ -1,106 +1,175 @@
 #### [回目錄](../README.md)
-## Day24 排程永久背景執行?json改了沒反應?
+## Day24 排程設定
 
-昨天完成的排程其實有幾個缺點：
-1. 需要把終端機(Terminal)打開觀察是否有執行
-2. 如果不小心把執行中的終端機(Terminal)關掉你會很困擾，需要用比較麻煩的辦法才能砍掉這個排程    
-3. 管理上比較困難(啟動、停止、重啟)
-4. 如果運行過程中程式崩潰你需要手動再打開
-5. 如果排程運行中你修改json裡面的粉絲專頁列表，你會發現觸發爬蟲時他跑的是舊版的粉絲列表
+我是一個懶人，同時也不是一個記性很好的人，如果每天都要在某個時間打開專案執行 **yarn start** 然後等數據跑完，這對我來說實在是一件很容易忘記且沒有效率的事情，我認為**電腦可以做到事情那就交給電腦去做**，所以我今天我要跟大家分享我是如何偷懶的
 
-如何砍掉執行中的排程
-------------------------
-先討論已經發生的問題如何解決，我想很多人跟我一樣不小心順手把終端機(Terminal)給關了，但是視窗關閉後他其實在背景還是在持續運行的，下面提供一個快速的解決方案  
-```
-ps aux | grep [搜尋關鍵字]
-kill [程式的PID]
-```
-##### ps (process status) 顯示進程狀態的指令
-* 參數說明
-    * a : 列出所有使用者與terminal無關的所有process
-    * u : 以使用者名稱顯示的格式
-    * x : 列出與terminal有關的所有process(通常與a搭配使用)
-* 顯示欄位 : USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND  
-如果你有興趣身如研究ps指令可把[文章1](https://medium.com/mess-up/%E5%A6%82%E6%9E%9Cctrl-c%E6%B2%92%E6%B3%95%E7%B5%82%E6%AD%A2%E6%80%8E%E9%BA%BC%E8%BE%A6-5e720fd66e32)、[文章2](http://puremonkey2010.blogspot.com/2011/02/linux-linux-ps-l-ps-aux-ps-axjf.html)交叉的看喔
-
-##### kill - 刪除執行中的process
-我們需要找到執行程式的process PID才能將其刪除，PID就在USER後面，複製起來執行下面指令就能刪除嚕
-```
-kill [程式的PID]
-```
-### 實際操作範例
-1. 先找出正在進行的排程
-    ```
-    ps aux | grep cron.js
-    ```    
-    ![image](./article_img/ps_aux.png)
-2. 你可以看到執行排程的PID是49915，把他複製起來用kill指令刪除
-    ```
-    kill 49915
-    ```
-    確認是否刪除成功
-    ```
-    ps aux | grep cron.js
-    ```
-    ![image](./article_img/kill.png)
-
-forever : 神套件讓排程穩定背景執行且方便管理
+排程套件 - Cron
 ----
-因為單純使用cron會讓你遇到開頭所說的各種問題，所以在這裡跟大家介紹一個讓Node.js程式穩定運行的套件，靠他就能解決開頭的問題
-* 首先要請你全域安裝這個套件，這樣你可以在任何一個位置執行它  
-    ```
-    yarn add global forever
-    ```
-* 基礎指令(以本專案cron.js為範例)
-    * 啟動程式
-        ```
-        forever --minUptime=1000 --spinSleepTime=1000 start tools/cron.js
-        ```
-        * 如果你沒加上--minUptime=1000 --spinSleepTime=1000參數會有警告如圖片
-            ![image](./article_img/foreverstart.png)
-    * 監聽檔案更動自動重啟
-        ```
-        forever --minUptime=1000 --spinSleepTime=1000 -w start tools/cron.js
-        ```
-        * 這個指令可以監控檔案的變更，解決過去json資料變更但是爬蟲時跑舊資料的問題
-        * 專案資料夾底下需要新增.foreverignore的檔案，不需要去偵測這些檔案的變更   
-    * 顯示所有forever程式運行狀態
-        ```
-        forever list
-        ```
-        ![image](./article_img/foreverlist.png)
-        * 你可以在logfile裡面看到排程執行的狀況
-    * 關閉所有程式
-        ```
-        forever stopall
-        ```
-        ![image](./article_img/foreverstopall.png)  
-    * 重新啟動程式
-        * 請注意如果你**修改了 .env 裡面的資料，則必須要重啟才會生效**
-        ```
-        forever restart tools/cron.js
-        ```
-如果你想要深入研究這個套件可參考[這篇文章](https://andy6804tw.github.io/2018/01/17/api-forever/)
-
-改寫專案package.json的scripts
-----------------------------------------------------------------
-將昨天cron的scripts改為使用forever的版本
-* 為了避免重複啟動，所以我採取先暫停所有運行的forever程式，然後再啟動程式
-```json
-"forever":"forever stopall && forever --minUptime=1000 --spinSleepTime=1000 -w start tools/cron.js"
+這裡我們需要安裝一個套件 **cron** ，他可以在你指定的時間執行你希望他幫你做的事情，這是他的[官方文檔](https://www.npmjs.com/package/cron)，下面我會詳細介紹他的功能(因為我自己也很常使用XD)  
 ```
+yarn add cron
+```
+* 測試官方程式
+    1. 先在tools的資料夾裡面新增一個cron.js的檔案
+    2. 複製下方的官方範例
+        ```js
+        var CronJob = require('cron').CronJob;
+        var job = new CronJob('* * * * * *', function() {
+          console.log('You will see this message every second');
+        }, null, true, 'America/Los_Angeles');
+        job.start();
+        ```
+    3. 在專案資料夾執行 **node tools/cron.js**
+        * 如果終端機(Terminal)每秒鐘都印出 **You will see this message every second** 就代表套件運行成功
+* api架構
+    ```js
+    constructor(cronTime, onTick, onComplete, start, timezone, context, runOnInit, unrefTimeout)
+    ```
+    * cronTime [必填] 設定定時任務時間
+    * onTick [必填] 定時任務要執行的函式
+    * onComplete [選填] 完成定時任務後要執行的函式
+    * Start [選填] 是否自動啟動job，默認為false
+    * timeZone [選填] - 指定執行的時區，莫認為當前時區，關於時區代碼可參考[網站](https://www.zeitverschiebung.net/en/)
+* cronTime語法
+    * 總共分為六個區塊：秒 分鐘 小時 天 月份 星期幾
+        ```
+        秒：0-59
+        分鐘：0-59
+        小時：0-23
+        天：1-31
+        月份：0-11（1~12月，特別注意月份是從0開始）
+        星期幾：0-6（星期日~星期六，Sun~Sat）
+        ```
+    * 語法範例
+        * *全部
+            * 每秒都執行(官方範例)
+                ```
+                * * * * * *
+                ```
+            * 每分鐘的第10秒執行
+                ```
+                10 * * * * *
+                ```
+            * 每天晚上10點30分10秒時執行
+                ```
+                10 30 22 * * *
+                ```
+        * -時間區間
+            * 每天早上9點到12點的整點執行
+                ```
+                0 0 9-12 * * *
+                ```
+        * ,分隔符號，可以輸入多個數值
+            * 每分鐘的第5,20,30秒執行
+                ```
+                5,20,30 * * * * *
+                ```
+        *  /間隔多少時間執行
+            * 每3分鐘執行一次
+                ```
+                * */3 * * * *
+                ```
+* 範例
+    * 每分鐘的第10秒執行
+        ```js
+        var CronJob = require('cron').CronJob;
+        new CronJob('10 * * * * *', function () {
+            const datetime = new Date();
+            console.log(datetime);
+        }, null, true);
+        ```        
+        ![image](./article_img/min.png)
+    * 每分鐘的第5,20,30秒執行
+        ```js
+        var CronJob = require('cron').CronJob;
+        new CronJob('5,20,30 * * * * *', function () {
+            const datetime = new Date();
+            console.log(datetime);
+        }, null, true);
+        ```
+        ![image](./article_img/second.png)
+
+把排程加入爬蟲
+----
+我們今天要調整三個檔案來符合爬蟲的需求  
+1. 主程式把crawler函式變成模組允許外部引用，因避免被引用時自動觸發crawler函式，故將下方觸發用的crawler()移除
+    #### index.js
+    ```js
+    require('dotenv').config(); //載入.env環境檔
+    const { initDrive } = require("./tools/initDrive.js");
+    const { crawlerFB } = require("./tools/crawlerFB.js");
+    const { crawlerIG } = require("./tools/crawlerIG.js");
+    const { updateGoogleSheets } = require("./tools/googleSheets.js");
+    exports.crawler = crawler;//讓其他程式在引入時可以使用這個函式
+
+    async function crawler () {
+        const driver = initDrive();
+        //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
+        const ig_result_array = await crawlerIG(driver)
+        const fb_result_array = await crawlerFB(driver)
+        driver.quit();
+        //處理Google Sheets相關動作
+        await updateGoogleSheets(ig_result_array, fb_result_array)
+    }
+    ```
+2. 我直接用constructor的概念來寫排程程式，這樣在日後維護時比較了解每個參數的意義
+    * 請編輯.env檔填上自己的爬蟲時段(CRONJOB_TIME)
+    #### cron.js
+    ```js
+    const CronJob = require('cron').CronJob;
+    const { crawler } = require("../index.js");
+    new CronJob({
+        cronTime: process.env.CRONJOB_TIME,//請編輯.env檔填上自己的爬蟲時段喔
+        onTick: async function () {
+            console.log('開始執行爬蟲排程作業！');
+            await crawler()
+            console.log('排程作業執行完畢！');
+        },
+        start: true,
+        timeZone: 'Asia/Taipei'
+    });
+    ```
+3. 調整package.json的scripts
+    針對 node 如何執行 js 指定 function 的指令寫法可以參考這篇[文章](https://stackoverflow.com/questions/30782693/run-function-in-script-from-command-line-node-js)
+    * start : mac執行單次爬蟲時使用的
+    * win_start : windows執行單次爬蟲時使用的(需要將單引號與雙引號反過來，因為windows只會將單引號內的資訊印除來而不會去執行)
+    * cron : 排程執行爬蟲時使用的
+    ```js
+    {
+      "name": "crawler",
+      "version": "0.0.1",
+      "description": "FB & IG 爬蟲30天鐵人文章",
+      "author": "dean lin",
+      "dependencies": {
+        "cron": "^1.8.2",
+        "dateformat": "^3.0.3",
+        "dotenv": "^8.2.0",
+        "googleapis": "39",
+        "selenium-webdriver": "^4.0.0-alpha.7"
+      },
+      "devDependencies": {},
+      "scripts": {
+        "start": "node  -e 'require(\"./index\").crawler()'",
+        "win_start": "node  -e \"require('./index').crawler()\"",
+        "cron":"node tools/cron.js"
+      },
+      "main": "index.js",
+      "license": "MIT"
+    }
+    ```
 
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn forever** 指令啟動程式  
-![image](./article_img/terminal.png)  
-然後再執行指令 **forever list** 確認程式正在背景運行  
-![image](./article_img/terminal2.png)  
+在專案資料夾的終端機(Terminal)執行指令 **yarn cron** 指令，確認爬蟲程式是否依照你設定的時間執行，因為排程的程式會一直執行，所以你不會看到以往Done in xxs的訊息，如果想要中斷終端機(Terminal)執行的程式，可以用下面按鍵組合:
+* Windows: Ctrl + c
+* Mac: cmd + c  
+![image](./article_img/terminal.png)
+
 
 
 專案原始碼
 ----
-完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day24)喔
+完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day23)喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -108,11 +177,10 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
 ```
 git pull origin master
-cd day24
+cd day23
 yarn
-yarn add global forever
 調整你.env檔填上 FB & IG 登入資訊、SPREADSHEET_ID、爬蟲執行時間
 在credentials資料夾放上自己的憑證
-yarn forever
+yarn cron
 ```
-### [Day25 windows & mac 手把手排程設定](/day25/README.md)
+### [Day25 排程永久背景執行?json改了沒反應?](/day25/README.md)

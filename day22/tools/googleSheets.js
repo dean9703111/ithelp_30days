@@ -97,11 +97,7 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
           // 你想給這個sheet的屬性
           "properties": {
             "sheetId": sheet_id,//必須為數字，且這個欄位是唯一值
-            "title": title,
-            "gridProperties": {
-              "frozenRowCount": 1,//我將最上面那一列設定為凍結
-              "frozenColumnCount": 1//我將最左邊那一欄設定為凍結
-            },
+            "title": title
           }
         },
       }]
@@ -273,21 +269,7 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
             "endIndex": 2
           },
           "inheritFromBefore": true
-        }
-      },
-      {
-        "updateDimensionProperties": {//這裡是為了修正欄寬
-          "range": {
-            "sheetId": sheet_id,
-            "dimension": "COLUMNS",
-            "startIndex": 1,
-            "endIndex": 2//只需要首欄
-          },
-          "properties": {
-            "pixelSize": 85
-          },
-          "fields": "pixelSize"
-        }
+        },
       }]
     }
   };

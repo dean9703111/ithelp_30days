@@ -1,23 +1,16 @@
-const fanpage_array = require('../json/ig.json');
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
 const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
+
 exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函式
 
 async function crawlerIG (driver) {
     const isLogin = await loginInstagram(driver, By, until)
     if (isLogin) {//如果登入成功才執行下面的動作
-        console.log(`IG開始爬蟲`)
-        for (fanpage of fanpage_array) {
-            await goFansPage(driver, fanpage.url)
-            const trace = await getTrace(driver, By, until)
-            if (trace === null) {
-                console.log(`${fanpage.title}無法抓取追蹤人數`)
-            } else {
-                console.log(`${fanpage.title}追蹤人數：${trace}`)
-            }
-            await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
-        }
+        const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+        await goFansPage(driver, fanpage)
+        const trace = await getTrace(driver, By, until)
+        console.log(`IG追蹤人數：${trace}`)
     }
 }
 
@@ -68,6 +61,7 @@ async function getTrace (driver) {
 
         return ig_trace
     } catch (e) {
+        console.error('無法抓取IG追蹤人數')
         console.error(e)
         return null
     }

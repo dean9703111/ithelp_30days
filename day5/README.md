@@ -1,52 +1,54 @@
 #### [回目錄](../README.md)
-## Day5 環境變數 & 套件安奘與控管
+## Day5 yarn-讓全世界的大神幫你一把，如何安裝及控管套件
 
-如果你曾經有撰寫網頁端的經驗，你也許體會過以下狀況
-1. 某些function只能在測試環境中使用，正式環境禁止執行
-2. 資料庫搬移到新環境，ip、username、password都需要修正
-3. 這份專案由多人維護，每個人都有個別的設定
-4. 專案在不同伺服器儲存的位置不一樣
-5. ...
-如果這些參數都分散在各個檔案，你在不同環境發佈的時候會改到很想死...
+就像前面文章提到的**請不要重複造輪子**，我們身處在一個開源工具大爆炸的時代，每天都有無數個程式大神寫好套件公開在網路平台供大家使用，所以當我們想要做某些功能的時候我們可以先找找看有沒有好心的前輩們幫我們完成這些功能了
 
 今日目標
 ----
-1. 了解環境變數使用時機
-2. 分析本專案中哪些參數適合當環境變數
-3. 安裝使用環境變數套件
-4. 了解如何用package.json控制套件版本
-4. 學會使用環境變數
+1. 了解套件對於專案的重要性
+2. 如何找出適合的套件
+3. 學會安裝套件
+4. 學會控制套件版本範圍
 
-環境變數使用時機
+套件對於專案的重要性
 ----
-環境變數的功能就是把**散佈在各個檔案且會在不同環境需要調整的參數集合到一個檔案**裡面，這樣就能讓你的程式在不同環境中快速發布   
-常用情境如下：
-1. 用來區分正式/測試環境
-2. 設定重要不得外流的資料(資料庫帳號、密碼，使用者權杖...)
-3. 需要統一設定的變數內容(系統ip、網址、port...)
-  
+身為一個工程師，比起撰寫一個新功能，我更多的時間在研究如何使一個套件，下面我來舉例說明套件對於專案的幫助：
+1. 能夠快速評估專案功能的可行性
+2. 可以更準確預估每個功能的完成時間
+3. 節省大量自己重頭寫功能的時間
+4. 你可以更專心地維護自己寫的程式邏輯
+5. 避免專案主程式肥大
 
-專案中哪些參數適合當環境變數
+如何找出適合的套件
 ----
-我們專案目標是做FB、IG的爬蟲，且爬蟲會定時執行，並且將資料儲存到雲端方便瀏覽。基於這些需求，我會設定環境變數如下：
-1. **FB & IG的帳號密碼**
-原本我想要使用 FB & IG 提供的 api 來抓取我想要的追蹤者人數即每日發文篇數等等資訊，但實際研究後發現由於隱私安全相關問題，所以他們提供的api只能查自己有權限的粉專，所以我**放棄使用官方api 改用 selenium 網頁模擬器**來做爬蟲，在實際操作中發現以下規則，所以只能使用真實存在的帳戶來作為爬蟲帳戶:
-    + FB 部分粉專必須要登入後才能觀看
-    + IG則是全部都要登入，部分粉專要按追蹤才能觀看    
-2. **google sheet的id**
-比起產生一份excel文件，我認為雲端的google sheet是更好的方法，因為你可以隨時隨地觀看
-3. **執行爬蟲時間**
-因為執行爬蟲時間可能每個人都不一樣，所以把他列為環境變數
+由於套件的資源實在是太多了，不管是大神還是新手都可以發布套件，這造成了套件本身的良莠不齊，我這裡提供幾個幫助你判斷套件是否符合你需求以及功能品的方法：
+1. 有時候你需要的功能有很多個套件可以完成，建議你選擇**被最多人使用**的
+    * 我們在提供npm套件的網頁搜尋env就出現了高達149頁的套件
+        ![image](./article_img/npmsearch.PNG)
+    * 你點開幾個便會發現使用套件的人數差異很大，就算功能一樣基本上選人多的比較安全
+        ![image](./article_img/npmuse1.PNG)
+        ![image](./article_img/npmuse2.PNG)
 
-安裝環境變數套件
+2. 你同時要關心該套件的issues數量，如果太多建議你點進去看看open issues，因為有些套件很久沒維護了
+    * 點擊issues的數字便可跳到github的頁面來看open issues與closed issues的數量
+        ![image](./article_img/npmissue1.PNG)
+        ![image](./article_img/npmissue2.PNG)
+3. 先透過閱讀套件的文件來第一步確認是否有你想要的功能
+    * 點擊Homepage下方連結會導向該套件的說明文件(也有可能是套件官網)
+        ![image](./article_img/npmreadme1.PNG)
+        ![image](./article_img/npmreadme2.PNG)
+4. 大部分的套件都有提供sample code，你可以先用這些sample code來確認這個套件是否符合你的需求
+
+
+安裝套件
 ----
-在node.js專案讀取.env的資料需要安裝一個 **dotenv** 的套件來抓.env的資料，安裝套件時請輸入指令
+在這裡我們以明天要講的主題：**環境變數**為範例，在node.js專案要讀取.env的資料需要安裝一個 **dotenv** 的套件來抓.env的資料，安裝套件時請輸入指令
 ```
 yarn add dotenv
 ```
 安裝完後你會發現專案目錄下多了一些東西
 * **node_modules** 資料夾：他會儲存你所安裝的套件
-* **yarn.lock** 檔案：為了保證在不同機器上能得到一樣的結果，所以需要這個檔案儲存每個相依性所安裝的確切的版本
+* **yarn.lock** 檔案：為了保證在不同機器上能得到一樣的結果，所以需要這個檔案儲存每個相依性所安裝的確切的版本  
 <img src="./article_img/folder.png" width="194" height="242"/>  
 
 同時在package.json檔案中也有變化  
@@ -78,62 +80,12 @@ yarn add dotenv
 * git://github.com/user/project.git#commit-ish
     * 直接使用 Git URL 的套件
 
-
-使用環境變數
+小結
 ----
-接著我們要知道如何在程式中引入這個套件，建議你可以看一下[官方文檔](https://www.npmjs.com/package/dotenv)  
-* 在文檔中我能得得知引入的方式
-    ```js
-    require('dotenv').config();
-    ```
-* 創建.env檔案，裡面放置環境變數
-    ##### .env
-    ```
-    YOUR_VARIABLE='這是環境變數'
-    ```
-* 還有讀取環境變數的方式(xxx是你的命名)
-    ```js
-    process.env.xxx
-    ```
-* 了解套件使用方式後我們來練習將環境變數取出並輸出在終端機(Terminal)上面
-    ##### index.js
-    ```js
-    require('dotenv').config(); //載入.env環境檔
-    function getEnvVariable () {
-        const env_variable= process.env.YOUR_VARIABLE // 取出環境變數
-        console.log(env_variable)
-    }
-    getEnvVariable()
-    ```
-    
-執行程式
-----
-在專案資料夾的終端機(Terminal)執行指令
-```sh
-yarn start
-```
-如果有輸出"這是環境變數"的字串就代表你成功嚕～
-![image](./article_img/terminal.png)  
-
-你可以嘗試修改.env裡面的參數來看輸出是不是跟著改變  
-![image](./article_img/terminal2.png)  
-
-專案原始碼
-----
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day5)找到喔
-你可以整個專案clone下來  
-```
-git clone https://github.com/dean9703111/ithelp_30days.git
-```
-如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
-```
-git pull origin master
-cd day5
-yarn start
-```
+在今天我們詳細的說明套件的重要性，隨著專案的進行我們會用到越來越多的套件，希望大家在看完今天的文章後有練習搜尋自己想要的套件並且知道怎麼控制他的版本範圍喔~
 
 參考資源：
 1. [yarn.lock](https://classic.yarnpkg.com/zh-Hant/docs/yarn-lock/)
 2. [package.json 套件版本控制](https://blog.poychang.net/package-json-version/)
 3. [npm-semver](https://docs.npmjs.com/misc/semver)
-### [Day6 gitignore-請勿上傳敏感、主程式以外的資料](/day6/README.md)
+### [Day6 env-善用環境變數幫你做到快速遷移專案](/day6/README.md)

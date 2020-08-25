@@ -299,6 +299,7 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
     console.log('The API returned an error: ' + err);
   }
 }
+
 function getAuth () {
   return new Promise((resolve, reject) => {
     try {

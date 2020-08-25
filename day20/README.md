@@ -1,124 +1,217 @@
-
 #### [回目錄](../README.md)
-## Day20 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位
+## Day20 Google Sheets-將爬蟲資料寫入
 
-今天所說的內容是在實務上遇到的，你要思考看看在什麼樣的情形下的的Google Sheets表單可能會亂掉(先排除一些惡意操作，因為惡意操作下要解決的問題太多了)
-1. Google Sheets在粉專名稱的欄位被整理過了(有可能是被刪除、上下置換)
-2. fb.json、ig.json裡面有新增/刪除/上下置換
+過去我們只將FB粉專、IG粉專的資訊用console.log輸出，現在我們要把這些資料儲存到Google Sheets需要有幾個步驟：
+1. 將FB粉專、IG粉專的追蹤人數儲存到一個array中並回傳
+2. 將將FB粉專、IG粉專爬蟲回傳的array提供給updateGoogleSheets函式當參數
+3. 將array內容依序寫入對應的sheet(FB粉專、IG粉專)
+4. Google Sheets先在第一欄寫入title(粉專名稱)、再寫入trace(追蹤人數)
 
-* EX: 我把fb.json中的'麻糬爸愛亂畫'刪除，然後把'寶寶不說'移到第二個來跑跑看
-    ```json
-    [
-        
-        {
-            "title": "鹿尼",
-            "url": "https://www.facebook.com/%E9%B9%BF%E5%B0%BC-260670294340690/"
-        },
-        {
-            "title": "寶寶不說",
-            "url": "https://www.facebook.com/baobaonevertell/"
-        },
-        {
-            "title": "好想兔",
-            "url": "https://www.facebook.com/chien760608/"
-        },
-        {
-            "title": "ㄇㄚˊ幾兔",
-            "url": "https://www.facebook.com/machiko324/"
-        }
-    ]
-    ```
-* 執行程式 **yarn start** 後你就會發現excel的表格亂掉了  
-    ![image](./article_img/googlesheetserr.png)  
-如果這些經常性的動作會造成excel顯示上的錯誤，那就代表我們的程式還有需要改良的地方
+不知道昨天有沒有人看官方的教學文件呢?今天我一樣先提供[官方教學](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)建議大家可以先透過官方教學嘗試看看有沒有辦法獨立完成喔～其中 **updateSheet** 的功能可以參考下面這個函式  
+```js
+let title = '你的sheet title'
+//Google Sheets能吃的array格式範例
+let array = [['test1'],['test2'],['test3'],['test4']]
+async function writeSheet (title, array, auth) {//auth為憑證通過後取得
+  const sheets = google.sheets({ version: 'v4', auth });
+  const request = {
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    valueInputOption: "USER_ENTERED",//寫入格式的分類有：INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
+    range: [
+      `'${title}'!A:A`//title是sheet的標題，A:A是能寫入的範圍
+    ],
+    resource: {
+      values: array
+    }
+  }
+  try {
+    await sheets.spreadsheets.values.update(request);//執行後即完成Google Sheets更新
+    console.log(`updated ${title} title`);
+  } catch (err) {
+    console.error(err);
+  }
+}
+```
 
-讓新資料塞入正確的欄位
+將爬蟲資料寫入
 ----
-因為使用者最終都是看excel跑出來的資料，所以我們規劃的方向是跑完程式後excel排序不會改變，實作上也會拆成幾個步驟：
-1. 依照sheet title取得第一欄粉專名稱的array
-2. 將 **線上粉專名稱的array** 與 **本機的json檔案粉專名稱的array** 做對比
-3. 如果對比結果本機的資料有新增，那粉專名稱就會加入到excel最下方
-4. 我們將以這份最新統整過的array進行爬蟲
-
-今天的目標為增加讀取第一欄粉專名稱函式(readTitle)、改寫writeSheet函式  
-  * readTitle : 依照sheet title取得第一欄粉專名稱的array
-    ```js
-    async function readTitle (title, auth) {
-      const sheets = google.sheets({ version: 'v4', auth });
-      const request = {
-        spreadsheetId: process.env.SPREADSHEET_ID,
-        ranges: [
-          `'${title}'!A:A`
-        ],
-        valueRenderOption: "FORMULA"
+如果只是要更新Google Sheets的內容不難，但因為我們的爬蟲每天都需要跑一次，所以會增加許多要顧慮到的邏輯，下面是我撰寫的邏輯思路以及每個函式的作用：
+* 首先爬蟲程式中的 **crawlerFB、crawlerIG** 這兩個的函式都需要回傳一個array，這個array是由object組成的，object內容包含:
+  1. url: 粉專網址
+  2. title: 粉專名稱
+  3. trace: 追蹤人數
+  下面以 **crawlerFB** 為範例，我們在try-catch的後面加上 **finally** ，finally代表在try-catch結束後會執行的任務，我將把object存入array的任務放在最後執行，並在跑完for迴圈後return這個array
+  ```js
+  async function crawlerFB (driver) {
+      const isLogin = await loginFacebook(driver, By, until)
+      if (isLogin) {//如果登入成功才執行下面的動作
+          console.log(`FB開始爬蟲`)
+          let result_array = []
+          for (fanpage of fanpage_array) {
+              let trace
+              try {
+                  await goFansPage(driver, fanpage.url)
+                  trace = await getTrace(driver, By, until)
+                  if (trace === null) {
+                      console.log(`${fanpage.title}無法抓取追蹤人數`)
+                  } else {
+                      console.log(`${fanpage.title}追蹤人數：${trace}`)
+                  }
+                  await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
+              } catch (e) {
+                  console.error(e);
+                  continue;
+              } finally {
+                  result_array.push({
+                      url: fanpage.url,
+                      title: fanpage.title,
+                      trace: trace
+                  })
+              }
+          }
+          return result_array
       }
-      try {
-        let title_array = []
-        let values = (await sheets.spreadsheets.values.batchGet(request)).data.valueRanges[0].values;
-        if (values) {//如果沒資料values會是undefine，所以我們只在有資料時塞入
-          title_array = values.map(value => value[0]);
-          // title_array = values
+  }
+  ```
+* 主程式index.js在收到crawlerIG、crawlerFB回傳的array後提供給updateGoogleSheets當參數
+  ```js
+  const ig_result_array = await crawlerIG(driver)
+  const fb_result_array = await crawlerFB(driver)
+  driver.quit();
+  //處理Google Sheets相關動作
+  await updateGoogleSheets(ig_result_array, fb_result_array)
+  ```
+* updateGoogleSheets收到參數後要將資料寫進Google Sheets(writeSheet函式)
+  ```js
+  async function updateGoogleSheets (ig_result_array, fb_result_array) {
+    try {
+      const auth = await getAuth()
+      let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
+      for (sheet of sheets) {
+        if (sheet.title === 'FB粉專') {
+          await writeSheet(sheet.title, fb_result_array, auth)
+        } else if (sheet.title === 'IG帳號') {
+          await writeSheet(sheet.title, ig_result_array, auth)
         }
-        // console.log(title_array)
-        return title_array
-      } catch (err) {
-        console.error(err);
       }
+      console.log('成功更新Google Sheets');
+    } catch (err) {
+      console.error('更新Google Sheets失敗');
+      console.error(err);
+    }
+  }
+  ```
+  * writeSheet結構：
+    1. 第一欄寫入title(粉專名稱)
+        1. 把result_array中的title抽出來變成陣列
+        2. 將該sheet的title插入到陣列最前面
+        3. 執行 **writeTitle** 更新sheet第一欄的資料
+    2. trace(追蹤人數)依序向右欄位新增
+        1. 執行 **getLastCol** 取得有資料的最後一欄，因為要插入在最後面
+        2. 把result_array中的trace抽出來變成陣列
+        3. 抓當日時間插入到陣列最前面   
+        4. 執行 **writeTrace** 插入資料到sheet的最後面
+    ```js
+    async function writeSheet (title, result_array, auth) {
+      // 先在第一欄寫入title(粉專名稱)
+      let title_array = result_array.map(fanpage => [fanpage.title]);
+      // 填上名稱
+      title_array.unshift([title])//unshift是指插入陣列開頭
+      await writeTitle(title, title_array, auth)
+
+      // 取得目前最後一欄
+      let lastCol = await getLastCol(title, auth)
+
+      // 再寫入trace(追蹤人數)
+      let trace_array = result_array.map(fanpage => [fanpage.trace]);
+      // 抓取當天日期
+      const datetime = new Date()
+      trace_array.unshift([dateFormat(datetime, "GMT:yyyy/mm/dd")])
+      await writeTrace(title, trace_array, lastCol, auth)
     }
     ```
-  * writeSheet 
-      1. 取得線上的粉專名稱array，並將json檔案裡面有新增的粉專合併進去
-          ```js
-          // 取得線上的title_array
-          let online_title_array = await readTitle(title, auth)
-          // 如果json檔有新增的title就加入到online_title_array
-          result_array.forEach(fanpage => {
-            if (!online_title_array.includes(fanpage.title)) {
-              online_title_array.push(fanpage.title)
-            }
-          });
-          ```
-      2. 將粉專追蹤人數能與整理過的粉專名稱做對應，並以是否第一次執行來做插入抓取日期插入或是取代的判定
-          ```js
-          // 再寫入trace(追蹤人數)
-          let trace_array = []
-          online_title_array.forEach(title => {
-            let fanpage = result_array.find(fanpage => fanpage.title == title)
-            if (fanpage) {
-              trace_array.push([fanpage.trace])
-            } else {
-              trace_array.push([])
-            }
-          });
-          // 抓取當天日期
-          const datetime = new Date()
-
-          if (online_title_array[0] !== title) {//如果判定是第一次就會在開頭插入
-            online_title_array.unshift(title)
-            trace_array.unshift([dateFormat(datetime, "GMT:yyyy/mm/dd")])
-          } else {//如果不是第一次就取代
-            trace_array[0] = [dateFormat(datetime, "GMT:yyyy/mm/dd")]
+    * writeTitle : 將粉專名稱寫入第一欄
+      ```js
+      async function writeTitle (title, title_array, auth) {//title都是寫入第一欄
+        const sheets = google.sheets({ version: 'v4', auth });
+        const request = {
+          spreadsheetId: process.env.SPREADSHEET_ID,
+          valueInputOption: "USER_ENTERED",// INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
+          range: [
+            `'${title}'!A:A`
+          ],
+          resource: {
+            values: title_array
           }
-          ```
-      3. 將粉專名稱、追蹤人數寫入Google Sheets
-          ```js
-          // 寫入粉專名稱
-          await writeTitle(title, online_title_array.map(title => [title]), auth)
+        }
+        try {
+          await sheets.spreadsheets.values.update(request);
+          console.log(`updated ${title} title`);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      ```
+    * getLastCol : 取得右側第一個空白欄位
+      ```js
+      async function getLastCol (title, auth) {
+        const sheets = google.sheets({ version: 'v4', auth });
+        const request = {
+          spreadsheetId: process.env.SPREADSHEET_ID,
+          ranges: [
+            `'${title}'!A1:ZZ1`
+          ],
+          majorDimension: "COLUMNS",
+        }
+        try {
+          let values = (await sheets.spreadsheets.values.batchGet(request)).data.valueRanges[0].values;
+          // console.log(title + " StartCol: " + toColumnName(values.length + 1))
+          return toColumnName(values.length + 1)
+          // return web_name_array
+        } catch (err) {
+          console.error(err);
+        }
+      }
 
-          // 取得目前最後一欄
-          let lastCol = await getLastCol(title, auth)
-          // 寫入追蹤人數
-          await writeTrace(title, trace_array, lastCol, auth)
-          ```
+      function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為英文才能使用
+        for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
+          ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
+        }
+        return ret;
+      }
+      ```
+    * writeTrace : 在取得目標寫入的欄位後將追蹤者人數填入
+      ```js    
+      async function writeTrace (title, trace_array, lastCol, auth) {//填入追蹤者人數
+        const sheets = google.sheets({ version: 'v4', auth });
+        const request = {
+          spreadsheetId: process.env.SPREADSHEET_ID,
+          valueInputOption: "USER_ENTERED",// INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
+          range: [
+            `'${title}'!${lastCol}:${lastCol}`
+          ],
+          resource: {
+            values: trace_array
+          }
+        }
+        try {
+          await sheets.spreadsheets.values.update(request);
+          console.log(`updated ${title} trace`);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      ```
 執行程式
 ----
-先在fb.json、ig.json裡面隨意修改，修改後於專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，等待爬蟲跑完後看看線上的Google Sheets是否有依照你的更改正確寫入Google Sheets  
-* 下圖是我修改fb.json執行的範例  
-    ![image](./article_img/googlesheets.png)
+在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，等待爬蟲跑完後看看線上的Google Sheets是不是也被成功寫入惹～
+![image](./article_img/terminal.png)
+![image](./article_img/googlesheet.png)
+目前為止將爬蟲寫入Google Sheets的動作已經完成了，大家可以思考一下還有什麼東西是我們忽略的呢？有什麼狀況會造成錯誤？希望大家在下方提供自己的想法喔～  
 
 專案原始碼
 ----
-完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day20)喔
+完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day19)喔
 你可以整個專案clone下來  
 ```
 git clone https://github.com/dean9703111/ithelp_30days.git
@@ -126,10 +219,10 @@ git clone https://github.com/dean9703111/ithelp_30days.git
 如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
 ```
 git pull origin master
-cd day20
+cd day19
 yarn
 調整你.env檔填上 FB & IG 登入資訊、SPREADSHEET_ID
 在credentials資料夾放上自己的憑證
 yarn start
 ```
-### [Day21 Google Sheets-倒序插入](/day21/README.md)
+### [Day21 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位](/day21/README.md)

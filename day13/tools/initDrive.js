@@ -8,7 +8,7 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
 const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
-function initDrive() {
+function initDrive () {
     checkDriver()//檢查driver是否設定
 
     let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
@@ -18,7 +18,7 @@ function initDrive() {
     return driver
 }
 
-function checkDriver() {
+function checkDriver () {
     try { //確認driver是否設定
         chrome.getDefaultService()
     } catch {
@@ -29,6 +29,9 @@ function checkDriver() {
             const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();
             chrome.setDefaultService(service);
             console.log('設定driver路徑');
+        } else {
+            console.log('無法設定driver路徑');
         }
+
     }
 }
