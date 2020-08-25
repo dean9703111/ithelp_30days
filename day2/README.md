@@ -85,11 +85,20 @@ git [官網](https://git-scm.com/)
 [windows下載頁面](https://git-scm.com/download/win)
 、[mac下載頁面](https://git-scm.com/download/mac)  
 >我有朋友使用windows怎麼樣都無法正常安裝git，如果你也遇到了這個不幸，你還是有[Git桌面板](https://desktop.github.com/)可以選擇的
-常用指令如下
+#### 常用指令如下：
+抓取遠端數據庫(僅確認有什麼更新，不合併)
+```sh
+git fetch
 ```
-git fetch 抓取遠端數據庫(僅確認有什麼更新，不合併)
-git pull 抓取遠端數據庫更新
-git push 更新遠端數據庫
+
+抓取遠端數據庫更新
+```sh
+git pull 
+```
+
+更新遠端數據庫
+```sh
+git push 
 ```
 如果你想要深入研究可以參考[連猴子都懂的Git入門指南](https://backlog.com/git-tutorial/tw/intro/intro1_1.html)
 
@@ -100,7 +109,27 @@ yarn [官網](https://classic.yarnpkg.com/zh-Hant/)
 這是專門安裝套件的軟體  
 站在巨人的肩膀上你才能看得更遠，妥善運用別人提供的套件，程式的路能走得更遠  
 [windows下載頁面](https://classic.yarnpkg.com/zh-Hant/docs/install#windows-stable)、[mac下載頁面](https://classic.yarnpkg.com/zh-Hant/docs/install#mac-stable)
-這篇文章有更詳細的說明[用Yarn取代npm加速開發](https://ithelp.ithome.com.tw/articles/10191745)
+
+#### 常用指令如下
+依據package.json安裝所有套件  
+```sh
+yarn
+```
+
+安裝到dependencies
+```sh
+yarn add [package]
+```
+
+安裝到devDependencies
+```sh
+yarn add [package] –save-dev
+```
+
+全域安裝套件(使該套件可在電腦任何位置被呼叫)
+```sh
+yarn global add [package]
+```
 
 VScode [官網](https://code.visualstudio.com/)
 ----
@@ -122,4 +151,5 @@ VScode [官網](https://code.visualstudio.com/)
 參考資源:  
 1. [Windows 10 安裝並使用 nvm 切換 NodeJS 版本](https://hsiangfeng.github.io/nodejs/20200107/3738078915/)
 2. [一應俱全的整合開發環境IDE](https://docs.f5ezcode.in/cs-basic/di-ba-zhang-gong-cheng-de-gong-ju/8.1-zheng-he-jing-ide)
+3. [用Yarn取代npm加速開發](https://ithelp.ithome.com.tw/articles/10191745)
 ### [Day3 什麼是好的程式碼，開始Node.js旅程](/day3/README.md)
