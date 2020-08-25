@@ -1,7 +1,16 @@
 #### [回目錄](../README.md)
 ## Day6 gitignore-請勿上傳敏感、主程式以外的資料
 
-今天介紹一個好用的東西 **.gitignore**，他是一份忽略清單，通常忽略清單上的都是不需要加入版本控制的檔案  
+昨天我們說到.env裡面存放的資料有許多都不適合公開(ex:資料庫帳號密碼、token...)，這些資料外流出去我想就不是檢討報告能解決的問題惹，為了避免誤傳檔案，今天我來介紹一個好用的東西 **.gitignore**，他是一份忽略清單，忽略清單上的都是不需要加入版本控制的檔案
+
+今日目標
+----
+1. 了解哪些檔案/資料夾不需要放入版控
+2. 如何使用.gitignore
+
+
+哪些檔案/資料夾不需要放入版控
+----
 常見在忽略清單的檔案類型如下：
 1. 機敏性資料(資料庫帳號密碼、存取權限的權杖(token)、憑證(credentials)...)
 2. 環境變數(.env檔，裡面通常存有ip、port...等環境參數)
@@ -9,9 +18,9 @@
 4. 日誌檔案(.log相關紀錄)
 5. 程式編譯時產生的檔案(快取檔案、暫存檔案、編譯結果)
 
-透過這份清單，大家可以想一下昨天的專案有哪些檔案及資料夾是要加入這份忽略清單的呢  
+透過這份清單，大家可以想一下昨天的專案有哪些檔案/資料夾是要加入這份忽略清單的呢  
 
-.gitignore使用時機 & 範例
+在專案加入.gitignore
 ----
 
 1. 上一篇有提到我們這次的爬蟲會用FB & IG 的帳號及密碼還有你google sheet的id，**這些資訊我們統一設定在.env環境變數裡面**，我相信大家都不希望把這些機敏資訊放到git外流出去  
@@ -23,6 +32,7 @@
 node_modules
 .env
 ```
+
 VSCode觀察.gitignore調整前後
 ----
 如果你也是用VSCode當成編輯器，你可以觀察使用.gitignore的前後變化
@@ -33,7 +43,26 @@ VSCode觀察.gitignore調整前後
 * 使用.gitignore後.env及node_modules會變成淺灰色，代表不會被列入變更  
     <img src="./article_img/vscode1.png" width="240" height="315"/>  
 
-**這份忽略清單會隨著你專案的變動而調整**，如果你在撰寫其他種類程式語言可以參考[這個網站](https://github.com/github/gitignore)來調整自己的.gitignore  
+**這份忽略清單會隨著你專案的變動而調整**，如果你在撰寫其他種類程式語言可以參考[github的官網](https://github.com/github/gitignore)來調整自己的.gitignore  
+
+對於.env的補充說明
+----
+今天我們把.env放入.gitignore中讓他不會加入版控，但是為了上版的方便，我會建立一個 **.env.example** 的檔案，他是環境變數的範例檔，這樣你在新環境只需要將他複製一份到.env檔填上自己的參數就能完成環境設定了，下面是本專案未來會用到的環境變數
+##### .env.exmaple
+```env
+#填寫你目標放入的sheet id
+SPREADSHEET_ID='your sheet id'
+
+#你FB及IG的帳號密碼(建議用小帳號)
+IG_USERNAME='ig username'
+IG_PASSWORD='ig password'
+FB_USERNAME='fb username'
+FB_PASSWORD='fb password'
+
+#這是設定排程的時間參數(目前預設每日22:30準時執行)
+CRONJOB_TIME='0 30 22 * * *'
+```
+
 
 >**筆者碎碎念** 
 在文章的最後我分享一下.gitignore的重要性

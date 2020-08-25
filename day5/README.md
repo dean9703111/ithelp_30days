@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day5 使用環境變數 & 套件控管
+## Day5 環境變數 & 套件安奘與控管
 
 如果你曾經有撰寫網頁端的經驗，你也許體會過以下狀況
 1. 某些function只能在測試環境中使用，正式環境禁止執行
@@ -108,8 +108,15 @@ yarn add dotenv
     
 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** 如果有輸出"這是環境變數"的字串就代表你成功嚕～
+在專案資料夾的終端機(Terminal)執行指令
+```sh
+yarn start
+```
+如果有輸出"這是環境變數"的字串就代表你成功嚕～
 ![image](./article_img/terminal.png)  
+
+你可以嘗試修改.env裡面的參數來看輸出是不是跟著改變  
+![image](./article_img/terminal2.png)  
 
 專案原始碼
 ----

@@ -31,7 +31,7 @@
 * 專案基礎知識
     * [Day3 什麼是好的程式碼](/day3/README.md)
     * [Day4 開始Node.js旅程](/day4/README.md)
-    * [Day5 使用環境變數 & 套件控管](/day5/README.md)
+    * [Day5 環境變數 & 套件安奘與控管](/day5/README.md)
     * [Day6 gitignore-請勿上傳敏感、主程式以外的資料](/day6/README.md)
 
 * 網頁爬蟲

@@ -102,4 +102,4 @@ yarn start
 2. [Choose an open source license](https://choosealicense.com/)
 3. [常見的五個開源專案授權條款，使用軟體更自由](https://noob.tw/open-source-licenses/)
 4. [在開源時代的興起下，如何透過License共享並保有權益](https://progressbar.tw/posts/61)
-### [Day5 使用環境變數 & 套件控管](/day5/README.md)
+### [Day5 環境變數 & 套件安奘與控管](/day5/README.md)
