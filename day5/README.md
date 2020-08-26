@@ -80,9 +80,14 @@ yarn add dotenv
 * git://github.com/user/project.git#commit-ish
     * 直接使用 Git URL 的套件
 
-小結
+經驗補充
 ----
-在今天我們詳細的說明套件的重要性，隨著專案的進行我們會用到越來越多的套件，希望大家在看完今天的文章後有練習搜尋自己想要的套件並且知道怎麼控制他的版本範圍喔~
+以這次30天要完成的專案來說，我就會在接案前先評估市面上有沒有下列工具(有時官方會提供api，所以不一定都是套件)：
+1. 網頁爬蟲
+2. excel編輯
+3. 排程
+4. LINE通知  
+我會在確認有這些工具並且測試過sample code之後我才會正式接案，雖然多花了一份工，但卻可以保證你結案的穩定性
 
 參考資源：
 1. [yarn.lock](https://classic.yarnpkg.com/zh-Hant/docs/yarn-lock/)
