@@ -39,7 +39,11 @@
 
 使用環境變數
 ----
-接著我們要知道如何在程式中引入昨天安裝的 **dotenv** 套件，套件使用前建議你先看一下[官方文檔](https://www.npmjs.com/package/dotenv)來了解如何使用  
+接著我們要知道如何在程式中引入昨天安裝的 **dotenv** 套件，如果還沒安裝的請在終端機(Terminal)輸入指令  
+```sh
+yarn add dotenv
+```
+套件安裝完後，建議使用前你先看一下[官方文檔](https://www.npmjs.com/package/dotenv)來了解如何使用  
 * 在文檔中我能得得知引入的方式
     ```js
     require('dotenv').config();
