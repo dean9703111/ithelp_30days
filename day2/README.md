@@ -152,7 +152,13 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 5. 版本控制方便：git add、git commit有GUI可以操作，並且有work tree讓你比對自己更改了哪些地方
 6. 功能擴充方便：能透過Extentions來安裝所需要的擴充的套件
 
-
+#### 🤖 常用快捷鍵如下
+PS. 因使用mac較多，windows按鍵請自行轉換：cmd = ctrl, option = alt
+* 區塊註解 cmd + k + c
+* 區塊取消註解 cmd + k + u
+* 區塊縮退 cmd + [
+* 區塊縮進、cmd + ]
+* 自動整理程式碼 option + shift + f
 
 今天對於專案的前置環境說明到這裡，如果環境設定上有什麼問題的話實屬正常，畢竟每個電腦的環境都有些許不同，可以先用google查詢看看喔～進入工程師的世界後[stackoverflow](http://stackoverflow.com/)會是你最好的朋友
 

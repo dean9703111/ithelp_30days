@@ -31,7 +31,7 @@
 * 專案基礎知識
     * [Day3 什麼是好的程式碼](/day3/README.md)
     * [Day4 開始Node.js旅程](/day4/README.md)
-    * [Day5 yarn-讓全世界的大神幫你一把，如何安裝及控管套件](/day5/README.md)
+    * [Day5 讓全世界的大神幫你一把 & 使用yarn安裝及控管套件](/day5/README.md)
     * [Day6 env-善用環境變數幫你做到快速遷移專案](/day6/README.md)
     * [Day7 gitignore-請勿上傳敏感、主程式以外的資料](/day7/README.md)
 
