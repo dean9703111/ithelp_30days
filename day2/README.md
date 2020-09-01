@@ -39,7 +39,7 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 ### Node.js [官網](https://nodejs.org/en/about/)  
 <img src="./article_img/nodejs.png" width="120" height="80"/>  
 
-可以在server端執行的javascript，前端工程師的福音  
+能夠在 server 端運行 JavaScript 的開放原始碼、跨平台 JavaScript 的執行環境。前端工程師的福音  
 
 ### nvm [官網](https://github.com/nvm-sh/nvm)  
 由於Node.js更新速度是非常快的，而許多套件有Node.js版本的相依性，透過NVM你可以輕鬆切換Node.js版本來符合不同專案的使用環境  
