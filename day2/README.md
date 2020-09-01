@@ -71,7 +71,7 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
         nvm
         ```
         ![image](./article_img/mac_nvm.png)
-* nvm 基礎指令
+* 🤖 常用指令
     * 安裝特定Node.js版本
         ```sh
         nvm install [version]
@@ -99,7 +99,7 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 這是對於程式版本控制的工具，透過他你可以輕鬆回到過去，並且在多人協作時也能有效管控
 [windows下載頁面](https://git-scm.com/download/win)、[mac下載頁面](https://git-scm.com/download/mac)  
 >我有朋友使用windows怎麼樣都無法正常安裝git，如果你也遇到了這個不幸，你還是有[Git桌面板](https://desktop.github.com/)可以選擇的
-#### 常用指令如下：
+#### 🤖 常用指令如下：
 * 抓取遠端數據庫(僅確認有什麼更新，不合併)
     ```sh
     git fetch
@@ -121,7 +121,7 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 站在巨人的肩膀上你才能看得更遠，妥善運用別人提供的套件，程式的路能走得更遠  
 [windows下載頁面](https://classic.yarnpkg.com/zh-Hant/docs/install#windows-stable)、[mac下載頁面](https://classic.yarnpkg.com/zh-Hant/docs/install#mac-stable)
 
-#### 常用指令如下
+#### 🤖 常用指令如下
 1. 依據package.json安裝所有套件  
     ```sh
     yarn
