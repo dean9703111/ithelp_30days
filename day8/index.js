@@ -15,7 +15,6 @@ function checkDriver() {
             const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
             chrome.setDefaultService(service);
             console.log('設定driver路徑');
-            return true
         } else {
             console.log('無法設定driver路徑');
             return false

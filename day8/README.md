@@ -92,10 +92,10 @@ yarn start
 ----
 因為有人回報部分windows就算把chromedriver.exe放在專案根目錄也讀不到，所以特別寫了一個 **checkDriver** 的函式，邏輯如下：
 * 判斷是否有預設的chromedriver
-    * Yes &rarr; 無須設定 return true
+    * Yes &rarr; 無須設定
     * No &rarr; 確認路徑下是否有 **chromedriver.exe** 的檔案
-        * Yes  &rarr; 設定driver路徑 return true
-        * No &rarr; 無法設定driver路徑 return false
+        * Yes  &rarr; 設定driver路徑
+        * No &rarr; 無法設定driver路徑回傳false
 
 * 備註
     * try-catch顧名思義就是先try，如果發生問題就會catch並執行錯誤處理
@@ -116,7 +116,6 @@ function checkDriver() {
             const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
             chrome.setDefaultService(service);
             console.log('設定driver路徑');
-            return true
         } else {
             console.log('無法設定driver路徑');
             return false
@@ -156,7 +155,6 @@ function checkDriver() {
             const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
             chrome.setDefaultService(service);
             console.log('設定driver路徑');
-            return true
         } else {
             console.log('無法設定driver路徑');
             return false
