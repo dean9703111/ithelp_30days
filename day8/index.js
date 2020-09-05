@@ -4,9 +4,9 @@ const chrome = require('selenium-webdriver/chrome');
 const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
-function checkDriver () {
+function checkDriver() {
     try {
-        chrome.getDefaultService()//確認是否有預設        
+        chrome.getDefaultService()//確認是否有預設
     } catch {
         console.log('找不到預設driver!');
         const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
@@ -15,15 +15,20 @@ function checkDriver () {
             const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
             chrome.setDefaultService(service);
             console.log('設定driver路徑');
+            return true
         } else {
             console.log('無法設定driver路徑');
+            return false
         }
     }
+    return true
 }
 
-function openCrawlerWeb () {
-    
-    checkDriver()// 檢查Driver是否是設定
+function openCrawlerWeb() {
+
+    if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
+        return
+    }
 
     let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
     const web = 'https://www.google.com/';//填寫你想要前往的網站

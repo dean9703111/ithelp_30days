@@ -27,6 +27,9 @@
     async function crawler () {
 
         const driver = initDrive();
+    if (!driver) {//driver不存在就結束程式
+        return
+    }
         //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
         await crawlerIG(driver)
         await crawlerFB(driver)
@@ -111,7 +114,10 @@
     const fs = require("fs");//讀取檔案用
 
     function initDrive () {
-        checkDriver()//檢查driver是否設定
+        if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
+        return
+    }
+
 
         let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
         //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
@@ -120,22 +126,24 @@
         return driver
     }
 
-    function checkDriver () {
-        try { //確認driver是否設定
-            chrome.getDefaultService()
+    function checkDriver() {
+        try {
+            chrome.getDefaultService()//確認是否有預設
         } catch {
             console.log('找不到預設driver!');
-            const file_path = '../../chromedriver.exe'//請注意因為改到tools底下執行，所以chromedriver.exe的相對位置需要變更
-            console.log(path.join(__dirname, file_path));
-            if (fs.existsSync(path.join(__dirname, file_path))) {
-                const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();
+            const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
+            console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
+            if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
+                const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
                 chrome.setDefaultService(service);
                 console.log('設定driver路徑');
+                return true
             } else {
                 console.log('無法設定driver路徑');
+                return false
             }
-
         }
+        return true
     }
     ```
 

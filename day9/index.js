@@ -30,7 +30,9 @@ function checkDriver () {
 
 async function loginFacebook() {
     
-    checkDriver()// 檢查Driver是否是設定
+    if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
+        return
+    }
 
     let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
     const web = 'https://www.facebook.com/login';//我們要前往FB

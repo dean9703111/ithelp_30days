@@ -14,7 +14,10 @@ options.addArguments('--disable-gpu')//規避部分chrome gpu bug
 
 
 function initDrive() {
-    checkDriver()//檢查driver是否設定
+    if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
+        return
+    }
+
 
     let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
@@ -24,17 +27,21 @@ function initDrive() {
 }
 
 function checkDriver() {
-    try { //確認driver是否設定
-        chrome.getDefaultService()
+    try {
+        chrome.getDefaultService()//確認是否有預設
     } catch {
         console.log('找不到預設driver!');
-        let service;
         const file_path = '../../chromedriver.exe'//請注意因為改到tools底下執行，所以chromedriver.exe的相對位置需要變更
-        console.log(path.join(__dirname, file_path));
-        if (fs.existsSync(path.join(__dirname, file_path))) {
-            service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();
+        console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
+        if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
+            const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
+            chrome.setDefaultService(service);
             console.log('設定driver路徑');
+            return true
+        } else {
+            console.log('無法設定driver路徑');
+            return false
         }
-        chrome.setDefaultService(service);
     }
+    return true
 }

@@ -144,7 +144,8 @@
 
 >如果大家對於文章的內容有任何想法歡迎討論，希望這篇文章有給正在學習程式的人一些幫助與方向  
 
-參考資源:
+📖 參考資源
+----
 1. [開始使用 GitHub， 註冊與建立repo](https://progressbar.tw/posts/3)
 2. [Choose an open source license](https://choosealicense.com/)
 3. [常見的五個開源專案授權條款，使用軟體更自由](https://noob.tw/open-source-licenses/)

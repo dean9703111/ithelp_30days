@@ -77,9 +77,9 @@ async function loginInstagramGetTrace (driver) {
     console.log(`IG追蹤人數：${ig_trace}`)
 }
 
-function checkDriver () {
+function checkDriver() {
     try {
-        chrome.getDefaultService()//確認是否有預設        
+        chrome.getDefaultService()//確認是否有預設
     } catch {
         console.log('找不到預設driver!');
         const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
@@ -88,14 +88,19 @@ function checkDriver () {
             const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
             chrome.setDefaultService(service);
             console.log('設定driver路徑');
+            return true
         } else {
             console.log('無法設定driver路徑');
+            return false
         }
     }
+    return true
 }
 
 async function crawler () {
-    checkDriver()// 檢查Driver是否是設定
+    if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
+        return
+    }
 
     let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
