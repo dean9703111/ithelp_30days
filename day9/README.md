@@ -1,33 +1,62 @@
 #### [回目錄](../README.md)
 ## Day9 分析Facebook網頁結構，打造自動登入FaceBook的機器人
 
-如果昨天大家都能順利地啟動chrome前往自己想要去的網頁  
-那今天就來談如何拆解網頁的結構，今天所講的東西請一定要自己實作過一遍，因為FB更改網頁結構的速度很快，請培養自己解析網頁的能力  
-
-因FB有分成**經典版**以及**新版**，專案所撰寫的範例皆為經典版本，當然你在閱讀完教學後，我相信你是能掌握爬蟲新版的技能  
-
-分析Facebook網頁結構
+⚠️ 在爬蟲前需要注意哪些事情避免違法
 ----
+1. 請勿拿來蒐集個人隱私
+    * 相片、個人資料
+2. 請勿高頻率訪問一個網站
+    * 高頻率訪問一個網站可能對導致對方伺服器癱瘓(DDOS)
+3. 請勿盜取相關智慧財產權相關的資料
+    * 社群上發表的文章、有人統整過的資訊
+4. 請勿蒐集網站後台資料
+    * 僅抓取前端網頁有顯示的公開信息，不要去抓後台的敏感資訊
+5. 請勿作為破解工具
+    * 嘗試各種帳號密碼試圖突破網站系統
+
+🤔 今天的學習要特別注意什麼？
+----
+一定要自己實作過一遍!  
+一定要自己實作過一遍!  
+一定要自己實作過一遍!  
+因為很重要所以要說三遍，前面幾篇文章比較偏向概念，但今後的文章概念實作並重；因為無論是FB還是IG他們改版的速度極快，我現在提供的方法在他們改版後可能就會失效，所以文章的每個步驟你們要自己去實作才能理解為什麼這樣做，請培養自己分析網頁結構的能力  
+>FB有分成**經典版**以及**新版**，文章所撰寫的**範例皆為經典版本**，當然你閱讀完教學後，我相信你能掌握爬蟲新版的技能  
+
+
+🏆 今日目標
+----
+1. 學會分析網頁結構(以Facebook登入頁為範例)
+    * 拆解平常登入FB的步驟
+    * 將這些操作的位置轉化為程式可以讀懂的路徑
+2. 打造自動登入FaceBook的機器人
+    * 將自己FB的登入資訊填入.env檔
+    * 讓爬蟲幫你完成平日登入的步驟
+
+
+🔧 分析網頁結構(Facebook登入頁)
+----
+你可以想像 **selenium-webdriver** 這個套件就是讓機器人代替你的手來做操作，想要讓機器幫你操作，你需要告訴他明確的操作位置，接下來向大家介紹如何抓出這些位置
+
 * 先請大家用chrome無痕模式打開[Facebook登入頁面](https://www.facebook.com/login)  
-<img src="./article_img/chrome.png" width="300" height="210"/>  
+    <img src="./article_img/chrome.png" width="300" height="210"/>  
 
 * 打開後的FB的登入畫面  
-![image](./article_img/fb_login.png)
+    ![image](./article_img/fb_login.png)
 
 * 接下來便可以進行結構分析，把你平常登入FB的動作分幾個步驟：
     1. 輸入電子郵件或電話
     2. 輸入密碼
     3. 按下登入按鈕
 
-* 步驟出來後我們需要知道他在FB的哪些位置(以紅框標示處)  
-![image](./article_img/fb_login_analysis.png)
-* 接著對元件按下滑鼠右鍵點擊檢查進入開發者的介面
-![image](./article_img/fb_login_right_click.png)
-* 然後你就會看到一堆不友善的程式碼，這個時候別緊張，我們原則上不需要理解他們在寫什麼，我們只要知他**在什麼位置就好**
-![image](./article_img/fb_login_right_click2.png)
-* 想知道他位置的方法也很簡單，對開發者頁面的那個程式碼按右鍵->Copy->Copy Xpath
-![image](./article_img/fb_login_right_click3.png)
-    你就會得到 **電子郵件或電話** 元件在這個頁面的位置如下
+1. 首先我們先用先紅框圈出這些元件在FB的哪些位置  
+    ![image](./article_img/fb_login_analysis.png)
+2. 接著對元件按下滑鼠右鍵點擊檢查進入開發者的介面
+    ![image](./article_img/fb_login_right_click.png)
+3. 然後你就會看到一堆不友善的程式碼，這個時候別緊張，我們原則上不需要理解他們在寫什麼，我們只要知他**在什麼位置就好**
+    ![image](./article_img/fb_login_right_click2.png)
+4. 想知道他位置的方法也很簡單，對開發者頁面的那個程式碼按右鍵 &rarr; Copy &rarr; Copy Xpath
+    ![image](./article_img/fb_login_right_click3.png)
+    你就會得到 **電子郵件或電話** 元件在這個頁面的位置
     ```
     //*[@id="email"]
     ```
@@ -39,11 +68,30 @@
     ```
     //*[@id="loginbutton"]
     ```
-    取得這三個元件的Xpath後我們便可以開始撰寫程式  
+    取得這三個元件的Xpath後我們便可以明確告訴機器人該做什麼事嚕  
 
-打造自動登入FaceBook的機器人
+🤖 打造自動登入FaceBook的機器人
 ----
-1. 先填寫好自己.env的參數提供主程式使用
+我們剛剛取得給機器人操作的路徑(Xpath)了，接下來我說明爬蟲程式中你需要理解的部分：
+* 透過網頁的Xpath取出元件
+    ```js
+    const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));
+    // 取出想操作的元件 = 瀏覽器會等待直到路徑(//*[@id="email"])的元件顯示才回傳該元件
+    ```
+* 在輸入框中輸入指定文字
+    ```js
+    fb_email_ele.sendKeys(fb_username)
+    // 將你想要輸入的文字透過sendKeys塞入元件
+    ```
+* 點擊按鈕
+    ```js
+    login_elem.click()
+    // 將取出的元件使用click函式即觸發點擊事件
+    ```
+<br>
+
+理解關鍵程式的功能後我們來把他們組合起來吧：
+1. 取出在.env檔案裡面的FB帳號密碼提供主程式使用(請記得.env檔要填寫相關參數)
 ```js
 require('dotenv').config(); //載入.env環境檔
 
@@ -85,30 +133,29 @@ async function loginFacebook () {
 }
 loginFacebook()//登入FB
 ```
-PS.因為javascript支援非同步語法，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序跟你想的不一樣 **(並非完成前面工作才執行下一步的順序)**，這部分可以參考這兩篇[文章1](https://ithelp.ithome.com.tw/articles/10194569)、[文章2](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)來深入理解  
+>PS.因為javascript支援非同步語法，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await，是標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序跟你想的不一樣 **(並非完成前面工作才執行下一步的順序)**，想更深入理解的朋友可以看最下方的參考資源喔
 
-執行程式
+🚀 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** ，你會看到chrome的應用程式自動打開並且成功登入Facebook  
-![image](./article_img/fb_notify.png)
-如果模擬器讓你成功登入FB可以在下方留言讓我知道喔，登入成功的瞬間有沒有充滿成就感呢？
-
-專案原始碼
-----
-全部的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day8)找到喔
-你可以整個專案clone下來  
-```
-git clone https://github.com/dean9703111/ithelp_30days.git
-```
-如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
-```
-git pull origin master
-cd day8
-調整你.env檔填上FB登入資訊
-yarn
+在專案資料夾的終端機(Terminal)執行指令
+```sh
 yarn start
 ```
+你會看到chrome的應用程式自動打開並且成功登入Facebook  
+![image](./article_img/fb_notify.png)  
 
-參考資源 :  
+如果模擬器讓你成功登入FB可以在下方留言讓我知道喔，登入成功的瞬間有沒有充滿成就感呢？
+
+ℹ️ 專案原始碼
+----
+* 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day9)找到喔
+* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/sampleCode/day8_sample_code.zip)，你可以用裡面乾淨的環境來實作今天的功能喔
+    * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
+    * 調整你.env檔填上FB登入資訊
+
+📖 參考資源
+----
 1. [Python 爬蟲解析：以爬取臉書社團為案例，使用 Selenium 來進行網頁模擬爬蟲](https://blog.happycoding.today/python-crawler-analysis/)
+2. [重新認識 JavaScript: Day 26 同步與非同步](https://ithelp.ithome.com.tw/articles/10194569)
+3. [鐵人賽：JavaScript Await 與 Async](https://wcc723.github.io/javascript/2017/12/30/javascript-async-await/)
 ### [Day10 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day10/README.md)
