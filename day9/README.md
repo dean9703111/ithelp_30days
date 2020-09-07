@@ -19,6 +19,7 @@
 一定要自己實作過一遍!  
 一定要自己實作過一遍!  
 一定要自己實作過一遍!  
+<br>
 因為很重要所以要說三遍，前面幾篇文章比較偏向概念，但今後的文章概念實作並重；因為無論是FB還是IG他們改版的速度極快，我現在提供的方法在他們改版後可能就會失效，所以文章的每個步驟你們要自己去實作才能理解為什麼這樣做，請培養自己分析網頁結構的能力  
 >FB有分成**經典版**以及**新版**，文章所撰寫的**範例皆為經典版本**，當然你閱讀完教學後，我相信你能掌握爬蟲新版的技能  
 
@@ -75,18 +76,18 @@
 我們剛剛取得給機器人操作的路徑(Xpath)了，接下來我說明爬蟲程式中你需要理解的部分：
 * 透過網頁的Xpath取出元件
     ```js
-    const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));
     // 取出想操作的元件 = 瀏覽器會等待直到路徑(//*[@id="email"])的元件顯示才回傳該元件
+    const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));    
     ```
 * 在輸入框中輸入指定文字
     ```js
-    fb_email_ele.sendKeys(fb_username)
     // 將你想要輸入的文字透過sendKeys塞入元件
+    fb_email_ele.sendKeys(fb_username)    
     ```
 * 點擊按鈕
     ```js
-    login_elem.click()
-    // 將取出的元件使用click函式即觸發點擊事件
+    // 將取出的元件使用click函式觸發點擊事件
+    login_elem.click()    
     ```
 <br>
 
