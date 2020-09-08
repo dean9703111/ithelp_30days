@@ -23,7 +23,7 @@
 >建議你可以先在Google下關鍵字： **nodejs selenium-webdriver notifications**  
 想要解決一個問題，通常直接搜尋網路資源會比看官方文件來的更快，像是關閉通知這個屬於常見問題，Google的前幾結果通常就能找到解答  
 
-1. 在這我們要更改chrome這個瀏覽器notifications的設定
+1. 更改chrome這個瀏覽器notifications的設定
     ```js
     const chrome = require('selenium-webdriver/chrome');
     const options = new chrome.Options();
@@ -92,7 +92,7 @@
 
         * 但是Facebook有很多的元件都使用到這個class所以我們需要把所有符合的class都抓下來，透過分析字串(xxx人在追蹤)來抓取正確的資訊  
 
-        #### index.js
+        依據上面的邏輯，我們可以在跳轉粉專頁面的程式後面加入下方爬蟲邏輯，以此抓出粉專追蹤人數
         ```js
         ...
         let fb_trace = 0;//這是紀錄FB追蹤人數
