@@ -66,6 +66,8 @@
             const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
             await driver.get(fanpage)
             ```
+<br>
+
 2. **找出追蹤者人數的元件位置**
     ![image](./article_img/baobao_fans.png)  
     你把紅框位置的Xpath複製出來會長這樣
@@ -82,12 +84,13 @@
         ```
         //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[3]/div/div[2]/div[4]/div/div[2]/div
         ```
-    你仔細看會發現 **每個Xpath都會有細微的不同** ，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
+        你仔細看會發現 **每個Xpath都會有細微的不同** ，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
     * **使用class找出網頁元件**  
         * 下面的幾張圖你可以觀察到這個追蹤者的資訊都在相同的 **class="_4bl9"** 之下  
         <img src="./article_img/fb_trace_code1.png" width="200" height="140"/>
         <img src="./article_img/fb_trace_code2.png" width="200" height="140"/>
-        <img src="./article_img/fb_trace_code3.png" width="200" height="140"/>  
+        <img src="./article_img/fb_trace_code3.png" width="200" height="140"/>
+
         * 但是Facebook有很多的元件都使用到這個class所以我們需要把所有符合的class都抓下來，透過分析字串(xxx人在追蹤)來抓取正確的資訊  
 
         #### index.js
@@ -107,8 +110,8 @@
         console.log(`追蹤人數：${fb_trace}`)
         ...
         ```
-        * 因為迴圈中用到await，所以這裡使用的是 **for/of迴圈**
         >儘量不要在forEach中使用 aysnc/await，因為他還需要透過一個callback函式才能使用，邏輯表現不如for/of來的直觀
+<br>
 
 3. **關閉瀏覽器**  
     如果你執行完後想要關閉瀏覽器只需要加入這行程式  
