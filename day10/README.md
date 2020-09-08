@@ -33,7 +33,11 @@
     ```js
     let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     ```
-在index.js加入上面對瀏覽器的設定後在終端機(Terminal)執行 **yarn start** 你會發現彈窗提示不見了
+3. index.js加入上面對瀏覽器的設定後在終端機(Terminal)執行指令
+    ```sh
+    yarn start
+    ```
+    你會發現彈窗提示不見了!
 
 📄 分析FB粉專結構並取得追蹤人數資訊
 ------------------------
@@ -52,7 +56,7 @@
 const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
 await driver.get(fanpage)
 ```
-但實際執行後你會發現很詭異的事情，就是在你登入成功前網頁就直接導向到粉絲專頁了😱  
+但實際執行後你會發現很詭異的事情，在你登入成功前網頁就直接導向到粉絲專頁了😱  
 這是因為FB在執行登入作業時需要**等待server回應資料確認使用者身份**，所以要在按下登入的按鈕後**判斷使用者登入成功後才能再進入下一個步驟**
 * **判斷使用者是否登入成功**  
     * 從FB有什麼元件是**登入後才有可能出現**的這個方向去思考，你就能想到一定要在登入後Facebook才會有名字顯示這件事 
