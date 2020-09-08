@@ -22,7 +22,6 @@
 在彈窗存在的狀態下是無法抓取網頁元件的(充滿嘗試精神的讀者的可以嘗試看看)，所以你必須要關閉這個彈窗  
 >建議你可以先在Google下關鍵字： **nodejs selenium-webdriver notifications**  
 想要解決一個問題，通常直接搜尋網路資源會比看官方文件來的更快，像是關閉通知這個屬於常見問題，Google的前幾結果通常就能找到解答  
-![image](./article_img/google_search.png) 
 
 1. 在這我們要更改chrome這個瀏覽器notifications的設定
     ```js
@@ -34,7 +33,7 @@
     ```js
     let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     ```
-加入上面對瀏覽器的設定後在終端機(Terminal)執行 **yarn start** 你會發現彈窗提示不見了
+在index.js加入上面對瀏覽器的設定後在終端機(Terminal)執行 **yarn start** 你會發現彈窗提示不見了
 
 分析FB粉專結構並取得追蹤人數資訊
 ------------------------
