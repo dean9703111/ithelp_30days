@@ -19,6 +19,12 @@
 
 🤖 IG自動登入
 ----
+* 在.env檔填寫IG登入的帳號密碼
+    ```env
+    #填寫自己登入IG的真實資訊(建議開小帳號來實驗，因為如果爬蟲使用太頻繁你的帳號會受到官方制裁)
+    IG_USERNAME='ig username'
+    IG_PASSWORD='ig password'
+    ```
 * 我在使用IG登入的[網址](https://www.instagram.com/accounts/login)時發現他登入的畫面偶爾會長不一樣(如下圖)導致Xpath路徑錯誤  
     <img src="./article_img/ig_login1.png" width="300" height="250"/>
     <img src="./article_img/ig_login2.png" width="300" height="250"/>  

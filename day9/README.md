@@ -92,49 +92,55 @@
 <br>
 
 理解關鍵程式的功能後我們來把他們組合起來吧：
-1. 取出在.env檔案裡面的FB帳號密碼提供主程式使用(請記得.env檔要填寫相關參數)
-```js
-require('dotenv').config(); //載入.env環境檔
+1. 在.env檔填寫FB登入的帳號密碼
+    ```env
+    #填寫自己登入FB的真實資訊(建議開小帳號來實驗，因為如果爬蟲使用太頻繁你的帳號會受到官方制裁)
+    FB_USERNAME='fb username'
+    FB_PASSWORD='fb password'
+    ```
+2. 取出在.env檔案裡面的FB帳號密碼提供主程式使用
+    ```js
+    require('dotenv').config(); //載入.env環境檔
 
-//請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號，因為如果爬蟲使用太頻繁你的帳號會被鎖住)
-const fb_username = process.env.FB_USERNAME
-const fb_userpass = process.env.FB_PASSWORD
-```
-2. 將套件中會使用到的函式引入
-```js
-const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
-    By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
-    until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
-const chrome = require('selenium-webdriver/chrome');
-const path = require('path');//用於處理文件路徑的小工具
-const fs = require("fs");//讀取檔案用
-```
-3. 把主程式邏輯加上去
-```js
-async function loginFacebook () {
-    
-    if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
-        return
+    //請在.env檔案填寫自己登入FB的真實資訊()
+    const fb_username = process.env.FB_USERNAME
+    const fb_userpass = process.env.FB_PASSWORD
+    ```
+3. 將套件中會使用到的函式引入
+    ```js
+    const webdriver = require('selenium-webdriver'), // 加入虛擬網頁套件
+        By = webdriver.By,//你想要透過什麼方式來抓取元件，通常使用xpath、css
+        until = webdriver.until;//直到抓到元件才進入下一步(可設定等待時間)
+    const chrome = require('selenium-webdriver/chrome');
+    const path = require('path');//用於處理文件路徑的小工具
+    const fs = require("fs");//讀取檔案用
+    ```
+4. 把主程式邏輯加上去
+    ```js
+    async function loginFacebook () {
+        
+        if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
+            return
+        }
+
+        let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
+        const web = 'https://www.facebook.com/login';//我們要前往FB
+        await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
+
+        //填入fb登入資訊
+        //使用until是要求直到網頁顯示了這個元件才能執行下一步
+        const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));//找出填寫email的元件
+        fb_email_ele.sendKeys(fb_username)//將使用者的資訊填入
+        const fb_pass_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="pass"]`)));
+        fb_pass_ele.sendKeys(fb_userpass)
+        
+        //抓到登入按鈕然後點擊
+        const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="loginbutton"]`)))
+        login_elem.click()
     }
-
-    let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
-    const web = 'https://www.facebook.com/login';//我們要前往FB
-    await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
-
-    //填入fb登入資訊
-    //使用until是要求直到網頁顯示了這個元件才能執行下一步
-    const fb_email_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="email"]`)));//找出填寫email的元件
-    fb_email_ele.sendKeys(fb_username)//將使用者的資訊填入
-    const fb_pass_ele = await driver.wait(until.elementLocated(By.xpath(`//*[@id="pass"]`)));
-    fb_pass_ele.sendKeys(fb_userpass)
-    
-    //抓到登入按鈕然後點擊
-    const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="loginbutton"]`)))
-    login_elem.click()
-}
-loginFacebook()//登入FB
-```
->PS.因為javascript支援非同步語法，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await，是標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序跟你想的不一樣 **(並非完成前面工作才執行下一步的順序)**，想更深入理解的朋友可以看最下方的參考資源喔
+    loginFacebook()//登入FB
+    ```
+    >PS.因為javascript支援非同步語法，所以我們必須很明確地告訴程式他要執行的順序(**在async的函式中用await，是標明必須等待這項工作完成才能進入下一步**)，否則他跑起來的順序跟你想的不一樣 **(並非完成前面工作才執行下一步的順序)**，想更深入理解的朋友可以看最下方的參考資源喔
 
 🚀 執行程式
 ----
