@@ -76,7 +76,7 @@
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
     driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
     ```
-* 在固定螢幕寬度後，使用Xpath就能輕鬆的抓出追蹤人數元件，下面是跳轉到粉專帳號抓取追蹤人數的程式
+* 在固定螢幕寬度後，使用Xpath就能輕鬆的抓出追蹤人數元件
     ```js
     //登入成功後要前往粉專頁面
     const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
