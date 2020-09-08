@@ -35,88 +35,90 @@
     ```
 在index.js加入上面對瀏覽器的設定後在終端機(Terminal)執行 **yarn start** 你會發現彈窗提示不見了
 
-分析FB粉專結構並取得追蹤人數資訊
+📄 分析FB粉專結構並取得追蹤人數資訊
 ------------------------
-* 我們先將**粉絲團取資料**分成幾個步驟：
-    1. 進入粉絲團網頁
-    2. 找出追蹤者人數的元件位置
-    3. 關閉瀏覽器
+面對所有的問題，我一律建議把大問題先拆解成小問題，小問題再細分成功能項目，這樣同一時間只需集中注意力完成一個功能，這樣的做法能帶給你階段性成就感，也讓你大腦有喘息的空間，像是今天要做的功能 **粉絲團取資料** 拆分成幾個步驟：
+1. 進入粉專頁面
+2. 找出追蹤者人數的元件位置
+3. 關閉瀏覽器
+>建議大家可以自己先按照昨天所提供的方法來實做看看會遇到什麼樣的問題，再來看下面我我所遇到的狀況及解決方式  
 
-    >建議大家可以自己先按照昨天所提供的方法來實做看看會遇到什麼樣的問題，再來看下面我我所遇到的狀況及解決方式  
-
-1. **進入粉絲團網頁**  
-    登入後導向網頁到粉絲專頁非常簡單，兩行程式碼就解決
-    ```js
-    //登入成功後要前往粉專頁面
-    const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-    await driver.get(fanpage)
-    ```
-    但實際執行後你會發現很詭異的事情，就是在你登入成功前你的網頁就直接導向到粉絲專頁了  
-    這是因為FB在執行登入作業時需要**等待server回應資料確認使用者身份**，所以你在按下登入的按鈕後要先給瀏覽器一些時間回應  
-    * **判斷使用者是否登入成功**  
-        * 從FB有什麼元件是**登入後才有可能出現**的這個方向去思考，你就能想到一定要在登入後Facebook才會有名字顯示這件事 
-        ![image](./article_img/fb_header.png)  
-        * 只要加上 **判斷名字區塊已經存在才能繼續** 這個邏輯就能保證我們成功登入後再前往粉絲頁  
-            ```js
-            //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
-            await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
-
-            //登入成功後要前往粉專頁面
-            const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-            await driver.get(fanpage)
-            ```
-<br>
-
-2. **找出追蹤者人數的元件位置**
-    ![image](./article_img/baobao_fans.png)  
-    你把紅框位置的Xpath複製出來會長這樣
-    ```
-    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[1]/div/div[1]/div[4]/div/div[2]/div
-    ```
-    如果你只要爬這個粉絲團的話用這個Xpath就足夠了，但你如果常逛粉絲團，你會發現每個粉絲團顯示追蹤人數的Xpath位置都不一樣  
-    * 下面提供幾個粉絲團網址你可以點進去試試看  
-        [小姐非常有事](https://www.facebook.com/missunexpected2015/)
-        ```
-        //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[1]/div/div[2]/div[4]/div/div[2]/div
-        ```
-        [人類圖澳洲](https://www.facebook.com/HumanDesignAu/)
-        ```
-        //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[3]/div/div[2]/div[4]/div/div[2]/div
-        ```
-        你仔細看會發現 **每個Xpath都會有細微的不同** ，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
-    * **使用class找出網頁元件**  
-        * 下面的幾張圖你可以觀察到這個追蹤者的資訊都在相同的 **class="_4bl9"** 之下  
-        <img src="./article_img/fb_trace_code1.png" width="200" height="140"/>
-        <img src="./article_img/fb_trace_code2.png" width="200" height="140"/>
-        <img src="./article_img/fb_trace_code3.png" width="200" height="140"/>
-
-        * 但是Facebook有很多的元件都使用到這個class所以我們需要把所有符合的class都抓下來，透過分析字串(xxx人在追蹤)來抓取正確的資訊  
-
-        依據上面的邏輯，我們可以在跳轉粉專頁面的程式後面加入下方爬蟲邏輯，以此抓出粉專追蹤人數
+🤔 進入粉專頁面
+----
+登入後導向網頁到粉絲專頁非常簡單，兩行程式碼就解決
+```js
+//登入成功後要前往粉專頁面
+const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+await driver.get(fanpage)
+```
+但實際執行後你會發現很詭異的事情，就是在你登入成功前網頁就直接導向到粉絲專頁了😱  
+這是因為FB在執行登入作業時需要**等待server回應資料確認使用者身份**，所以要在按下登入的按鈕後判斷使用者登入成功後才能再進入下一個步驟
+* **判斷使用者是否登入成功**  
+    * 從FB有什麼元件是**登入後才有可能出現**的這個方向去思考，你就能想到一定要在登入後Facebook才會有名字顯示這件事 
+    ![image](./article_img/fb_header.png)  
+    * 只要加上 **判斷名字區塊已經存在才能繼續** 這個邏輯就能保證我們成功登入後再前往粉絲頁  
         ```js
-        ...
-        let fb_trace = 0;//這是紀錄FB追蹤人數
-        //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
-        const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
-        const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
-        for (const fb_trace_ele of fb_trace_eles) {
-            const fb_text = await fb_trace_ele.getText()
-            if (fb_text.includes('人在追蹤')) {
-                fb_trace = fb_text
-                break
-            }
-        }
-        console.log(`追蹤人數：${fb_trace}`)
-        ...
-        ```
-        >儘量不要在forEach中使用 aysnc/await，因為他還需要透過一個callback函式才能使用，邏輯表現不如for/of來的直觀
-<br>
+        //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
+        await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
 
-3. **關閉瀏覽器**  
-    如果你執行完後想要關閉瀏覽器只需要加入這行程式  
-    ```js
-    driver.quit();
+        //登入成功後要前往粉專頁面
+        const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+        await driver.get(fanpage)
+        ```
+
+🔍找出追蹤者人數的元件位置
+----
+先找出粉專頁面追蹤人數在哪個位置
+![image](./article_img/baobao_fans.png)  
+把紅框位置的Xpath複製出來會長這樣
+```
+//*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[1]/div/div[1]/div[4]/div/div[2]/div
+```
+如果你只要爬這個粉絲團的話用這個Xpath就足夠了，但你如果常逛粉絲團，你會發現每個粉絲團顯示追蹤人數的Xpath位置都不一樣  
+* 下面提供幾個粉絲團網址你可以點進去試試看  
+    [小姐非常有事](https://www.facebook.com/missunexpected2015/)
     ```
+    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[1]/div/div[2]/div[4]/div/div[2]/div
+    ```
+    [人類圖澳洲](https://www.facebook.com/HumanDesignAu/)
+    ```
+    //*[@id="PagesProfileHomeSecondaryColumnPagelet"]/div/div[3]/div/div[2]/div[4]/div/div[2]/div
+    ```
+    你仔細看會發現 **每個Xpath都會有細微的不同** ，所以昨天教的Xpath在這裡就失靈了，我們需要換一個方法來判斷，也就是該元件的class結構  
+* **使用class找出網頁元件**  
+    * 下面的幾張圖你可以觀察到這個追蹤者的資訊都在相同的 **class="_4bl9"** 之下  
+    <img src="./article_img/fb_trace_code1.png" width="200" height="140"/>
+    <img src="./article_img/fb_trace_code2.png" width="200" height="140"/>
+    <img src="./article_img/fb_trace_code3.png" width="200" height="140"/>
+
+    * 但是Facebook有很多的元件都使用到這個class所以我們需要把所有符合的class都抓下來，透過分析字串(xxx人在追蹤)來抓取正確的資訊  
+
+    依據上面的邏輯，我們可以在跳轉粉專頁面的程式後面加入下方爬蟲邏輯，以此抓出粉專追蹤人數
+    ```js
+    ...
+    let fb_trace = 0;//這是紀錄FB追蹤人數
+    //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
+    const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
+    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
+    for (const fb_trace_ele of fb_trace_eles) {
+        const fb_text = await fb_trace_ele.getText()
+        if (fb_text.includes('人在追蹤')) {
+            fb_trace = fb_text
+            break
+        }
+    }
+    console.log(`追蹤人數：${fb_trace}`)
+    ...
+    ```
+    >儘量不要在forEach中使用 aysnc/await，因為他還需要透過一個callback函式才能使用，邏輯表現不如for/of來的直觀
+    
+👌完成爬蟲後關閉瀏覽器
+----
+確認爬蟲都執行完畢後，用下面這行程式即可關閉瀏覽器
+```js
+driver.quit();
+```
+
 🚀執行程式
 ----
 在專案資料夾的終端機(Terminal)執行指令
