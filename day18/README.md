@@ -43,11 +43,11 @@
   並且因為spreadsheetId並不適合公開放到git上面(你應該不會想公布這份Google Sheets給全世界吧)，所以我們要把**spreadsheetId複製起來放到.env裡面設定為環境變數**
   #### .env.exmaple
   ```
-  #填寫自己登入IG的真實資訊(建議開小帳號來實驗，因為如果爬蟲使用太頻繁你的帳號會受到官方制裁)
+  #填寫自己登入IG的真實資訊(建議開小帳號來實驗，因為帳號使用太頻繁會被官方鎖住)
   IG_USERNAME='ig username'
   IG_PASSWORD='ig password'
 
-  #填寫自己登入FB的真實資訊(建議開小帳號來實驗，因為如果爬蟲使用太頻繁你的帳號會受到官方制裁)
+  #填寫自己登入FB的真實資訊(建議開小帳號來實驗，因為帳號使用太頻繁會被官方鎖住)
   FB_USERNAME='fb username'
   FB_PASSWORD='fb password'
 

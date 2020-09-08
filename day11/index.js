@@ -1,6 +1,6 @@
 require('dotenv').config(); //載入.env環境檔
 
-//請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號來實驗，因為如果爬蟲使用太頻繁你的帳號會受到官方制裁)
+//請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號來實驗，因為帳號使用太頻繁會被官方鎖住)
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
 
