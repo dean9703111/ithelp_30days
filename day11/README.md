@@ -30,7 +30,7 @@
     <img src="./article_img/ig_login2.png" width="300" height="250"/>  
 * 所以這裡我們要用不一樣的方式來抓取紅框內元件  
     <img src="./article_img/ig_login3.png" width="300" height="250"/>  
-    * 進入開發者模式後我們觀察到 **電話號碼、用戶名稱或電子郵件** 以及 **密碼** 這些要操作的網頁元件有幾格 **共通點**：
+    * 進入開發者模式後我們觀察到 **電話號碼、用戶名稱或電子郵件** 以及 **密碼** 這些要操作的網頁元件有幾個 **共通點**：
         1. 使用 **input** 的html標籤
         2. 他們用 **name** 這個attribute來表示他們的作用
         <img src="./article_img/ig_login_user.png" width="400" height="60"/>  
@@ -115,6 +115,7 @@ yarn start
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 調整你.env檔填上IG登入資訊
 
+>再次提醒本專案僅蒐集公開數據，避免人力資源的浪費，請勿作為不法用途
 
 參考資源 : 
 1. [Filling in login forms in Instagram using selenium and webdriver (chrome) python OSX](https://stackoverflow.com/a/49940401)  
