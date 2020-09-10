@@ -1,44 +1,60 @@
 #### [回目錄](../README.md)
 ## Day12 小孩子才選擇，我要一隻程式爬完FB & IG粉專
 
-不知道有沒有讀者一隻程式爬完 FB & IG 的粉專呢?  
-* 如果你是把兩天文章複製貼上直接爬的話我想會遇到很多問題，如果你是一次跳出兩個瀏覽器在跑，我想會因為其中一個瀏覽器先觸發了 **driver.quit()** 而導致另一個還沒跑完的瀏覽器無法讀取元件而掛掉  
-    ```
-    WebDriverError: element not interactable
-    ```
-* 如果你把他改成一個瀏覽器，跑完FB粉專再跑IG粉專應該又會套出跨網域(CORS)問題的錯誤(目前只有windows作業系統才會遇到)  
+🏆 今日目標
+----
+1. 分析實作過程中可能會遇到的問題
+    * 瀏覽器關閉無法讀取元件
+    * 跨網域(CORS)錯誤
+2. 一隻程式爬完FB & IG粉專
+    * 分析程式結構邏輯
+    * 思考程式上有什麼地方需要改進
+
+🤔 實作過程中可能會遇到的問題
+----
+不知道有沒有讀者成功用一隻程式爬完 FB & IG 的粉專呢?  
+* 如果你是把兩天文章複製貼上直接爬的話我想會遇到問題：
+    * 會**一次跳出兩個瀏覽器**在跑，如果其中一個瀏覽器完成爬蟲任務觸發了 **driver.quit()** ，他會導致另一個還沒爬蟲完畢的**瀏覽器因無法讀取元件而掛掉**，錯誤訊息如下  
+        ```
+        WebDriverError: element not interactable
+        ```
+* 如果你把他**改成一個瀏覽器**，跑完FB粉專再跑IG粉專應該又會出現**跨網域(CORS)問題**的錯誤(目前只有windows作業系統才會遇到)  
     >跨網域的問題是網域切換時會因為一些安全性的疑慮而拒絕跳轉，像是從 https://www.facebook.com/ 跳轉到 https://www.instagram.com 就會遇到這個問題  
 
-    這個問題可以在你建立瀏覽器的時候加上設定如下
-    ```js
-    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options,
-        { acceptSslCerts: true, acceptInsecureCerts: true }//這是為了解決跨網域問題
-    ).build();
-    ```
+    * 這個問題在建立瀏覽器的時候加上設定 **{ acceptSslCerts: true, acceptInsecureCerts: true }** 即可解決
+        ```js
+        let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options,
+            { acceptSslCerts: true, acceptInsecureCerts: true }//這是為了解決跨網域問題
+        ).build();
+        ```
 
-一隻程式爬完FB & IG粉專
+🤖一隻程式爬完FB & IG粉專
 ----
-如果你沒有遇到以上的問題，你可以參考一下我目前的解法，我偏向開一個瀏覽器來處理，因為**跑爬蟲是會消耗你電腦本身的記憶體以及網路流量**，我希望電腦再跑爬蟲的時候不要影響我做其他事情的效率，同時一個瀏覽器在跑如果遇到問題你也更方便去進行除錯  
-下面是我目前的範例程式，雖然他可以正常運作，但是對程式有敏感度的小夥伴在看完下方我對程式結構的說明後應該已經發現這隻程式哪裡需要優化了  
+如果你遇到以上問題，我偏向**開一個瀏覽器**來處理：
+1. 因為**跑爬蟲是會消耗你電腦本身的記憶體以及網路流量**，我希望電腦再跑爬蟲的時候不要影響我做其他事情的效率
+2. 使用一個瀏覽器在跑如果遇到問題時你較容易進行除錯  
 
-### 程式結構及邏輯說明 :   
-**crawler** : 觸發爬蟲的函式
-1. 檢查Driver是否是設定
-2. 建立這個broswer的類型
-3. 設定broswer的視窗大小
-4. **loginInstagramGetTrace** : 登入IG並取得指定帳號的追蹤人數
-    1. 前往IG登入頁，填入登入資訊
-    2. 點擊登入按紐
-    3. 判斷是否登入成功
-    4. 登入成功後跳轉指定帳號頁面
-    5. 獲取指定帳號追蹤人數
-5. **loginFacebookGetTrace** : 登入FB並取得粉絲專業的追蹤人數
-    1. 前往FB登入頁，填入登入資訊
-    2. 點擊登入按紐
-    3. 判斷是否登入成功
-    4. 登入成功後跳轉指定粉專頁面
-    5. 獲取指定粉專追蹤人數
-6. 關閉broswer
+#### **程式結構及邏輯說明**：   
+為了幫助讀者能較快掌握程式的邏輯，我根據每個函式所做的功能以及執行步驟列出結構如下：
+* **crawler** : 觸發爬蟲的函式
+    1. 檢查Driver是否是設定
+    2. 建立這個broswer的類型
+    3. 設定broswer的視窗大小
+    4. **loginInstagramGetTrace** : 登入IG並取得指定帳號的追蹤人數
+        >先爬蟲IG是因為有些人登入IG的方式是綁定FB帳號，這會導致我們在執行上要處理更多的問題；而讓IG先爬蟲就可避免這個問題惹XD
+        1. 前往IG登入頁，填入登入資訊
+        2. 點擊登入按紐
+        3. 判斷是否登入成功
+        4. 登入成功後跳轉指定帳號頁面
+        5. 獲取指定帳號追蹤人數
+    5. **loginFacebookGetTrace** : 登入FB並取得粉絲專業的追蹤人數
+        1. 前往FB登入頁，填入登入資訊
+        2. 點擊登入按紐
+        3. 判斷是否登入成功
+        4. 登入成功後跳轉指定粉專頁面
+        5. 獲取指定粉專追蹤人數
+    6. 關閉browser
+>寫程式如同拼積木，在程式越來越龐大的時候我建議你將每個步驟都單獨列出來紀錄成文件，未來遇到需求變更的時候你直接看架構圖就能迅速修改
 
 #### index.js
 ```js
@@ -158,32 +174,38 @@ async function crawler () {
 
 crawler()
 ```
-執行程式
+
+看完上面的程式後，我想大部分的人都有點暈了XD，如果你有認真看程式應該有以下體會：
+1. 閱讀起來有點吃力
+2. 遇到錯誤時不好找問題
+3. 很難掌握每個函式的功能
+4. 幾個月後回來看這隻程式估計一臉茫然
+
+如果還有更多的體會歡迎大家在下方留言(請鞭小力一點QQ)  
+明天會講程式碼的**重構**，透過重構我們可以更有效率的掌握程式；後天會講**try & catch**在本專案的應用，方便日後的除錯
+
+🚀執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到瀏覽器依序登入IG & FB並跳轉到指定粉專，爬完資料關閉後，你就能看到FB & IG的追蹤人數嚕～  
-
-![image](./article_img/terminal.png)  
-
-PS.如果想要中斷終端機(Terminal)執行的程式，可以用下面按鍵組合:
-* Windows: Ctrl + c
-* Mac: cmd + c
-
-歡迎大家在下方留言你覺得這隻程式你認為應該要優化的地方(請鞭小力一點QQ)  
-明天會講程式碼的**重構**，透過重構我們可以更有效率的掌握程式
-
-專案原始碼
-----
-上面這的程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day11)找到喔
-你可以整個專案clone下來  
-```
-git clone https://github.com/dean9703111/ithelp_30days.git
-```
-如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
-```
-git pull origin master
-cd day11
-調整你.env檔填上 FB & IG 登入資訊
-yarn
+在專案資料夾的終端機(Terminal)執行指令
+```sh
 yarn start
 ```
+畫面執行順序：Instagram自動登入 &rarr; 跳轉到指定帳號 &rarr; Facebook自動登入 &rarr; 跳轉到粉絲頁 &rarr; 關閉
+
+爬完資料關閉後，你就能看到FB & IG的追蹤人數嚕～  
+![image](./article_img/terminal.png)  
+
+>PS.如果想要中斷終端機(Terminal)執行的程式，可以用下面按鍵組合:
+>* Windows: Ctrl + c
+>* Mac: cmd + c
+
+
+ℹ️ 專案原始碼
+----
+* 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day12)找到喔
+* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/sampleCode/day11_sample_code.zip)，你可以用裡面乾淨的環境來實作今天的功能喔
+    * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
+    * 調整你.env檔填上IG、FB登入資訊
+
+
 ### [Day13 refactor-重構程式碼，讓合作夥伴對你比讚](/day13/README.md)
