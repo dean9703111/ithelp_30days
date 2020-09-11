@@ -136,24 +136,24 @@ async function crawlerIG (driver) {
 #### 👌解決方式
 1. 把這段登入的邏輯用try-catch包起來
 2. 為driver.wait加上合理的等待時間(3秒鐘)
-```js
-async function getTrace (driver) {
-    let ig_trace = 0;//這是紀錄IG追蹤人數
-    try {
-        const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
-        const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
-        // ig因為當人數破萬時文字不會顯示，所以改抓title
-        ig_trace = await ig_trace_ele.getAttribute('title')
-        ig_trace = ig_trace.replace(/\D/g, '')//只取數字
+    ```js
+    async function getTrace (driver) {
+        let ig_trace = 0;//這是紀錄IG追蹤人數
+        try {
+            const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
+            const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
+            // ig因為當人數破萬時文字不會顯示，所以改抓title
+            ig_trace = await ig_trace_ele.getAttribute('title')
+            ig_trace = ig_trace.replace(/\D/g, '')//只取數字
 
-        return ig_trace
-    } catch (e) {
-        console.error('無法抓取IG追蹤人數')
-        console.error(e)
-        return null
+            return ig_trace
+        } catch (e) {
+            console.error('無法抓取IG追蹤人數')
+            console.error(e)
+            return null
+        }
     }
-}
-```
+    ```
 #### 🆗實際測試確認結果是否符合預期
 * 將 **const fanpage = "https://www.instagram.com/baobaonevertell/"** 改為錯誤的網址 **const fanpage = "https://www.instagram.com/error_page_ex/"** 
     *  會因找不到追蹤人數的元件而跳錯誤訊息
