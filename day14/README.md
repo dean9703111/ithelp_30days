@@ -106,26 +106,26 @@ async function crawlerIG (driver) {
 😈 goFansPage
 ----
 #### 😱讓程式執行時卡住的操作
-1. 傳入的**web_url**改成非網址格式的字串(如：'error_page')
-    * 程式會crash
+傳入的**web_url**改成非網址格式的字串(如：'error_page')
+* 程式會crash
 #### 👌解決方式
-1. 把這段登入的邏輯用try-catch包起來
-    ```js
-    async function goFansPage (driver, web_url) {
-        //登入成功後要前往粉專頁面
-        try {
-            await driver.get(web_url)
-        } catch (e) {
-            console.error('無效的網址')
-            console.error(e)
-            return false
-        }
+把這段登入的邏輯用try-catch包起來
+```js
+async function goFansPage (driver, web_url) {
+    //登入成功後要前往粉專頁面
+    try {
+        await driver.get(web_url)
+    } catch (e) {
+        console.error('無效的網址')
+        console.error(e)
+        return false
     }
-    ```
-* 🆗實際測試確認結果是否符合預期
-    1. 將 **const fanpage = "https://www.instagram.com/baobaonevertell/"** 改為非網址格式的字串 **const fanpage = "error_page"** 
-        *  會因不符合網址格式跳錯誤訊息
-        ![image](./article_img/err_ig_terminal5.png)       
+}
+```
+#### 🆗實際測試確認結果是否符合預期
+將 **const fanpage = "https://www.instagram.com/baobaonevertell/"** 改為非網址格式的字串 **const fanpage = "error_page"** 
+*  會因不符合網址格式跳錯誤訊息
+![image](./article_img/err_ig_terminal5.png)       
         
 😈 getTrace
 ----
