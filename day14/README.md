@@ -42,9 +42,9 @@
 1. 把IG的登入網址改成非網址格式的字串(如：'error')
     * 程式會crash
 2. 把IG的登入網址改成其他網址
-    * 找不到網頁上帳號密碼的文字輸入框、點擊登入的按鈕元件
+    * 找不到網頁上帳號密碼的文字輸入框、點擊登入的按鈕元件，程式會無限期等待
 3. 輸入錯誤的登入帳密
-    * 因為登入失敗網頁右上角永遠不會出現頭像元件
+    * 因為登入失敗網頁右上角永遠不會出現頭像元件，程式會無限期等待
 #### 👌解決方式
 1. 把這段登入的邏輯用try-catch包起來
 2. 執行成功時回傳true，如果執行上發生錯誤則回傳false，終止後續爬蟲動作
@@ -78,13 +78,25 @@
     }
     ```
 #### 🆗實際測試確認結果是否符合預期
-1. 將 **const web = 'https://www.instagram.com/accounts/login';** 這段改為 **const web = 'error';** 
+1. 將IG登入網址改為錯誤字串
+    ```js
+    //const web = 'https://www.instagram.com/accounts/login';
+    const web = 'error';
+    ```
     *  會因不符合網址格式跳錯誤訊息
     ![image](./article_img/err_ig_terminal1.png)
-2. 將 **const web = 'https://www.instagram.com/accounts/login';** 這段改為 **const web = 'https://www.google.com';**          
+2. 將IG登入網址改為其他無關網址   
+    ```js
+    //const web = 'https://www.instagram.com/accounts/login';
+    const web = 'https://www.google.com';
+    ```       
     * 會因找不到使用者輸入框元件超時而跳錯誤訊息  
     ![image](./article_img/err_ig_terminal2.png)
 3. 把.env環境檔裡面的登入帳號密碼改成錯誤的
+    ```env
+    IG_USERNAME='error'
+    IG_PASSWORD='error'
+    ```
     * 會因找不到頭像元件超時而跳錯誤訊息
     ![image](./article_img/err_ig_terminal3.png)
         
@@ -123,7 +135,11 @@ async function crawlerIG (driver) {
     }
     ```
 #### 🆗實際測試確認結果是否符合預期
-* 將 **const fanpage = "https://www.instagram.com/baobaonevertell/"** 改為非網址格式的字串 **const fanpage = "error_page"** 
+* 將IG帳號網址改為錯誤字串
+    ```js
+    //const fanpage = "https://www.instagram.com/baobaonevertell/"
+    const fanpage = "error_page"
+    ```
     *  會因不符合網址格式跳錯誤訊息
     ![image](./article_img/err_ig_terminal5.png)       
         
@@ -131,7 +147,7 @@ async function crawlerIG (driver) {
 ----
 #### 😱讓程式執行時卡住的操作
 * 上一步goFansPage的函式導向的並非Instagram帳號網址，或者該IG帳號不存在時
-    * 找不到網頁上追蹤人數的元件
+    * 找不到網頁上追蹤人數的元件，程式會無限期等待
     ![image](./article_img/err_instagram.png)        
 #### 👌解決方式
 1. 把這段登入的邏輯用try-catch包起來
@@ -155,7 +171,11 @@ async function crawlerIG (driver) {
     }
     ```
 #### 🆗實際測試確認結果是否符合預期
-* 將 **const fanpage = "https://www.instagram.com/baobaonevertell/"** 改為錯誤的網址 **const fanpage = "https://www.instagram.com/error_page_ex/"** 
+* 將IG帳號網址改為不存在帳號的網址(或是無關網址)
+    ```js
+    //const fanpage = "https://www.instagram.com/baobaonevertell/"
+    const fanpage = "https://www.instagram.com/error_page_ex/"
+    ```
     *  會因找不到追蹤人數的元件而跳錯誤訊息
     ![image](./article_img/err_ig_terminal6.png)
     
