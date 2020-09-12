@@ -1,27 +1,73 @@
 #### [回目錄](../README.md)
 ## Day15 善用json讓你批量爬蟲
 
-今天說的這個部分應該是大部分小編最關心的，要每天手動瀏覽那麼多的粉專想想都很崩潰  
-今天要來跟大家介紹的一個很棒的文本格式 **json** (JavaScript Object Notation) ，他同時也是網頁api回傳最常見的一種格式  
-我的文章偏向如何應用，如果你想對json有更深刻的理解請參考[這篇文章](https://www.footmark.info/programming-language/javascript/json-format-and-javascript/)裡面寫的超級詳盡、淺顯易動  
-
-json實作
+🤔 這個檔案要給非工程師填寫，為什麼是使用json而不是txt或是excel?
 ----
-因為我們的目標就是搜集粉專並做分析，因為有多個粉專所以最外層是用 **陣列(array)** ，而單純從粉專連結上我們無法直覺的判斷出他是誰的粉專，所以裡面會用 **物件(object)** 來設定title及url這兩個屬性，json結構如下
-```json
-[
-    {
-        "title": "粉專A",
-        "url": "粉專A連結"
-    },
-    {
-        "title": "粉專B",
-        "url": "粉專B連結"
-    }  
-]
-```
+專案在需求規格中有一條是**在自己的電腦執行**，在分析完各種檔案格式的優缺點後我決定使用json格式：
+* txt
+    * 優點：在所有作業系統中都能夠打開做編輯
+    * 缺點：格式難以律定，只要使用者多個空格、表點符號...都容易造成程式的誤判
+* excel
+    * 優點：這是對使用者而言最友善的一種編輯器了，視覺化良好、操作友善
+    * 缺點：並不是所有人電腦都有安裝 excel 編輯器(像我朋友就沒有)
+* json
+    * 優點：在所有作業系統中都能夠打開做編輯，key-value 的格式易於理解、程式可直接讀取
+    * 缺點：使用者需要花幾分鐘時間理解 json 格式的規則
 
-大家請先在專案資料夾中建立 **json** 的資料夾專門存放你想要使用的json檔案，並在json資料夾中新增 **ig.json、fb.json** 這兩個檔案並寫入你希望去爬蟲的網址及他對應的名稱，如果把上面的json結構套用到 **ig.json** ，實際上就會長得像這樣(筆者是以下貼圖的狂熱愛好者，歡迎一起追蹤按愛心ＸＤ)
+🏆 今日目標
+----
+1. 了解json格式與基本規則，並建立json格式的粉專清單
+2. 將粉專爬蟲的程式改寫為讀取json檔裡面的資料
+
+🤔 了解json格式與基本規則，並建立一份json格式的粉專清單
+----
+今天說的這個部分應該是大部分小編最關心的，要每天手動瀏覽那麼多的粉專想想都很崩潰  
+所以要來跟大家介紹的一個很棒的文本格式 **json** (JavaScript Object Notation) ，他同時也是網頁api回傳最常見的一種格式  
+
+#### json格式與基本規則
+json 可以包含 **object (物件)** 與 **array (陣列)** 
+* 物件
+    * 為 key-value 的格式
+        ```js
+        { "key" : "value" }
+
+        { "姓名" : "寶寶不說" } //通常用於描寫一項屬性的數值
+        ```
+    * 多個物件使用 , 做為分隔
+        ```js
+        { "key" : "value" , "key" : "value" }
+
+        { "姓名" : "寶寶不說" , "性別" : "不明" } //多個物件可表達一個東西的多種屬性
+        ```
+* 陣列
+    * 多個 value 之間使用 , 分隔
+        ```js
+        [ value, value ]
+
+        // 陣列與物件裡面value可以使用多種資料型態如下
+        [ 0 , { "傳奇寶寶" : null } , "string" , false , ['test'] ]
+        ```
+
+#### 建立json格式的粉專清單
+**建構邏輯：**
+1. 我們有許多粉專需要去追蹤，所以最外層會用 **陣列(array)**  
+2. 而每個粉專都有自己的屬性(title為粉專名稱、url為粉專網址)，所以陣列裡面的 value 採用 **物件(object)** 
+    ```json
+    [
+        {
+            "title": "粉專A",
+            "url": "粉專A連結"
+        },
+        {
+            "title": "粉專B",
+            "url": "粉專B連結"
+        }  
+    ]
+    ```
+**在專案建立的步驟：**
+1. 在專案資料夾中建立 **json** 的資料夾專門存放你想要使用的json檔案
+2. 在json資料夾中新增 **ig.json、fb.json** 這兩個檔案，並依照上述json結構填上你要爬蟲的資訊  
+3. 你可以先複製下方範例做測試(筆者是以下貼圖的狂熱愛好者，歡迎一起追蹤按愛心XD)
 #### ig.json
 ```json
 [
@@ -48,13 +94,13 @@ json實作
 ]
 ```
 
-程式撰寫要點
+將粉專爬蟲的程式改寫為讀取json檔裡面的資料
 ----
 * 只需要把這份json給引入(請注意路徑)就可以直接使用了  
     ```js
     const fanpage_array = require('../json/ig.json');
     ```
-* 程式的部分只要改寫成for迴圈即可
+* 將前往粉專頁面與爬蟲的部分用 **for/of迴圈** 包起來，讓他依序前往粉專頁面抓資料
     ```js
     for (fanpage of fanpage_array) {
         // 撰寫你要對fanpage做的事       
@@ -89,28 +135,33 @@ json實作
             }
         }
     }
-    ...
+    ...//後面程式一樣
     ```
 
-執行程式
+🚀 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令 **yarn start** 指令，你會看到瀏覽器依序登入IG & FB並跳轉到你所列出的粉專，大概喝一口水的時間後，你就能看到FB & IG的追蹤人數嚕～  
-![image](./article_img/terminal.png)  
-搭配上json後有沒有覺得自己功力大增XD，上面的是IG的範例，大家可以自己嘗試看看FB部分的如何改寫喔～
-
-專案原始碼
-----
-加入json後改寫的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day14)喔
-你可以整個專案clone下來  
-```
-git clone https://github.com/dean9703111/ithelp_30days.git
-```
-如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
-```
-git pull origin master
-cd day14
-調整你.env檔填上 FB & IG 登入資訊
-yarn
+在專案資料夾的終端機(Terminal)執行指令
+```sh
 yarn start
 ```
+畫面執行順序：Instagram自動登入 &rarr; 依序跳轉到指定帳號 &rarr; Facebook自動登入 &rarr; 依序跳轉到粉絲頁 &rarr; 關閉
+
+大概裝完一壺水的時間後，你就能看到FB & IG的追蹤人數嚕～  
+![image](./article_img/terminal.png)  
+
+搭配上json後有沒有覺得自己功力大增XD，上面的是IG的範例，大家可以自己嘗試看看FB部分的如何改寫喔～
+
+
+ℹ️ 專案原始碼
+----
+* 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day15)找到喔
+* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/sampleCode/day14_sample_code.zip)，你可以用裡面乾淨的環境來實作今天的重構喔
+    * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
+    * 調整你.env檔填上IG、FB登入資訊
+    * 調整你json資料夾內目標爬蟲粉專的網址
+
+📖參考資源
+----
+[JSON 格式與 JavaScript 解析教學範例](https://www.footmark.info/programming-language/javascript/json-format-and-javascript/)
+[用Math.random()取得亂數的技巧](https://ithelp.ithome.com.tw/articles/10197904)
 ### [Day16 優化爬蟲體驗 && 思路分享](/day16/README.md)

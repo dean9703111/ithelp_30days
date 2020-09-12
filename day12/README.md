@@ -197,7 +197,7 @@ yarn start
 
 >PS.如果想要中斷終端機(Terminal)執行的程式，可以用下面按鍵組合:
 >* Windows: Ctrl + c
->* Mac: cmd + c
+>* Mac: control + c
 
 
 ℹ️ 專案原始碼

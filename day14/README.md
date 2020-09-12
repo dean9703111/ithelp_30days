@@ -48,7 +48,7 @@
 #### 👌解決方式
 1. 把這段登入的邏輯用try-catch包起來
 2. 執行成功時回傳true，如果執行上發生錯誤則回傳false，終止後續爬蟲動作
-3. 為driver.wait加上合理的等待時間(3秒鐘)
+3. 為driver.wait加上合理的等待時間(3~5秒鐘)
     >PS.在程式的世界中通常時間都是以毫秒為單位，所以我們填上3000
 
     ```js
@@ -68,7 +68,7 @@
             login_elem.click()
 
             //登入後才會有右上角的頭像，我們以這個來判斷是否登入
-            await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)), 3000)
+            await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)), 5000)
             return true
         } catch (e) {
             console.error('IG登入失敗')
@@ -151,7 +151,7 @@ async function crawlerIG (driver) {
     ![image](./article_img/err_instagram.png)        
 #### 👌解決方式
 1. 把這段登入的邏輯用try-catch包起來
-2. 為driver.wait加上合理的等待時間(3秒鐘)
+2. 為driver.wait加上合理的等待時間(5秒鐘)
     ```js
     async function getTrace (driver) {
         let ig_trace = 0;//這是紀錄IG追蹤人數

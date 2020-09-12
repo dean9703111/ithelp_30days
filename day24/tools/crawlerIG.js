@@ -51,7 +51,7 @@ async function loginInstagram (driver) {
         login_elem.click()
 
         //登入後才會有右上角的頭像，我們以這個來判斷是否登入
-        await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)), 3000)
+        await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)), 5000)
         return true
     } catch (e) {
         console.error('IG登入失敗')
