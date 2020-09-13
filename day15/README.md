@@ -164,4 +164,6 @@ yarn start
 ----
 [JSON 格式與 JavaScript 解析教學範例](https://www.footmark.info/programming-language/javascript/json-format-and-javascript/)
 [用Math.random()取得亂數的技巧](https://ithelp.ithome.com.tw/articles/10197904)
+
+>*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
 ### [Day16 優化爬蟲體驗 && 思路分享](/day16/README.md)
