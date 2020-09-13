@@ -44,7 +44,7 @@
     * [Day13 refactor-重構程式碼，讓合作夥伴對你比讚](/day13/README.md)
     * [Day14 try-catch 讓程式更穩定](/day14/README.md)
     * [Day15 善用json讓你批量爬蟲](/day15/README.md)
-    * [Day16 優化爬蟲體驗 && 思路分享](/day16/README.md)
+    * [Day16 優化爬蟲體驗 & 思路分享](/day16/README.md)
 
 * Google Sheets
     * [Day17 Google Sheets-起手式，取得寫入google sheets的憑證(credentials)](/day17/README.md)
