@@ -110,7 +110,7 @@
 
 📖參考資源
 ----
-[selenium啓動Chrome的進階配置參數](https://stackoverflow.max-everyday.com/2019/12/selenium-chrome-options/)
+1. [selenium啓動Chrome的進階配置參數](https://stackoverflow.max-everyday.com/2019/12/selenium-chrome-options/)
 <br>
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
