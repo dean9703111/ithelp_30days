@@ -57,10 +57,11 @@ crawler()
 **記住一個大原則：一個函式只需要做一件事情！**
 
 現在我們把FB的登入以及取得追蹤人數寫在同一隻函式，這樣會增加你日後維護的困難度，因為函式越長，你越難抓出錯誤的點；以loginFacebookGetTrace這隻函式舉例，它實際上可以解構成好幾個功能：  
-1. Facebook爬蟲 - crawlerFB
-2. 登入Facebook - loginFacebook
-3. 前往粉絲頁 - goFansPage
-4. 取得追蹤人數 - getTrace  
+1. 確認Facebook是經典版/新版，並回傳爬蟲路徑 - getCrawlerPath
+2. Facebook爬蟲 - crawlerFB
+3. 登入Facebook - loginFacebook
+4. 前往粉絲頁 - goFansPage
+5. 取得追蹤人數 - getTrace  
 把每個功能獨立成函式，你就能輕鬆除錯(debug)。下面程式以FB作為範例，你可以自己練習改寫IG的部分喔  
 #### crawlerFB.js
 ```js
@@ -69,14 +70,31 @@ const fb_userpass = process.env.FB_PASSWORD
 const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
 exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
 
-async function crawlerFB (driver) {
+// FB有經典版以及新版的區分，兩者的爬蟲路徑不同，我們藉由函式取得各自的路徑
+const { fb_head_path, fb_trace_path } = getCrawlerPath();
+
+function getCrawlerPath () {
+    if (process.env.FB_VERSION === 'new') {//如果是新版FB
+        return {
+            "fb_head_path": `//*[contains(@class,"fzdkajry")]`,
+            "fb_trace_path": `//*[contains(@class,"knvmm38d")]`
+        }
+    } else {//如果為設定皆默認為舊版
+        return {
+            "fb_head_path": `//*[contains(@class,"_1vp5")]`,
+            "fb_trace_path": `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
+        }
+    }
+}
+
+async function crawlerFB(driver) {    
     await loginFacebook(driver)
-    const fanpage = "https://www.facebook.com/baobaonevertell/" 
+    const fanpage = "https://www.facebook.com/baobaonevertell/"
     await goFansPage(driver, fanpage)
     await getTrace(driver)
 }
 
-async function loginFacebook (driver) {
+async function loginFacebook(driver) {
     const web = 'https://www.facebook.com/login';//我們要前往FB
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作
 
@@ -91,19 +109,19 @@ async function loginFacebook (driver) {
     login_elem.click()
 
     //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
-    await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
+    await driver.wait(until.elementLocated(By.xpath(fb_head_path)))//用登入後才有的元件，來判斷是否登入
 }
 
-async function goFansPage (driver, web_url) {
+async function goFansPage(driver, web_url) {
     //登入成功後要前往粉專頁面
     await driver.get(web_url)
 }
 
-async function getTrace (driver) {
+async function getTrace(driver) {
     let fb_trace = 0;//這是紀錄FB追蹤人數
     //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
-    const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
-    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
+    
+    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_path)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
     for (const fb_trace_ele of fb_trace_eles) {
         const fb_text = await fb_trace_ele.getText()
         if (fb_text.includes('人在追蹤')) {

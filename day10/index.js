@@ -15,7 +15,7 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
 const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
-function checkDriver() {
+function checkDriver () {
     try {
         chrome.getDefaultService()//確認是否有預設
     } catch {
@@ -34,8 +34,22 @@ function checkDriver() {
     return true
 }
 
+function getCrawlerPath () {
+    if (process.env.FB_VERSION === 'new') {//如果是新版FB
+        return {
+            "fb_head_path": `//*[contains(@class,"fzdkajry")]`,
+            "fb_trace_path": `//*[contains(@class,"knvmm38d")]`
+        }
+    } else {//如果為設定皆默認為舊版
+        return {
+            "fb_head_path": `//*[contains(@class,"_1vp5")]`,
+            "fb_trace_path": `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
+        }
+    }
+}
+
 async function loginFacebookGetTrace () {
-    
+
     if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
         return
     }
@@ -54,16 +68,18 @@ async function loginFacebookGetTrace () {
     const login_elem = await driver.wait(until.elementLocated(By.xpath(`//*[@id="loginbutton"]`)))
     login_elem.click()
 
+    // FB有經典版以及新版的區分，兩者的爬蟲路徑不同，我們藉由函式取得各自的路徑
+    const { fb_head_path, fb_trace_path } = getCrawlerPath();
+
     //因為登入這件事情要等server回應，你直接跳轉粉絲專頁會導致登入失敗
-    await driver.wait(until.elementLocated(By.xpath(`//*[contains(@class,"_1vp5")]`)))//登入後才會有右上角的名字，我們以這個來判斷是否登入
-    
+    await driver.wait(until.elementLocated(By.xpath(fb_head_path)))//用登入後才有的元件，來判斷是否登入
+
     //登入成功後要前往粉專頁面
     const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await driver.get(fanpage)
     let fb_trace = 0;//這是紀錄FB追蹤人數
     //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
-    const fb_trace_xpath = `//*[@id="PagesProfileHomeSecondaryColumnPagelet"]//*[contains(@class,"_4bl9")]`
-    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
+    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_path)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
     for (const fb_trace_ele of fb_trace_eles) {
         const fb_text = await fb_trace_ele.getText()
         if (fb_text.includes('人在追蹤')) {
