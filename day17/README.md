@@ -21,7 +21,7 @@
 ----
 1. 取得google sheeet憑證(credentials)
 2. 在專案加入官方提供的範例程式做測試
-3. 將credentials.json、token.json的路徑，加入.gitignore列表
+3. 將有權限存取Google Sheets的檔案加入.gitignore列表
 
 🔑 取得google sheeet憑證(credentials)
 ------------------------
@@ -39,7 +39,7 @@
     4. 千萬不要忘記下載這個憑證，下面的Client ID、Client Secret不需特別複製，都存在憑證檔裡面了
         ![image](./article_img/googlesheet4.png)  
 3. 在專案的tools資料夾下 **新增一個google_sheets資料夾** 專門存放Google Sheets相關檔案
-4. 將**下載好的憑證(credentials.json)放進去google_sheets資料夾**，這樣的目錄節結構會讓我們日後方便管理
+4. 將**下載好的憑證(credentials.json)放進去google_sheets資料夾**，這樣的目錄節結構會方便我們日後管理
 
 👀 在專案加入官方提供的範例程式做測試
 ----
@@ -169,7 +169,7 @@
         Dorothy, Math
         ...
         ```
-    5. 同時你會發現tools/google_sheets目錄下多了一個 **token.json** 的檔案，如果說credentials.json是打開藏寶庫的鑰匙，token.json就像是能夠把裡面寶藏搬進搬出的權杖，而這個權杖是有期限的(expiry_date)，期限過了就需要再申請
+    5. 聰明的你會發現 **tools/google_sheets** 目錄下 **多了一個token.json** 的檔案，如果說credentials.json是打開藏寶庫的鑰匙，token.json就像是能夠把裡面寶藏搬進搬出的權杖，而這個權杖是有期限的(expiry_date)，期限過了就需要再申請
 
 🚫 千萬不可把credentials.json、token.json加入版控，請將他們列入.gitignore列表
 --------------------------------------------------------
@@ -190,6 +190,6 @@ tools/google_sheets/token.json
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day17)找到喔
 * 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/sampleCode/day16_sample_code.zip)，你可以用裡面乾淨的環境來實作今天google sheets的起手式喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
-    * 在tools/google_sheets資料夾下放上自己的憑證
+    * 要在tools/google_sheets資料夾放上自己的憑證，今天的程式才能執行喔
     
 ### [Day18 Google Sheets-讀取自己的sheet](/day18/README.md)
