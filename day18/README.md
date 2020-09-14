@@ -9,7 +9,7 @@
 1. 找到輸出結果的console.log()位置 &rarr; *console.log('Name, Major:');*
 2. 確認是用哪個function來輸出 &rarr; *listMajors(auth)*
 3. 是誰call這個function &rarr; *authorize(JSON.parse(content), listMajors)*
-4. 首先要取得憑證才能夠授權 &rarr; *fs.readFile('credentials/googleSheets.json'*
+4. 首先要取得憑證才能夠授權 &rarr; *fs.readFile('credentials.json'*
 
 所以我們可以觀察到程式的邏輯都在 **listMajors** 這個函式中運行，並且可以看到兩個我們要特別注意的參數：  
 1. spreadsheetId：你的Google Sheets id

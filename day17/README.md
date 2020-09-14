@@ -59,7 +59,7 @@
     // The file token.json stores the user's access and refresh tokens, and is
     // created automatically when the authorization flow completes for the first
     // time.
-    const TOKEN_PATH = 'token.json';
+    const TOKEN_PATH = 'tools/google_sheets/token.json';
 
     // Load client secrets from a local file.
     fs.readFile('credentials.json', (err, content) => {
@@ -145,18 +145,26 @@
     ```
 3. 在終端機(Terminal)執行指令，測試能否運行
     ```sh
-    # 進入要執行的資料夾目錄
-    cd tools/google_sheets
-    # 執行程式
-    node index.js
+    node tools/google_sheets/index.js
     ```
-    1. 下面會有連結請你打開
+    1. 如果沒意外你應該會遇到如下錯誤  
+        ![image](./article_img/credentials.png)  
+        請將範例程式中讀取 **'credentials.json'** 路徑修改成專案的路徑 **'tools/google_sheets/credentials.json'**
+        ```js
+        //fs.readFile('credentials.json', (err, content) => {
+        fs.readFile('tools/google_sheets/credentials.json', (err, content) => {
+            if (err) return console.log('Error loading client secret file:', err);
+            // Authorize a client with credentials, then call the Google Sheets API.
+            authorize(JSON.parse(content), listMajors);
+        });
+        ```
+    2. 再執行一次 **node tools/google_sheets/index.js** 時下面會有連結請你打開
         ![image](./article_img/credentials_link.png)  
-    2. 打開後的網頁會要你選擇登入的Google帳號，看到下面的網頁時別害怕，點擊 **進階** 然後再點擊 **前往「Quickstart」(不安全)**
+    3. 打開後的網頁會要你選擇登入的Google帳號，看到下面的網頁時別害怕，點擊 **進階** 然後再點擊 **前往「Quickstart」(不安全)**
         ![image](./article_img/warning_web.png)  
-    3. 接著所有的授權都必須按 **允許** ，最後你會看到一組授權碼，把他複製下來貼回終端機(Terminal)就完成惹
+    4. 接著所有的授權都必須按 **允許** ，最後你會看到一組授權碼，把他複製下來貼回終端機(Terminal)就完成惹
         ![image](./article_img/credentails_code.png)  
-    4. 如果終端機(Terminal)有輸出類似下面的東西時就代表你成功了
+    5. 如果終端機(Terminal)有輸出類似下面的東西時就代表你成功了
         ```
         Name, Major:
         Alexandra, English
@@ -169,7 +177,13 @@
         Dorothy, Math
         ...
         ```
-    5. 聰明的你會發現 **tools/google_sheets** 目錄下 **多了一個token.json** 的檔案，如果說credentials.json是打開藏寶庫的鑰匙，token.json就像是能夠把裡面寶藏搬進搬出的權杖，而這個權杖是有期限的(expiry_date)，期限過了就需要再申請
+    6. 聰明的你會發現 **專案根目錄下多了一個token.json** 的檔案，如果說credentials.json是打開藏寶庫的鑰匙，token.json就像是能夠把裡面寶藏搬進搬出的權杖，而這個權杖是有期限的(expiry_date)，期限過了就需要再申請  
+        1. 為了方便管理我們把 token.json 搬移到 tools/google_sheets 的資料夾下
+        2. 修改範例程式中讀取 token.json 的路徑
+            ```js
+            //const TOKEN_PATH = 'token.json';
+            const TOKEN_PATH = 'tools/google_sheets/token.json';
+            ```
 
 🚫 千萬不可把credentials.json、token.json加入版控，請將他們列入.gitignore列表
 --------------------------------------------------------
@@ -179,8 +193,8 @@ node_modules
 .env
 chromedriver.exe
 debug.log
-tools/google_sheets/credentials.json
-tools/google_sheets/token.json
+credentials.json
+token.json
 ```
 >不熟悉的朋友可以參考 [Day6 gitignore-請勿上傳敏感、主程式以外的資料](../day6/README.md) 的文章
 

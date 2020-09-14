@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
 const dateFormat = require('dateformat');
-require('dotenv').config(); //載入.env環境檔
+require('dotenv').config({ path: '../../.env' }) //載入.env環境檔
 exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
 
 // If modifying these scopes, delete token.json.
@@ -11,7 +11,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = 'token.json';
+const TOKEN_PATH = 'tools/google_sheets/token.json';
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -97,11 +97,7 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
           // 你想給這個sheet的屬性
           "properties": {
             "sheetId": sheet_id,//必須為數字，且這個欄位是唯一值
-            "title": title,
-            "gridProperties": {
-              "frozenRowCount": 1,//我將最上面那一列設定為凍結
-              "frozenColumnCount": 1//我將最左邊那一欄設定為凍結
-            },
+            "title": title
           }
         },
       }]
@@ -273,21 +269,7 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
             "endIndex": 2
           },
           "inheritFromBefore": true
-        }
-      },
-      {
-        "updateDimensionProperties": {//這裡是為了修正欄寬
-          "range": {
-            "sheetId": sheet_id,
-            "dimension": "COLUMNS",
-            "startIndex": 1,
-            "endIndex": 2//只需要首欄
-          },
-          "properties": {
-            "pixelSize": 85
-          },
-          "fields": "pixelSize"
-        }
+        },
       }]
     }
   };
@@ -303,7 +285,7 @@ async function insertEmptyCol (title, sheet_id, auth) {//插入空白欄位
 function getAuth () {
   return new Promise((resolve, reject) => {
     try {
-      const content = JSON.parse(fs.readFileSync('credentials/googleSheets.json'))
+      const content = JSON.parse(fs.readFileSync('tools/google_sheets/credentials.json'))
       authorize(content, auth => {
         resolve(auth)
       })

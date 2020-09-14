@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
-require('dotenv').config(); //載入.env環境檔
+require('dotenv').config({ path: '../../.env' }) //載入.env環境檔
 exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
 
 // If modifying these scopes, delete token.json.
@@ -10,7 +10,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = 'token.json';
+const TOKEN_PATH = 'tools/google_sheets/token.json';
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -145,7 +145,7 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
 function getAuth () {
   return new Promise((resolve, reject) => {
     try {
-      const content = JSON.parse(fs.readFileSync('credentials/googleSheets.json'))
+      const content = JSON.parse(fs.readFileSync('tools/google_sheets/credentials.json'))
       authorize(content, auth => {
         resolve(auth)
       })

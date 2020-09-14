@@ -2,7 +2,7 @@ require('dotenv').config(); //載入.env環境檔
 const { initDrive } = require("./tools/initDrive.js");
 const { crawlerFB } = require("./tools/crawlerFB.js");
 const { crawlerIG } = require("./tools/crawlerIG.js");
-const { updateGoogleSheets } = require("./tools/googleSheets.js");
+const { updateGoogleSheets } = require("./tools/google_sheets");
 exports.crawler = crawler;//讓其他程式在引入時可以使用這個函式
 
 async function crawler () {
