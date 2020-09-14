@@ -1,4 +1,4 @@
-const fanpage_array = require('../json/ig.json');
+const fanpage_array = require('../fanspages/ig.json');
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
 const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能

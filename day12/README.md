@@ -221,7 +221,10 @@ yarn start
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day12)找到喔
 * 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/sampleCode/day11_sample_code.zip)，你可以用裡面乾淨的環境來實作今天的功能喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
-    * 調整你.env檔填上IG、FB登入資訊
+    * 調整.env檔
+        * 填上FB登入資訊
+        * 填上FB版本(classic/new)
+        * 填上IG登入資訊
 <br>
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*

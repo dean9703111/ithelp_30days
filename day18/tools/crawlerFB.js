@@ -1,4 +1,4 @@
-const fanpage_array = require('../json/fb.json');
+const fanpage_array = require('../fanspages/fb.json');
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
