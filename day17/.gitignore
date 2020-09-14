@@ -2,5 +2,5 @@ node_modules
 .env
 chromedriver.exe
 debug.log
-credentials
-token.json
+tools/google_sheets/credentials.json
+tools/google_sheets/token.json
