@@ -4,3 +4,4 @@ node_modules
 .env
 credentials.json
 token.json
+article_img
