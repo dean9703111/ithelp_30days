@@ -5,9 +5,7 @@
   "author": "dean lin",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "googleapis": "39",
-    "node-fetch": "^2.6.1",
-    "node-forge": "^0.10.0",
+    "googleapis": "39.0.0",
     "selenium-webdriver": "^4.0.0-alpha.7"
   },
   "devDependencies": {},
