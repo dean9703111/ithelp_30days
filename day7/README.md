@@ -98,6 +98,6 @@ CRONJOB_TIME='0 30 22 * * *'
 
 ℹ️ 專案原始碼
 ----
-今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day7)找到喔
+今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day7)找到喔
 
 ### [Day8 selenium-爬蟲起手式](/day8/README.md)

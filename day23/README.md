@@ -108,10 +108,10 @@ Google Sheets系列文章到這裡告一個段落，接下來我們會討論**�
 
 專案原始碼
 ----
-完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day22)喔
+完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day22)喔
 你可以整個專案clone下來  
 ```
-git clone https://github.com/dean9703111/ithelp_30days.git
+git clone https://github.com/dean9703111/ithelp_30days/tree/master.git
 ```
 如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
 ```

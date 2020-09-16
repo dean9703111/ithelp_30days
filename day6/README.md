@@ -91,6 +91,6 @@ yarn add dotenv
 
 ℹ️ 專案原始碼
 ----
-今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day6)找到喔
+今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day6)找到喔
 
 ### [Day7 gitignore-請勿上傳敏感、主程式以外的資料](/day7/README.md)

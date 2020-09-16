@@ -172,10 +172,10 @@ yarn add cron
 
 專案原始碼
 ----
-完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/day23)喔
+完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day23)喔
 你可以整個專案clone下來  
 ```
-git clone https://github.com/dean9703111/ithelp_30days.git
+git clone https://github.com/dean9703111/ithelp_30days/tree/master.git
 ```
 如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
 ```

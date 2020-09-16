@@ -155,8 +155,8 @@ yarn start
 
 ℹ️ 專案原始碼
 ----
-* 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day9)找到喔
-* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/sampleCode/day8_sample_code.zip)，你可以用裡面乾淨的環境來實作今天的功能喔
+* 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day9)找到喔
+* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/tree/master/sampleCode/day8_sample_code.zip)，你可以用裡面乾淨的環境來實作今天的功能喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 調整你.env檔填上FB登入資訊
 

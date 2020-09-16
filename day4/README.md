@@ -140,7 +140,7 @@
 
 ℹ️ 專案原始碼
 ----
-今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/day4)找到喔
+今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day4)找到喔
 
 >如果大家對於文章的內容有任何想法歡迎討論，希望這篇文章有給正在學習程式的人一些幫助與方向  
 
