@@ -1,7 +1,7 @@
-README.md
-chromedriver.exe
 node_modules
 .env
+chromedriver.exe
+debug.log
 credentials.json
 token.json
-article_img
+sh/crawler_cron.sh
