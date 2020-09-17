@@ -144,7 +144,7 @@
     }
     ```
 3. 在終端機(Terminal)執行指令，測試能否運行
-    ```sh
+    ```vim
     node tools/google_sheets/index.js
     ```
     1. 如果沒意外你應該會遇到如下錯誤  

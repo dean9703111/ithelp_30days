@@ -36,7 +36,7 @@
     let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
     ```
 3. index.js加入上面對瀏覽器的設定後在終端機(Terminal)執行指令
-    ```sh
+    ```vim
     yarn start
     ```
     你會發現彈窗提示不見了!
@@ -196,7 +196,7 @@ driver.quit();
 🚀執行程式
 ----
 在專案資料夾的終端機(Terminal)執行指令
-```sh
+```vim
 yarn start
 ```
 你會看到Facebook自動登入 &rarr; 跳轉到粉絲頁 &rarr; 關閉，如果能正確輸出該粉專的追蹤人數你就成功嚕～  

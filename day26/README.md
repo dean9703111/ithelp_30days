@@ -12,14 +12,14 @@ mac
         * .sh檔案寫法很簡單，平常你怎麼在終端機下指令就怎麼寫
         * 記得將your_path改為自己真正專案放置的位置
         #### crawler_cron.sh
-        ```sh
+        ```vim
         # 啟動排程服務
         cd /your_path/FB_IG_crawler
         yarn forever
         ```
 2. 一開始建立的檔案只有讀寫功能，我們要將此.sh檔案設定為可以被執行
     1. 我們先觀察crawler_cron.sh的權限
-        ```sh
+        ```vim
         # 進入資料夾
         cd sh
         # 列出資料夾地下檔案權限
@@ -29,7 +29,7 @@ mac
     2. 目前crawler_cron.sh的權限是 -rw-r--r-- 
         * 權限要把他切分成3段來看：owner/group/others，所以代表檔案的owner有讀(r)寫(w)的權限，而group/others只有讀(r)的權限
         * 而我們要讓這個檔案可以被執行(x)需要下指令更改權限  
-            ```sh
+            ```vim
             chmod 755 crawler_cron.sh
             ```
             ![image](./article_img/macsh2.png)

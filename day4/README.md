@@ -33,7 +33,7 @@
     ![image](./article_img/terminal.png)  
 
 2. 在專案資料夾的終端機(Terminal)輸入指令並按下 Enter 執行  
-    ```sh
+    ```vim
     node index.js
     ```
 3. 如果有印出 **helloWorld** 的字串那就代表你踏出成功的第一步了
@@ -46,7 +46,7 @@
 
 * 初始化package.json
     請打開terminal輸入如下指令，裡面會問你一些問題，你可以自由填寫，這些內容之後都可以修改
-    ```sh
+    ```vim
     npm init
     ```
 * 參數說明
@@ -89,7 +89,7 @@
 * 筆者經驗範例
     下面是筆者前端網頁在與同事merge branch時所需要下的指令，我想如果是人工來下應該會崩潰吧？  
     * 執行內容：移除local端套件&rarr;重新安裝套件&rarr;更新套件&rarr;根據開發環境執行
-        ```sh
+        ```vim
         rm -rf node_modules package-lock.json .nuxt yarn.lock yarn-error.log && yarn && yarn upgrade && yarn dev
         ```
     * 但是改寫成腳本後你只需要輸入指令 **yarn clean_start** 就能執行嚕
@@ -114,11 +114,11 @@
     }
     ```
     * 使用npm執行看看scripts
-        ```sh
+        ```vim
         npm start
         ```
     * 如果你有乖乖安裝yarn的環境，也可以用它執行喔
-        ```sh
+        ```vim
         yarn start
         ```
 未來隨著專案成長scripts也會隨著需求改寫，就讓我們跟著專案一起做中學吧～

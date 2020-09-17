@@ -145,7 +145,7 @@
 🚀 執行程式
 ----
 在專案資料夾的終端機(Terminal)執行指令
-```sh
+```vim
 yarn start
 ```
 你會看到chrome的應用程式自動打開並且成功登入Facebook  

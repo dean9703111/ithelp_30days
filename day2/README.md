@@ -51,7 +51,7 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
     3. 下載後一路瘋狂下一步即可  
     4. 安裝後開啟命令提示字元(CMD)
     5. 在CMD輸入指令確認nvm是否安裝成功  
-        ```sh
+        ```vim
         nvm
         ```
         ![image](./article_img/win_nvm_cmd.png)
@@ -59,11 +59,11 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 * mac 安裝步驟
     1. 打開終端機(Terminal)，以下步驟皆在終端機操作
     1. mac 建議先下載 Homebrew  
-        ```sh
+        ```vim
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
         ```
     2. 下載後安裝 nvm
-        ```sh
+        ```vim
         brew install nvm
         ```
     3. 確認nvm是否安裝成功
@@ -73,7 +73,7 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
         ![image](./article_img/mac_nvm.png)
 * 🤖 常用指令
     * 安裝特定Node.js版本
-        ```sh
+        ```vim
         nvm install [version]
         ```
         請切記要安裝一個Node.js版本，不然你寫的程式會沒有可以運行的環境
@@ -81,15 +81,15 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
         nvm install 14.7
         ```
     * 切換Node.js版本
-        ```sh
+        ```vim
         nvm use [version]
         ```
     * 列出本機(local)已經安裝好的Node.js版本
-        ```sh
+        ```vim
         nvm list
         ```
     * 顯示當下Node.js版本
-        ```sh
+        ```vim
         nvm current
         ```
 >筆者安裝版本：1.1.7
@@ -102,15 +102,15 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 >我有朋友使用windows怎麼樣都無法正常安裝git，如果你也遇到了這個不幸，你還是有[Git桌面板](https://desktop.github.com/)可以選擇的
 #### 🤖 常用指令如下：
 * 抓取遠端數據庫(僅確認有什麼更新，不合併)
-    ```sh
+    ```vim
     git fetch
     ```
 * 抓取遠端數據庫更新
-    ```sh
+    ```vim
     git pull 
     ```
 * 更新遠端數據庫
-    ```sh
+    ```vim
     git push 
     ```
 >筆者windows安裝版本：2.27.0.windows.1
@@ -124,19 +124,19 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 
 #### 🤖 常用指令如下
 1. 依據package.json安裝所有套件  
-    ```sh
+    ```vim
     yarn
     ```
 2. 安裝到dependencies
-    ```sh
+    ```vim
     yarn add [package]
     ```
 3. 安裝到devDependencies
-    ```sh
+    ```vim
     yarn add [package] –save-dev
     ```
 4. 全域安裝套件(使該套件可在電腦任何位置被呼叫)
-    ```sh
+    ```vim
     yarn global add [package]
     ```
 >筆者安裝版本：1.19.2

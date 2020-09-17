@@ -46,7 +46,7 @@
 ⚙ 使用環境變數
 ----
 接著我們要知道如何在程式中引入昨天安裝的 **dotenv** 套件，如果還沒安裝的請在終端機(Terminal)輸入指令  
-```sh
+```vim
 yarn add dotenv
 ```
 套件安裝完後，建議使用前你先看一下[官方文檔](https://www.npmjs.com/package/dotenv)來了解如何使用  
@@ -77,7 +77,7 @@ yarn add dotenv
 🚀 執行程式
 ----
 1. 在專案資料夾的終端機(Terminal)執行指令
-    ```sh
+    ```vim
     yarn start
     ```
     如果有輸出"這是環境變數"的字串就代表你成功嚕～
