@@ -60,7 +60,7 @@
     3. **程式哪裏呼叫了listMajors這個function** &rarr; *authorize(JSON.parse(content), listMajors)*
     4. 於是我們找到程式的根源，**要先要取得憑證才能執行authorize(授權)** &rarr; *fs.readFile('tools/google_sheets/credentials.json'...)*
 
-* 分析後我們可得知取得授權後，對Google sheets的處理都在 **listMajors** 這個函式，裡面有兩個參數我們要特別注意：  
+* 經過分析我們就可了解取得授權後對Google sheets的處理都在 **listMajors** 這個函式，裡面有兩個參數我們要特別注意：  
     1. **spreadsheetId**：你的Google Sheets id
     2. **range**：你指定讀取的範圍
 
@@ -82,13 +82,13 @@
     ```js
     spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'  
     ```
-    就會發現他是在網址 https://docs.google.com/spreadsheets/d/`1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms`/edit 的這個位置
+    就會發現他是在網址 https://docs.google.com/spreadsheets/d/ `1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms` /edit 的這個位置
 3. 我們建立好Google Sheets後就把spreadsheetId替換成自己的(實際網頁位置如下圖紅框處)  
     ![image](./article_img/googlesheet_url.png)  
     ```js
     spreadsheetId: process.env.SPREADSHEET_ID
     ```
-    * 因為spreadsheetId並不適合公開放到git上面(你應該不會想公布這份Google Sheets給全世界吧)，所以我們要把`**spreadsheetId複製起來放到.env裡面設定為環境變數**`
+    * 因為spreadsheetId並不適合公開放到git上面(你應該不會想公布這份Google Sheets給全世界吧)，所以我們要把**spreadsheetId複製起來放到.env裡面設定為環境變數**
         #### .env.exmaple
         ```
         #填寫自己登入IG的真實資訊(建議開小帳號來實驗，因為帳號使用太頻繁會被官方鎖住)
