@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
 const dateFormat = require('dateformat');
-require('dotenv').config({ path: '../../.env' }) //載入.env環境檔
+require('dotenv').config() //載入.env環境檔
 exports.updateGoogleSheets = updateGoogleSheets;//讓其他程式在引入時可以使用這個函式
 
 // If modifying these scopes, delete token.json.
