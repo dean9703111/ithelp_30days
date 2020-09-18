@@ -29,7 +29,7 @@
     * [Day2 開發環境大補帖 - Node.js、NVM、git、yarn、VSCode](/day2/README.md)
 
 * 專案基礎知識
-    * [Day3 努力寫出更好的程式碼，有時候你不是一個人在戰鬥](/day3/README.md)
+    * [Day3 努力寫出更好的程式碼，有時你不是一個人在戰鬥](/day3/README.md)
     * [Day4 開始Node.js旅程](/day4/README.md)
     * [Day5 讓全世界的大神幫你一把 & 使用yarn安裝及控管套件](/day5/README.md)
     * [Day6 env-善用環境變數幫你做到快速遷移專案](/day6/README.md)

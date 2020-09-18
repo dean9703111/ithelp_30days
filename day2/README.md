@@ -183,4 +183,4 @@ PS. 因使用mac較多，windows按鍵請自行轉換：cmd = ctrl, option = alt
 4. [一應俱全的整合開發環境IDE](https://docs.f5ezcode.in/cs-basic/di-ba-zhang-gong-cheng-de-gong-ju/8.1-zheng-he-jing-ide)
 5. [用Yarn取代npm加速開發](https://ithelp.ithome.com.tw/articles/10191745)
 
-### [Day3 努力寫出更好的程式碼，有時候你不是一個人在戰鬥](/day3/README.md)
+### [Day3 努力寫出更好的程式碼，有時你不是一個人在戰鬥](/day3/README.md)
