@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day18 Google Sheets-讀取自己的sheet
+## Day18 Google Sheets-搞懂官方範例 & 讀取自己的sheet
 
 >盡信書不如無書
 

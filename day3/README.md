@@ -124,4 +124,4 @@
 3. [var, let, const 差異](https://medium.com/@totoroLiu/javascript-var-let-const-%E5%B7%AE%E7%95%B0-e3d930521230)
 4. [var 與 let 的主要差別](https://medium.com/@realdennis/%E9%96%92%E8%81%8A-var%E8%88%87let%E7%9A%84%E6%87%B6%E4%BA%BA%E5%8C%85-javascript-b5a3f40ee28d)
 5. [JavaScript ES6 中使用 const 宣告常數](https://pjchender.blogspot.com/2017/01/const.html)
-### [Day4 開始Node.js旅程](/day4/README.md)
+### [Day4 建立Node.js專案 & 全面理解專案管家package.json](/day4/README.md)
