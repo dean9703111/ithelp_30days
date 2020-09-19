@@ -5,9 +5,9 @@
 
 🤔 筆者有話先說
 ----
-在使用Google api上你要煩惱的不是沒有功能，而是你找不到功能在哪裡，因為**這份api文件實在是太龐大了**，對新手來說非常容易在文件中迷路...  
+使用Google api時你要煩惱的不是沒有功能，而是你找不到功能在哪裡，因為**這份api文件實在是太龐大了**，對新手來說非常容易在文件中迷路...  
 
-接下來的文章會像是拼圖一樣，在列出需求後，我們要從官方文件中找出符合需求的資源，`如何從官方文件找出需要的資源就是我接下來要分享的重點`，我希望這能幫助到剛接觸巨型文件的朋友們
+接下來的文章會像是拼圖一樣，在列出需求後我們要從官方文件中找出符合需求的資源，`如何從官方文件找出需要的資源是接下來要分享的重點`，我希望這能幫助到剛接觸巨型文件的朋友們
 
 🤔 爬蟲資料如何自動化的塞入Google Sheets?
 ----
@@ -32,7 +32,7 @@
 
 建立放FB粉專、IG粉專爬蟲資料的Sheet
 ----
-### STEP1: 將Google Sheets線上的Sheet全都抓下來
+### STEP1: 將Google Sheets線上的Sheet全都抓下來：**getSheets**
 * 尋找資源的步驟：
     1. 先進入[官方文件](https://developers.google.com/sheets/api/samples)範例的首頁，用關鍵字 **sheet** 搜尋頁面上的資訊
         * **Sheet Operations** 的描述上是比較符合我們需求的，因為我們要找出spreadsheet底下的sheet資訊
@@ -68,7 +68,7 @@
         }
     }
     ```
-### STEP2: 判斷FB粉專、IG粉專是否存在於抓下來的sheet
+### STEP2: 判斷FB粉專、IG粉專是否存在於抓下來的sheet：**getFBIGSheet**
 * `getFBIGSheet`：這隻函式是要取得FB粉專、IG粉專的sheet資訊，會分成三個步驟
     1. 我們要先知道目前已經存在的sheets是否有'FB粉專'、'IG帳號'這兩個，所以要取得線上sheets：`getSheets`
     2. 判斷**FB粉專、IG粉專**是否存在於`getSheets`回傳的資料裡面    
@@ -101,7 +101,7 @@
         return sheets;
     }
     ```
-### STEP2-1: 新增Sheet
+### STEP2-1: 新增Sheet：**addSheet**
 * 尋找資源的步驟：
     1. 由STEP1的經驗可以知道想要操作Sheet就要在[Sheet Operations](https://developers.google.com/sheets/api/samples/sheet)這個頁面尋找資源
         * 比起取得所有Sheet屬性而言，新增Sheet的文件非常好找
@@ -188,7 +188,7 @@
     }
     ```
 
-修改主程式讓他能執行今天的功能
+讓主程式呼叫外部函式updateGoogleSheets
 ----
 * 因為要跟之前的爬蟲程式結合，所以主程式要能呼要google_sheets提供的外部函式updateGoogleSheets()，為了方便測試今天的功能先把爬蟲的功能暫時註解
   #### index.js

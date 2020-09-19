@@ -29,11 +29,53 @@
 ----
 用對的方式宣告變數才會讓人了解到他的意義  
 * var : 作用範圍在函式(function裡面)，這樣的宣告方式讓他可以在函式內的任何位置使用，但因為容許重複宣告，所以**會造成變數被覆寫的意外**，請盡量減少使用
+    ```js
+    function test() {
+      // 宣告時給一個初始值
+      var baby = "寶寶本尊"
+
+      // 再次宣告
+      var baby = "寶寶被污染了"
+      console.log(baby) // 會印出'寶寶被污染了'
+    }
+    ```
 * let : 作用範圍在區塊(block裡面{})，可被重新指定值，**let與const皆不可重複宣告會報錯**
+    ```js
+    function test() {
+        // 宣告時給一個初始值
+        let baby = "寶寶本尊"
+
+        // 重新指定值
+        baby = "寶寶變身"
+        console.log(baby) // 會印出'寶寶變身'
+
+        // 再次宣告
+        let baby = "寶寶壞掉了"
+        // 會跳出錯誤 SyntaxError: Identifier 'baby' has already been declared
+    }
+    ```
 * const : 作用範圍在區塊(block裡面{})，宣告後為不可被重新指定值的常數，使用他就是為了避免該常數被修改
     * 定義不做改變的常數 : const PI = 3.14159
+        ```js
+        function test() {
+            // 宣告時給一個初始值
+            const baby = "寶寶不可改變"
+            // 重新指定值
+            baby = "寶寶變身失敗"
+            // 會跳出錯誤 TypeError: Assignment to constant variable.
+        }
+        ```
     * 特別注意如果const宣告陣列(array)或物件(object)時是可以被改變的，因為他們都是reference type
-
+        ```js
+        function test () {
+            // 宣告為物件
+            const baby = { name: "寶寶本尊" }
+            
+            // 重新指定值
+            baby.name = "寶寶變身"
+            console.log(baby) // 會印出'{ name: '寶寶變身' }'
+        }
+        ```
 ✅ 有意義的命名
 ----
 這裡要看你工作環境的默契去做調整，但還是有幾個基礎要求  
