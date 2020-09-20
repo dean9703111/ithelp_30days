@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day5 讓全世界的大神幫你一把 & 使用yarn安裝及控管套件
+## Day5 使用yarn安裝及控管套件 & 善用關鍵字讓全世界的大神幫你一把
 
 🤔 為什麼寫這篇文章？
 ----
@@ -35,22 +35,31 @@ EX:你需要了解怎麼使用電腦，但你不需要去學習怎麼做出一�
 🤔 如何找出適合的套件
 ----
 由於套件的資源實在是太多了，不管是大神還是新手都可以發布套件，這造成了套件本身的良莠不齊，我這裡提供幾個幫助你判斷套件是否符合你需求以及功能品的方法：
-1. 有時候你需要的功能有很多個套件可以完成，建議你選擇**被最多人使用**的
-    * 我們在提供npm套件的網頁搜尋env就出現了高達149頁的套件
+1. 我會先用下面幾個最基礎的指標來做判斷
+    * **套件最後發布時間**：太久沒維護的套件請謹慎選用
+    * **每週下載次數**：越多人下載的套件穩定性越高
+    * **版本**：一般來說 1.0.0 以前的版本通常穩定性上有疑慮，盡可能避免使用
+2. 有時候你需要的功能有很多個套件可以完成，這時上面的指標便可成為我們選用的依據
+    * 我們在提供[npm套件的網頁搜尋env](https://www.npmjs.com/search?q=env)就出現了高達149頁的套件
         ![image](./article_img/npmsearch.PNG)
-    * 你點開幾個便會發現使用套件的人數差異很大，就算功能一樣基本上選人多的比較安全
+    * 我們點開前兩個套件：[env](https://www.npmjs.com/package/env)、[dotenv](https://www.npmjs.com/package/dotenv)來做比較，你就很清楚選哪個是比較有保障的了
+        |套件|env|dotenv|
+        |---|---|---|
+        |最後發布時間|9 years ago|10 months ago|
+        |每週下載次數|2,171|11,326,358|
+        |版本|0.0.2|8.2.0|
         ![image](./article_img/npmuse1.PNG)
         ![image](./article_img/npmuse2.PNG)
 
-2. 你同時要關心該套件的issues數量，如果太多建議你點進去看看open issues，因為有些套件很久沒維護了
-    * 點擊issues的數字便可跳到github的頁面來看open issues與closed issues的數量
+3. 你同時要`關心該套件的issues數量`，如果太多建議你點進去看看open issues，因為有些套件很久沒維護了
+    * 點擊issues的數字便可跳到github的頁面來看 **open issues** 與 **closed issues** 的數量
         ![image](./article_img/npmissue1.PNG)
         ![image](./article_img/npmissue2.PNG)
-3. 先透過閱讀套件的文件來第一步確認是否有你想要的功能
+4. 先透過閱讀套件的文件來第一步確認是否有你想要的功能
     * 點擊Homepage下方連結會導向該套件的說明文件(也有可能是套件官網)
         ![image](./article_img/npmreadme1.PNG)
         ![image](./article_img/npmreadme2.PNG)
-4. 大部分的套件都有提供sample code，你可以先用這些sample code來確認這個套件是否符合你的需求
+5. 大部分的套件都有提供 sample code，`建議把套件加入專案前先用 sample code 測試來確認這個套件是否符合你的需求`
 
 
 🤔 如何安裝套件，以及安裝後目錄結構的變化
@@ -64,7 +73,7 @@ yarn add dotenv
 * **yarn.lock** 檔案：為了保證在不同機器上能得到一樣的結果，所以需要這個檔案儲存每個相依性所安裝的確切的版本  
     <img src="./article_img/folder.png" width="194" height="242"/>  
 
-    同時在package.json檔案中也有變化  
+* 同時 **package.json** 檔案內容也有變化  
     <img src="./article_img/packagejson.png" width="370" height="350"/>  
 
 你會發現在 **dependencies** 中多了你剛剛安裝的套件 **dotenv** 版本為 **"^8.2.0"**
@@ -74,6 +83,7 @@ yarn add dotenv
 因為部分套件有版本相依性，所以你需要學會如何控制套件的版本
 * 套件更新到最新版本後壞掉是常有的事
 * 有些套件甚至是在某個框架下只有某幾個版本能用
+#### 所以我們需要了解如何`透過版號控制專案下的套件版本`
 
 版本格式：**主版號.次版號.修訂號**
 * 1.0.0.
@@ -92,6 +102,7 @@ yarn add dotenv
         * ~0.2  版本範圍  >=0.2.0 <0.3.0
 * git://github.com/user/project.git#commit-ish
     * 直接使用 Git URL 的套件
+>建議你去調整專案 package.json 的套件版本做練習，在專案資料夾的終端機(Terminal)執行指令 yarn 就會依照你的設定安裝，藉此觀察下載的套件版本是否都在你的掌握之中
 
 🤔 如何下關鍵字找工具
 ----
