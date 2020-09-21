@@ -29,10 +29,10 @@
     * [Day2 開發環境大補帖 - Node.js、NVM、git、yarn、VSCode](/day2/README.md)
 
 * 專案基礎知識
-    * [Day3 什麼是好的程式碼](/day3/README.md)
-    * [Day4 開始Node.js旅程](/day4/README.md)
-    * [Day5 讓全世界的大神幫你一把 & 使用yarn安裝及控管套件](/day5/README.md)
-    * [Day6 env-善用環境變數幫你做到快速遷移專案](/day6/README.md)
+    * [Day3 努力寫出更好的程式碼，有時你不是一個人在戰鬥](/day3/README.md)
+    * [Day4 建立Node.js專案 & 全面理解專案管家package.json](/day4/README.md)
+    * [Day5 用yarn安裝及控管套件 & 善用關鍵字讓全世界的大神幫你一把](/day5/README.md)
+    * [Day6 env-善用環境變數幫你快速遷移專案](/day6/README.md)
     * [Day7 gitignore-請勿上傳敏感、主程式以外的資料](/day7/README.md)
 
 * 網頁爬蟲
@@ -48,7 +48,7 @@
 
 * Google Sheets
     * [Day17 Google Sheets-起手式，取得寫入google sheets的憑證(credentials)](/day17/README.md)
-    * [Day18 Google Sheets-讀取自己的sheet](/day18/README.md)
+    * [Day18 Google Sheets-搞懂官方範例 & 讀取自己的sheet](/day18/README.md)
     * [Day19 Google Sheets-判斷Sheet存在與否並自動創建](/day19/README.md)
     * [Day20 Google Sheets-將爬蟲資料寫入](/day20/README.md)
     * [Day21 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位](/day21/README.md)
