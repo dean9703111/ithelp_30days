@@ -5,3 +5,6 @@ node_modules
 credentials.json
 token.json
 article_img
+
+!**/day6/.env
+!**/day6/node_modules
