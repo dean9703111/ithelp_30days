@@ -151,4 +151,4 @@
 3. [常見的五個開源專案授權條款，使用軟體更自由](https://noob.tw/open-source-licenses/)
 4. [在開源時代的興起下，如何透過License共享並保有權益](https://progressbar.tw/posts/61)
 5. [如何使用 npm script 變成你的建立工具](http://jamestw.logdown.com/posts/1378697-egghead-how-to-use-npm-scripts-as-your-build-tool)
-### [Day5 讓全世界的大神幫你一把 & 使用yarn安裝及控管套件](/day5/README.md)
+### [Day5 用yarn安裝及控管套件 & 善用關鍵字讓全世界的大神幫你一把](/day5/README.md)
