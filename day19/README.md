@@ -26,7 +26,7 @@
         * 存在就記錄下來
         * 不存在就新增Sheet
 * 重新架構Google Sheets程式
-    1. 建立exports函式：**updateGoogleSheets**
+    1. 建立外部函式模組：**updateGoogleSheets**
     2. 將取得auth(認證)的步驟改寫為函式：**getAuth**
 
 
