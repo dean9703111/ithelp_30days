@@ -132,7 +132,11 @@
         }
         ```
 3. 在程式加入等待登入完成才能前往粉專的邏輯
-    我們用上一步的class：`fb_head_path`，作為判斷登入與否的依據
+    * 我們用上一步的class：`fb_head_path`，作為判斷登入與否的依據
+    * 考慮到每個人網速不同，為了保證元件載入的穩定性，讓瀏覽器前往粉專頁面3秒後再運作
+        ```js
+        await driver.sleep(3000)
+        ```
     ```js
     // FB有經典版以及新版的區分，兩者的爬蟲路徑不同，我們藉由函式取得各自的路徑
     const { fb_head_path } = getCrawlerPath();
@@ -144,6 +148,7 @@
     //登入成功後要前往粉專頁面
     const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await driver.get(fanpage)
+    await driver.sleep(3000)
     ```
 
 ### 5. 找出追蹤者人數的元件位置

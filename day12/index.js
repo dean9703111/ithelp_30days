@@ -51,6 +51,8 @@ async function loginFacebookGetTrace (driver) {
     //登入成功後要前往粉專頁面
     const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await driver.get(fanpage)
+    await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//瀏覽器暫停3~6秒
+
     let fb_trace = 0;//這是紀錄FB追蹤人數
     //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
     
@@ -84,7 +86,8 @@ async function loginInstagramGetTrace (driver) {
     //登入成功後要前往粉專頁面
     const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await driver.get(fanpage)
-
+    await driver.sleep(3000)
+    
     let ig_trace = 0;//這是紀錄IG追蹤人數
     const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
     const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    

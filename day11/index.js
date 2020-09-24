@@ -63,6 +63,7 @@ async function loginInstagramGetTrace () {
     //登入成功後要前往粉專頁面
     const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await driver.get(fanpage)
+    await driver.sleep(3000)
 
     let ig_trace = 0;//這是紀錄IG追蹤人數
     const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`

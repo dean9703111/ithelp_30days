@@ -108,7 +108,7 @@ json 可以包含 **object (物件)** 與 **array (陣列)**
     ```
 * 我們要當個好爬蟲，每個頁面設定爬蟲間隔3-6秒(這裡我們使用Math.random()取得區間亂數)，不要因為自己的爬蟲造成別人伺服器的負擔
     ```js
-    await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
+    await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲停留3~6秒，不要造成別人的伺服器負擔
     ```
 * 統整後完整程式如下
     #### crawlerIG.js
@@ -125,13 +125,14 @@ json 可以包含 **object (物件)** 與 **array (陣列)**
             console.log(`IG開始爬蟲`)
             for (fanpage of fanpage_array) {
                 await goFansPage(driver, fanpage.url)
+                await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲停留3~6秒，不要造成別人的伺服器負擔
                 const trace = await getTrace(driver, By, until)
                 if (trace === null) {
                     console.log(`${fanpage.title}無法抓取追蹤人數`)
                 } else {
                     console.log(`${fanpage.title}追蹤人數：${trace}`)
                 }
-                await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
+                
             }
         }
     }

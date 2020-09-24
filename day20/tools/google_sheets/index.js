@@ -139,14 +139,14 @@ async function writeSheet (title, result_array, auth) {
   await writeTitle(title, title_array, auth)
 
   // 取得目前最後一欄
-  // let lastCol = await getLastCol(title, auth)
+  let lastCol = await getLastCol(title, auth)
 
   // 再寫入trace(追蹤人數)
   let trace_array = result_array.map(fanpage => [fanpage.trace]);
   // 抓取當天日期
   const datetime = new Date()
   trace_array.unshift([dateFormat(datetime, "GMT:yyyy/mm/dd")])
-  await writeTrace(title, trace_array, auth)
+  await writeTrace(title, trace_array, lastCol, auth)
 }
 
 async function writeTitle (title, title_array, auth) {//title都是寫入第一欄
@@ -194,7 +194,7 @@ function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為
   return ret;
 }
 
-async function writeTrace (title, trace_array, auth) {//填入追蹤者人數
+async function writeTrace (title, trace_array, lastCol, auth) {//填入追蹤者人數
   const sheets = google.sheets({ version: 'v4', auth });
   const request = {
     spreadsheetId: process.env.SPREADSHEET_ID,

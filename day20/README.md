@@ -49,13 +49,13 @@ Google Sheets是一個容器，他可以儲存資料並將資料以不同面向�
               let trace
               try {
                   await goFansPage(driver, fanpage.url)
+                  await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲停留3~6秒，不要造成別人的伺服器負擔
                   trace = await getTrace(driver, By, until)
                   if (trace === null) {
                       console.log(`${fanpage.title}無法抓取追蹤人數`)
                   } else {
                       console.log(`${fanpage.title}追蹤人數：${trace}`)
                   }
-                  await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
               } catch (e) {
                   console.error(e);
                   continue;
