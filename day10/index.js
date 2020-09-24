@@ -1,6 +1,6 @@
 require('dotenv').config(); //載入.env環境檔
 
-//請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號來實驗，因為帳號使用太頻繁會被官方鎖住)
+//取出.env檔案填寫的FB資訊
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 
@@ -20,7 +20,7 @@ function checkDriver () {
         chrome.getDefaultService()//確認是否有預設
     } catch {
         console.log('找不到預設driver!');
-        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
+        const file_path = '../chromedriver.exe'//'../chromedriver.exe'記得調整成自己的路徑
         console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
         if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
             const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑

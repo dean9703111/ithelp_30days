@@ -114,7 +114,7 @@
     ```js
     require('dotenv').config(); //載入.env環境檔
 
-    //請在.env檔案填寫自己登入FB的真實資訊()
+    //取出.env檔案填寫的FB資訊
     const fb_username = process.env.FB_USERNAME
     const fb_userpass = process.env.FB_PASSWORD
     ```
