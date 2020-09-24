@@ -36,8 +36,8 @@
     * [Day7 gitignore-請勿上傳敏感、主程式以外的資料](/day7/README.md)
 
 * 網頁爬蟲
-    * [Day8 selenium-爬蟲起手式](/day8/README.md)
-    * [Day9 分析Facebook網頁結構，打造自動登入FaceBook的機器人](/day9/README.md)
+    * [Day8 selenium-webdriver：爬蟲起手式，帶你認識所見即所得的爬蟲工具](/day8/README.md)
+    * [Day9 selenium-webdriver：打造自動登入FaceBook的機器人](/day9/README.md)
     * [Day10 關閉擾人彈窗，分析FB粉專結構並取得追蹤人數資訊](/day10/README.md)
     * [Day11 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](/day11/README.md)
     * [Day12 小孩子才選擇，我要一隻程式爬完FB & IG粉專](/day12/README.md)
