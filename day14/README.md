@@ -5,17 +5,21 @@
 ----
 在[Day7 selenium-爬蟲起手式](../day7/README.md)有使用到try-catch來**解決如果抓不到chrome driver的例外事件**，今天我們會更清楚的說明如何**讓try-catch幫助你更高效的debug以及增加程式穩定性**  
 
+----
+
 🏆 今日目標
 ----
-1. 了解什麼情境下需要用到try-catch
-2. 在專案中應用try-catch實作 - 以crawlerIG.js裡面的函式為範例
-    1. **loginInstagram**：確認登入的每個步驟是否順利，並回傳IG登入成功與否
-    2. **crawlerIG**：利用 **loginInstagram函式** 回傳值判斷是否繼續執行
-    3. **goFansPage**：確認傳入的參數符合網址規則
-    4. **getTrace**：確認網頁能抓到追蹤人數的元件
+### 1. 了解什麼情境下需要用到try-catch
 
-🤔 什麼情境下需要用到try-catch?
+### 2. 在專案中應用try-catch實作 - 以crawlerIG.js裡面的函式為範例
+2.1 **loginInstagram**：確認登入的每個步驟是否順利，並回傳IG登入成功與否
+2.2 **crawlerIG**：利用 **loginInstagram函式** 回傳值判斷是否繼續執行
+2.3 **goFansPage**：確認傳入的參數符合網址規則
+2.4 **getTrace**：確認網頁能抓到追蹤人數的元件
+
 ----
+
+# 1. 什麼情境下需要用到try-catch?
 * 程式在缺乏try-catch的機制下是非常脆落的，只要發生例外事件就容易崩潰，下面讓我舉例讓程式崩潰或是卡住的方式：  
     1. 把Facebook跟Instagram登入網址改成不存在的網址 &rarr; 會因為網頁不存在而卡在那個畫面
     2. 把粉專的網址改成不存在的網址 &rarr; 會因為無法抓到要讀取的元件而崩潰
@@ -31,21 +35,18 @@
     4. **透過例外處理減少多餘的步驟**
         * 像是Instagram我們一定要登入後才能爬蟲，所以我們就可以設定當登入失敗時(讓函式return false)不會執行後續步驟
 
-🕸️ 在專案中應用try-catch實作
-----
+# 2. 在專案中應用try-catch實作 - 以crawlerIG.js裡面的函式為範例
 實踐出真知，下面的會詳細解說為何你需要加入try-catch的機制，大家理解後可以嘗試修改FB爬蟲的部分(當然文末的原始碼還是有完整解答啦😅)
 
-
-😈 loginInstagram
-----
-#### 😱讓程式執行時卡住的操作
+### 2.1 loginInstagram
+#### 讓程式執行時卡住的操作
 1. 把IG的登入網址改成非網址格式的字串(如：'error')
     * 程式會crash
 2. 把IG的登入網址改成其他網址
     * 找不到網頁上帳號密碼的文字輸入框、點擊登入的按鈕元件，程式會無限期等待
 3. 輸入錯誤的登入帳密
     * 因為登入失敗網頁右上角永遠不會出現頭像元件，程式會無限期等待
-#### 👌解決方式
+#### 解決方式
 1. 把這段登入的邏輯用try-catch包起來
 2. 執行成功時回傳true，如果執行上發生錯誤則回傳false，終止後續爬蟲動作
 3. 為driver.wait加上合理的等待時間(3~5秒鐘)
@@ -77,7 +78,7 @@
         }
     }
     ```
-#### 🆗實際測試確認結果是否符合預期
+#### 測試結果是否符合預期
 1. 將IG登入網址改為錯誤字串
     ```js
     //const web = 'https://www.instagram.com/accounts/login';
@@ -100,9 +101,8 @@
     * 會因找不到頭像元件超時而跳錯誤訊息
     ![image](./article_img/err_ig_terminal3.png)
         
-😈 crawlerIG
-----
-如果 **loginInstagram函式** 回傳false，我們就能終止IG的爬蟲動作
+### 2.2 crawlerIG
+如果 `loginInstagram函式回傳false代表IG登入失敗`，後續爬蟲的動作就不需要執行了
 ```js
 async function crawlerIG (driver) {
     const isLogin = await loginInstagram(driver, By, until)
@@ -115,12 +115,11 @@ async function crawlerIG (driver) {
 }
 ```
 
-😈 goFansPage
-----
-#### 😱讓程式執行時卡住的操作
-* 傳入的**web_url**改成非網址格式的字串(如：'error_page')
+### 2.3 goFansPage
+#### 讓程式執行時卡住的操作
+* 將傳入的**web_url**改成非網址格式的字串(如：'error_page')
     * 程式會crash
-#### 👌解決方式
+#### 解決方式
 * 把這段登入的邏輯用try-catch包起來
     ```js
     async function goFansPage (driver, web_url) {
@@ -134,7 +133,7 @@ async function crawlerIG (driver) {
         }
     }
     ```
-#### 🆗實際測試確認結果是否符合預期
+#### 測試結果是否符合預期
 * 將IG帳號網址改為錯誤字串
     ```js
     //const fanpage = "https://www.instagram.com/baobaonevertell/"
@@ -143,13 +142,12 @@ async function crawlerIG (driver) {
     *  會因不符合網址格式跳錯誤訊息
     ![image](./article_img/err_ig_terminal5.png)       
         
-😈 getTrace
-----
-#### 😱讓程式執行時卡住的操作
+### 2.4 getTrace
+#### 讓程式執行時卡住的操作
 * 上一步goFansPage的函式導向的並非Instagram帳號網址，或者該IG帳號不存在時
     * 找不到網頁上追蹤人數的元件，程式會無限期等待
     ![image](./article_img/err_instagram.png)        
-#### 👌解決方式
+#### 解決方式
 1. 把這段登入的邏輯用try-catch包起來
 2. 為driver.wait加上合理的等待時間(5秒鐘)
     ```js
@@ -170,7 +168,7 @@ async function crawlerIG (driver) {
         }
     }
     ```
-#### 🆗實際測試確認結果是否符合預期
+#### 測試結果是否符合預期
 * 將IG帳號網址改為不存在帳號的網址(或是無關網址)
     ```js
     //const fanpage = "https://www.instagram.com/baobaonevertell/"
