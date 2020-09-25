@@ -138,7 +138,7 @@ async function loginInstagramGetTrace (driver) {
     const login_elem = await driver.wait(until.elementLocated(By.css("button[type='submit']")))
     login_elem.click()
 
-    //登入後才會有右上角的頭像，我們以這個來判斷是否登入
+    //登入後才會有右上角功能列，我們以這個來判斷是否登入
     await driver.wait(until.elementLocated(By.xpath(`//*[@id="react-root"]//*[contains(@class,"_47KiJ")]`)))
 
     //登入成功後要前往粉專頁面
