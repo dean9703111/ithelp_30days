@@ -10,6 +10,8 @@
 🏆 今日目標
 ----
 ### 1. 了解什麼情境下需要用到try-catch
+1.1 try-catch-finally 基礎語法說明
+1.2 專案如果少了try-catch會發生哪些悲劇
 
 ### 2. 在專案中應用try-catch實作
 2.1 **loginInstagram**：確認登入的每個步驟是否順利，並回傳IG登入成功與否
@@ -20,6 +22,23 @@
 ----
 
 # 1. 什麼情境下需要用到try-catch?
+### 1.1 try-catch-finally 基礎語法說明
+在javascript執行過程發成錯誤時，他會拋出例外，接著尋找有沒有能處理這個例外的程式，如果找不到就會從拋出例外的函式跳出，尋找上一層的函式能否處理這個例外，這個過程直到觸及最外層的函式後終止
+
+如果我們沒有做錯誤處理，程式執行過程中發生意外就會直接在那裡crash，不過我們可以用`try-catch-finally`的語句來避免程式crash
+```js
+try {
+  // 我們要執行的程式內容
+  // 如果這裡執行發生錯誤就會立即進入 catch
+} catch (exception) {
+  // 在這裡處理例外狀況
+  // 通常都會用console.log印出錯誤訊息
+} finally {
+  // 無論try-catch怎麼跑，最後這塊都一定會執行到
+}
+```
+
+### 1.2 專案如果少了try-catch會發生哪些悲劇
 * 程式在缺乏try-catch的機制下是非常脆落的，只要發生例外事件就容易崩潰，下面讓我舉例讓程式崩潰或是卡住的方式：  
     1. 把Facebook跟Instagram登入網址改成不存在的網址 &rarr; 會因為網頁不存在而卡在那個畫面
     2. 把粉專的網址改成不存在的網址 &rarr; 會因為無法抓到要讀取的元件而崩潰
@@ -195,6 +214,10 @@ async function crawlerIG (driver) {
         * 填上FB版本(classic/new)
         * 填上IG登入資訊
 <br>
+
+📖 參考資源
+----
+1. [談談 JavaScript 中的錯誤處理 Error Handling](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
 ### [Day15 善用json讓你批量爬蟲](/day15/README.md)
