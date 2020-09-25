@@ -78,15 +78,7 @@ async function getSheets (auth) {//取得Google Sheets所有的sheet
   }
 }
 
-function genSheetId (sheet_id_array) {
-  let sheet_id = parseInt(Math.random() * 10000)
-  while (sheet_id_array.includes(sheet_id)) {//如果存在就要在產生一次
-    sheet_id = parseInt(Math.random() * 10000)
-  }
-  return sheet_id
-}
-
-async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的Google Sheets
+async function addSheet (title, auth) {//新增一個sheet到指定的Google Sheets
   const sheets = google.sheets({ version: 'v4', auth });
   const request = {
     // The ID of the spreadsheet
@@ -96,7 +88,6 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
         "addSheet": {//這個request的任務是addSheet
           // 你想給這個sheet的屬性
           "properties": {
-            "sheetId": sheet_id,//必須為數字，且這個欄位是唯一值
             "title": title
           }
         },
@@ -104,8 +95,11 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
     }
   };
   try {
-    await sheets.spreadsheets.batchUpdate(request)
+    const response = (await sheets.spreadsheets.batchUpdate(request)).data;
+    const sheetId = response.replies[0].addSheet.properties.sheetId
     console.log('added sheet:' + title)
+    return sheetId
+
   }
   catch (err) {
     console.log('The API returned an error: ' + err);
@@ -118,10 +112,6 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
     { title: 'IG帳號', id: null }
   ]
   const online_sheets = await getSheets(auth)//抓目前存在的sheet
-  let sheet_id_array = []
-  online_sheets.forEach(online_sheet => {//抓出已經存在的sheet_id避免產生出一樣的id
-    sheet_id_array.push(online_sheet.properties.sheetId)
-  })
 
   for (sheet of sheets) {
     online_sheets.forEach(online_sheet => {
@@ -131,11 +121,8 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
     })
     if (sheet.id == null) {//如果該sheet尚未被建立，則建立
       console.log(sheet.title + ':not exsit')
-      let sheet_id = genSheetId(sheet_id_array)
-      sheet_id_array.push(sheet_id)
       try {
-        await addSheet(sheet.title, sheet_id, auth)//如果不存在就會新增該sheet
-        sheet.id = sheet_id
+        sheet.id = await addSheet(sheet.title, auth)//如果不存在就會新增該sheet        
       } catch (e) {
         console.error(e)
       }
@@ -195,7 +182,6 @@ async function getLastCol (title, auth) {
     let values = (await sheets.spreadsheets.values.batchGet(request)).data.valueRanges[0].values;
     // console.log(title + " StartCol: " + toColumnName(values.length + 1))
     return toColumnName(values.length + 1)
-    // return web_name_array
   } catch (err) {
     console.error(err);
   }
@@ -244,13 +230,12 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
   try {
     const auth = await getAuth()
     let sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
-    for (sheet of sheets) {
-      if (sheet.title === 'FB粉專') {
-        await writeSheet(sheet.title, fb_result_array, auth)
-      } else if (sheet.title === 'IG帳號') {
-        await writeSheet(sheet.title, ig_result_array, auth)
-      }
-    }
+    console.log('FB、IG Sheet資訊:')
+    console.log(sheets)
+
+    // 寫入各自的Sheet
+    await writeSheet('FB粉專', fb_result_array, auth)
+    await writeSheet('IG帳號', ig_result_array, auth)
     console.log('成功更新Google Sheets');
   } catch (err) {
     console.error('更新Google Sheets失敗');

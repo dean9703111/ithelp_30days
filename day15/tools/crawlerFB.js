@@ -26,13 +26,13 @@ async function crawlerFB (driver) {
         console.log(`FB開始爬蟲`)
         for (fanpage of fanpage_array) {
             await goFansPage(driver, fanpage.url)
+            await driver.sleep((Math.floor(Math.random() * 4) + 3) * 1000)//每個頁面爬蟲停留3~6秒，不要造成別人的伺服器負擔
             const trace = await getTrace(driver, By, until)
             if (trace === null) {
                 console.log(`${fanpage.title}無法抓取追蹤人數`)
             } else {
                 console.log(`${fanpage.title}追蹤人數：${trace}`)
             }
-            await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲間隔3~6秒，不要造成別人的伺服器負擔
         }
     }
 }
@@ -66,6 +66,7 @@ async function goFansPage (driver, web_url) {
     //登入成功後要前往粉專頁面
     try {
         await driver.get(web_url)
+
     } catch (e) {
         console.error('無效的網址')
         console.error(e)
@@ -77,7 +78,7 @@ async function getTrace (driver) {
     let fb_trace = 0;//這是紀錄FB追蹤人數
     try {
         //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
-        
+
         const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_path)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
         for (const fb_trace_ele of fb_trace_eles) {
             const fb_text = await fb_trace_ele.getText()

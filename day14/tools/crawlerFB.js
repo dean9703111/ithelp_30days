@@ -25,6 +25,7 @@ async function crawlerFB (driver) {
     if (isLogin) {//如果登入成功才執行下面的動作
         const fanpage = "https://www.facebook.com/baobaonevertell/"
         await goFansPage(driver, fanpage)
+        await driver.sleep(3000)
         const trace = await getTrace(driver, By, until)
         console.log(`FB追蹤人數：${trace}`)
     }

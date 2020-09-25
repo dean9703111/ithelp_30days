@@ -24,6 +24,7 @@ async function crawlerFB(driver) {
     await loginFacebook(driver)
     const fanpage = "https://www.facebook.com/baobaonevertell/"
     await goFansPage(driver, fanpage)
+    await driver.sleep(3000)
     await getTrace(driver)
 }
 

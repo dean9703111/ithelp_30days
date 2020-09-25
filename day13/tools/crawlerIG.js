@@ -7,6 +7,7 @@ async function crawlerIG(driver) {
     await loginInstagram(driver)
     const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await goFansPage(driver, fanpage)
+    await driver.sleep(3000)
     await getTrace(driver)
 }
 

@@ -1,6 +1,6 @@
 require('dotenv').config(); //載入.env環境檔
 
-//請在.env檔案填寫自己登入FB的真實資訊(建議開小帳號來實驗，因為帳號使用太頻繁會被官方鎖住)
+//取出.env檔案填寫的FB資訊
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 
@@ -20,7 +20,7 @@ function checkDriver () {
         chrome.getDefaultService()//確認是否有預設
     } catch {
         console.log('找不到預設driver!');
-        const file_path = '../chromedriver.exe'//'../chromedriver.exe'是我的路徑
+        const file_path = '../chromedriver.exe'//'../chromedriver.exe'記得調整成自己的路徑
         console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
         if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
             const service = new chrome.ServiceBuilder(path.join(__dirname, file_path)).build();//設定driver路徑
@@ -77,6 +77,8 @@ async function loginFacebookGetTrace () {
     //登入成功後要前往粉專頁面
     const fanpage = "https://www.facebook.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
     await driver.get(fanpage)
+    await driver.sleep(3000)
+    
     let fb_trace = 0;//這是紀錄FB追蹤人數
     //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
     const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_path)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
