@@ -78,7 +78,7 @@
             }
         }
         ```
-* **確認有捕捉到錯誤**
+* **確認有測試是否抓到錯誤**
     1. 將IG登入網址改為錯誤字串
         ```js
         //const web = 'https://www.instagram.com/accounts/login';
@@ -133,7 +133,7 @@ async function crawlerIG (driver) {
             }
         }
         ```
-* **確認有捕捉到錯誤**
+* **確認有測試是否抓到錯誤**
     * 將IG帳號網址改為錯誤字串
         ```js
         //const fanpage = "https://www.instagram.com/baobaonevertell/"
@@ -168,7 +168,7 @@ async function crawlerIG (driver) {
             }
         }
         ```
-* **確認有捕捉到**
+* **確認有測試是否抓到錯誤**
     * 將IG帳號網址改為不存在帳號的網址(或是無關網址)
         ```js
         //const fanpage = "https://www.instagram.com/baobaonevertell/"
