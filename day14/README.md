@@ -11,7 +11,7 @@
 ----
 ### 1. 了解什麼情境下需要用到try-catch
 
-### 2. 在專案中應用try-catch實作 - 以crawlerIG.js裡面的函式為範例
+### 2. 在專案中應用try-catch實作
 2.1 **loginInstagram**：確認登入的每個步驟是否順利，並回傳IG登入成功與否
 2.2 **crawlerIG**：利用 **loginInstagram函式** 回傳值判斷是否繼續執行
 2.3 **goFansPage**：確認傳入的參數符合網址規則
@@ -36,7 +36,7 @@
         * 像是Instagram我們一定要登入後才能爬蟲，所以我們就可以設定當登入失敗時(讓函式return false)不會執行後續步驟
 
 # 2. 在專案中應用try-catch實作 - 以crawlerIG.js裡面的函式為範例
-實踐出真知，下面的會詳細解說為何你需要加入try-catch的機制，大家理解後可以嘗試修改FB爬蟲的部分(當然文末的原始碼還是有完整解答啦😅)
+實踐出真知，下面以 `crawlerIG.js` 裡面的函式為範例
 
 ### 2.1 loginInstagram
 * **讓程式執行時卡住的操作**
