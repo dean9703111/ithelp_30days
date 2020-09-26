@@ -272,4 +272,4 @@ yarn start
 <br>
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
-### [Day11 selenium-webdriver：登入Instagram並取得追蹤人數](/day11/README.md)
+### [Day11 selenium-webdriver：自動登入Instagram並取得追蹤人數](/day11/README.md)
