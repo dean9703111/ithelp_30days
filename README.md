@@ -39,11 +39,11 @@
     * [Day8 selenium-webdriver：爬蟲起手式，帶你認識所見即所得的爬蟲工具](/day8/README.md)
     * [Day9 selenium-webdriver：打造自動登入FaceBook的機器人](/day9/README.md)
     * [Day10 selenium-webdriver：關閉通知彈窗，前往FB粉專取得追蹤人數](/day10/README.md)
-    * [Day11 依樣畫葫蘆，完成Instagram登入並取得追蹤人數](/day11/README.md)
-    * [Day12 小孩子才選擇，我要一隻程式爬完FB & IG粉專](/day12/README.md)
+    * [Day11 selenium-webdriver：自動登入Instagram並取得追蹤人數](/day11/README.md)
+    * [Day12 selenium-webdriver：一隻程式爬完FB & IG粉專](/day12/README.md)
     * [Day13 refactor-重構程式碼，讓合作夥伴對你比讚](/day13/README.md)
-    * [Day14 try-catch 讓程式更穩定](/day14/README.md)
-    * [Day15 善用json讓你批量爬蟲](/day15/README.md)
+    * [Day14 加入 try-catch 讓專案更穩定](/day14/README.md)
+    * [Day15 json-不是工程師也能快速理解的格式，今天靠他批量爬蟲](/day15/README.md)
     * [Day16 優化爬蟲體驗 & 思路分享](/day16/README.md)
 
 * Google Sheets
