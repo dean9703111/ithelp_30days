@@ -42,8 +42,8 @@
     * [Day11 selenium-webdriver：自動登入Instagram並取得追蹤人數](/day11/README.md)
     * [Day12 selenium-webdriver：一隻程式爬完FB & IG粉專](/day12/README.md)
     * [Day13 refactor-重構程式碼，讓合作夥伴對你比讚](/day13/README.md)
-    * [Day14 try-catch 讓程式更穩定](/day14/README.md)
-    * [Day15 善用json讓你批量爬蟲](/day15/README.md)
+    * [Day14 加入 try-catch 讓專案更穩定](/day14/README.md)
+    * [Day15 json-不是工程師也能快速理解的格式，今天靠他批量爬蟲](/day15/README.md)
     * [Day16 優化爬蟲體驗 & 思路分享](/day16/README.md)
 
 * Google Sheets
