@@ -47,7 +47,7 @@
     * [Day16 優化爬蟲體驗 & 思路分享](/day16/README.md)
 
 * Google Sheets
-    * [Day17 Google Sheets-起手式，取得寫入google sheets的憑證(credentials)](/day17/README.md)
+    * [Day17 Google Sheets-起手式，取得寫入Google Sheets的憑證(credentials)](/day17/README.md)
     * [Day18 Google Sheets-搞懂官方範例 & 讀取自己的sheet](/day18/README.md)
     * [Day19 Google Sheets-判斷Sheet存在與否並自動創建](/day19/README.md)
     * [Day20 Google Sheets-將爬蟲資料寫入](/day20/README.md)

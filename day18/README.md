@@ -60,7 +60,7 @@
     3. **程式哪裏呼叫了listMajors這個function** &rarr; *authorize(JSON.parse(content), listMajors)*
     4. 於是我們找到程式的根源，**要先要取得憑證才能執行authorize(授權)** &rarr; *fs.readFile('tools/google_sheets/credentials.json'...)*
 
-* 經過分析我們就可了解取得授權後對Google sheets的處理都在 **listMajors** 這個函式，裡面有兩個參數我們要特別注意：  
+* 經過分析我們就可了解取得授權後對Google Sheets的處理都在 **listMajors** 這個函式，裡面有兩個參數我們要特別注意：  
     1. **spreadsheetId**：你的Google Sheets id
     2. **range**：你指定讀取的範圍
 
@@ -105,7 +105,7 @@
 
 撰寫自己的函式(listMySheet)讀取自己的sheet
 ----
-* 你可以由官方範例的[Google sheets](https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit) 發現昨天程式印出來的是這個 Sheets 第一欄跟第五欄的值
+* 你可以由官方範例的[Google Sheets](https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit) 發現昨天程式印出來的是這個 Sheets 第一欄跟第五欄的值
     ![image](./article_img/googlesheetex.png)  
     * 看看官方範例是如何印出這兩欄的數值
         ```js
@@ -147,13 +147,13 @@
     ```vim
     node tools/google_sheets/index.js
     ```
-3. 看看輸出的結果是否與你的Google sheets上的一樣呢～ 
+3. 看看輸出的結果是否與你的Google Sheets上的一樣呢～ 
     ![image](./article_img/terminal.png)  
 
 ℹ️ 專案原始碼
 ----
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day18)找到喔
-* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day17_sample_code.zip)，你可以用裡面乾淨的環境來實作今天google sheets的起手式喔
+* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day17_sample_code.zip)，你可以用裡面乾淨的環境來實作今天Google Sheets的起手式喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 要在tools/google_sheets資料夾放上自己的憑證，今天的程式才能執行喔
 

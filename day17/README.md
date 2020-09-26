@@ -1,9 +1,9 @@
 #### [回目錄](../README.md)
-## Day17 google sheets-起手式，取得寫入google sheets的憑證(credentials)
+## Day17 Google Sheets-起手式，取得寫入Google Sheets的憑證(credentials)
 
 >專案最基本的就是：**符合客戶預算與實際使用需求**  
 
-🤔 為什麼選擇google sheets作為資料載體?
+🤔 為什麼選擇Google Sheets作為資料載體?
 ----
 一般來說爬蟲的資料都是儲存到資料庫，但是我相信絕大多數的人不太可能隨時隨地打開資料庫觀看  
 而且存在資料庫除非你請網頁工程師幫你完成前端視覺化，不然資料庫絕對可以讓你看到懷疑人生XD  
@@ -30,7 +30,7 @@
 #### 憑證(credentials)取得的步驟
 1. 請先確認已經安裝過Node.js & npm(跟著教學走的人都安裝過)，有Goolge帳號
 2. 進入Google Sheet Node.js申請憑證(credentials)的[網頁](https://developers.google.com/sheets/api/quickstart/nodejs)  
-    1. 按下紅框處按鈕啟用Google sheets API
+    1. 按下紅框處按鈕啟用Google Sheets API
         ![image](./article_img/googlesheet1.png)  
     2. 輸入專案的名稱，建議填寫符合專案功能的命名
         ![image](./article_img/googlesheet2.png)  
@@ -202,7 +202,7 @@ token.json
 ℹ️ 專案原始碼
 ----
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day17)找到喔
-* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day16_sample_code.zip)，你可以用裡面乾淨的環境來實作今天google sheets的起手式喔
+* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day16_sample_code.zip)，你可以用裡面乾淨的環境來實作今天Google Sheets的起手式喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 要在tools/google_sheets資料夾放上自己的憑證，今天的程式才能執行喔
     
