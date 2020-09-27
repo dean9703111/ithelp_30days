@@ -1,7 +1,7 @@
 #### [回目錄](../README.md)
 ## Day12 selenium-webdriver：一隻程式爬完FB & IG粉專
 
->有些需求不是複製貼上就能夠解決的
+>有些需求不是複製貼上就能解決的
 
 🏆 今日目標
 ----
@@ -23,7 +23,7 @@ WebDriverError: element not interactable
 ```
 * 這是因為**一次跳出兩個瀏覽器**在執行，只要其中一個瀏覽器完成爬蟲任務觸發 **driver.quit()** 就會導致另一個還沒爬蟲完畢的**瀏覽器因無法讀取元件而掛掉**  
 * 如果你遇到以上問題，我建議**開一個瀏覽器**來處理：
-    1. 因為`跑爬蟲會消耗電腦的記憶體以及網路流量`，我希望電腦再跑爬蟲的時候不要影響我做其他事情的效率
+    1. 因為`跑爬蟲會消耗電腦的記憶體以及網路流量`，我希望電腦跑爬蟲的時候不要影響我做其他事情的效率
     2. 使用一個瀏覽器在跑`遇到問題時方便除錯`
 
 ### 1.2 跨網域(CORS)錯誤
@@ -59,7 +59,7 @@ WebDriverError: element not interactable
         4. 登入成功後跳轉指定粉專頁面
         5. 獲取指定粉專追蹤人數
     6. 關閉browser
->寫程式如同拼積木，隨著功能的增加程式的體積會越來越大，我建議你撰寫一個程式架構的文件，養成紀錄文件的好習慣，未來遇到需求變更的時候你直接看架構圖就能迅速修改
+>寫程式如同拼積木，隨著功能的增加程式的體積會越來越大，這裡我建議你寫一份程式架構圖的文件來輔助，未來遇到需求變更時看架構圖就能迅速修改
 
 #### index.js
 ```js
@@ -152,7 +152,7 @@ async function loginInstagramGetTrace (driver) {
 
     let ig_trace = 0;//這是紀錄IG追蹤人數
     const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
-    const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
+    const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)))
     // ig因為當人數破萬時文字不會顯示，所以改抓title
     ig_trace = await ig_trace_ele.getAttribute('title')
     console.log(`IG追蹤人數：${ig_trace}`)
@@ -204,7 +204,7 @@ crawler()
 4. 幾個月後回來看這隻程式估計一臉茫然
 
 如果還有更多的體會歡迎大家在下方留言(請鞭小力一點QQ)  
-明天會講程式碼的`重構`，透過重構我們可以更有效率的掌握程式；後天會講`try & catch`在本專案的應用，方便日後的除錯
+明天會講程式碼的`重構`，透過重構我們可以更有效率的掌握程式；後天會講`try-catch`在本專案的應用，方便日後的除錯
 
 ----
 

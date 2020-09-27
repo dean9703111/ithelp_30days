@@ -81,7 +81,7 @@ async function loginFacebookGetTrace () {
     
     let fb_trace = 0;//這是紀錄FB追蹤人數
     //因為考慮到登入之後每個粉專顯示追蹤人數的位置都不一樣，所以就採用全抓在分析
-    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_path)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件
+    const fb_trace_eles = await driver.wait(until.elementsLocated(By.xpath(fb_trace_path)))
     for (const fb_trace_ele of fb_trace_eles) {
         const fb_text = await fb_trace_ele.getText()
         if (fb_text.includes('人在追蹤')) {

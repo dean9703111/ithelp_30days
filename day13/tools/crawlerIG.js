@@ -5,7 +5,7 @@ exports.crawlerIG = crawlerIG;//讓其他程式在引入時可以使用這個函
 
 async function crawlerIG(driver) {
     await loginInstagram(driver)
-    const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
+    const fanpage = "https://www.instagram.com/baobaonevertell/"
     await goFansPage(driver, fanpage)
     await driver.sleep(3000)
     await getTrace(driver)
@@ -37,7 +37,7 @@ async function goFansPage(driver, web_url) {
 async function getTrace(driver) {
     let ig_trace = 0;//這是紀錄IG追蹤人數
     const ig_trace_xpath = `//*[@id="react-root"]/section/main/div/header/section/ul/li[2]/a/span`
-    const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)), 5000)//我們採取5秒內如果抓不到該元件就跳出的條件    
+    const ig_trace_ele = await driver.wait(until.elementLocated(By.xpath(ig_trace_xpath)))
     // ig因為當人數破萬時文字不會顯示，所以改抓title
     ig_trace = await ig_trace_ele.getAttribute('title')
     ig_trace = ig_trace.replace(/\D/g, '')//只取數字
