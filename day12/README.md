@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day12 selenium-webdriver：一隻程式爬完FB & IG粉專
+## Day12 合體吧！用一隻程式搞定FB、IG爬蟲
 
 >有些需求不是複製貼上就能解決的
 

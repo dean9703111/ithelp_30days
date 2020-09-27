@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day11 selenium-webdriver：自動登入Instagram並取得追蹤人數
+## Day11 舉一反三，帶你了解IG爬蟲不可忽略細節
 
 >學習，從複製開始
 
@@ -144,4 +144,4 @@ yarn start
 <br>
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
-### [Day12 selenium-webdriver：一隻程式爬完FB & IG粉專](/day12/README.md)
+### [Day12 合體吧！用一隻程式搞定FB、IG爬蟲](/day12/README.md)
