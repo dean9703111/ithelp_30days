@@ -56,12 +56,12 @@ node_modules
 🔍 透過VSCode知道是否成功將檔案加入忽略清單
 ----
 如果你也是用VSCode當成編輯器，可以用他觀察使用.gitignore的前後變化
-* 使用.gitignore前.env及node_modules會被列入變更(綠色的字代表有新增的檔案，棕色的字代表有改變的檔案)  
-    <img src="./article_img/vscode2.png" width="240" height="315"/>
-    <img src="./article_img/vscode3.png" width="240" height="330"/>  
-
-* 使用.gitignore後.env及node_modules會變成淺灰色，代表不會被列入變更  
-    <img src="./article_img/vscode1.png" width="240" height="315"/>  
+* **使用 .gitignore 前：** .env 及 node_modules 會被列入變更；`綠色的字代表有新增(U)的檔案，棕色的字代表有改變(M)的檔案`
+    <img src="./article_img/vscode1.png" width="240" height="350"/>
+* 在 `SOURCE CONTROL` 中可以看到有哪些檔案被列入變更
+    <img src="./article_img/vscode2.png" width="240" height="420"/>  
+* **使用 .gitignore 後：** .env 及 node_modules 會變成`淺灰色`，代表不會被列入變更  
+    <img src="./article_img/vscode3.png" width="240" height="350"/>  
 
 **這份忽略清單會隨著你專案的變動而調整**，如果你在撰寫其他種類程式語言可以參考[github的官網](https://github.com/github/gitignore)來調整自己的.gitignore  
 
