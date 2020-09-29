@@ -41,7 +41,7 @@ Google Sheets是一個容器，他可以儲存資料並將資料以不同面向�
   * 當全部粉專爬蟲完成後 return 這個儲存所有粉專資訊的 result_array
   ```js
   async function crawlerFB (driver) {
-      const isLogin = await loginFacebook(driver, By, until)
+      const isLogin = await loginFacebook(driver)
       if (isLogin) {//如果登入成功才執行下面的動作
           console.log(`FB開始爬蟲`)
           let result_array = []

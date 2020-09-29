@@ -142,7 +142,7 @@ console.log(fanpage_array)
             for (fanpage of fanpage_array) {
                 await goFansPage(driver, fanpage.url)
                 await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲停留3~6秒，不要造成別人的伺服器負擔
-                const trace = await getTrace(driver, By, until)
+                const trace = await getTrace(driver)
                 if (trace === null) {
                     console.log(`${fanpage.title}無法抓取追蹤人數`)
                 } else {

@@ -21,7 +21,7 @@ function getCrawlerPath () {
 }
 
 async function crawlerFB (driver) {
-    const isLogin = await loginFacebook(driver, By, until)
+    const isLogin = await loginFacebook(driver)
     if (isLogin) {//如果登入成功才執行下面的動作
         console.log(`FB開始爬蟲`)
         let result_array = []

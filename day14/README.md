@@ -130,7 +130,7 @@ async function crawlerIG (driver) {
     if (isLogin) {//如果登入成功才執行下面的動作
         const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
         await goFansPage(driver, fanpage)
-        const trace = await getTrace(driver, By, until)
+        const trace = await getTrace(driver)
         console.log(`IG追蹤人數：${trace}`)
     }
 }
