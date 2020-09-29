@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day23 Google Sheets-窗口凍結 & 欄位寬度調整
+## Day23 Google Sheets-優化格式，滿足客戶需求
 
 就如標題所述，為了提升Google Sheets閱讀上的體驗，他新增了兩個要求：  
 1. 窗口凍結：最上方的爬蟲日期、左方的粉專名稱在瀏覽時凍結
@@ -122,4 +122,4 @@ yarn
 在credentials資料夾放上自己的憑證
 yarn start
 ```
-### [Day24 排程設定](/day24/README.md)
+### [Day24 排程-時間一到爬蟲自己動起來](/day24/README.md)

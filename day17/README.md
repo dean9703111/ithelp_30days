@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day17 Google Sheets-起手式，取得寫入Google Sheets的憑證(credentials)
+## Day17 Google Sheets-免費儲存資料的好選擇，一起進入省錢起手式
 
 >專案最基本的就是：**符合客戶預算與實際使用需求**  
 
@@ -209,4 +209,4 @@ token.json
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 要在tools/google_sheets資料夾放上自己的憑證，今天的程式才能執行喔
     
-### [Day18 Google Sheets-搞懂官方範例 & 讀取自己的sheet](/day18/README.md)
+### [Day18 Google Sheets-加入版控後被github警告了？官方範例做了什麼？](/day18/README.md)

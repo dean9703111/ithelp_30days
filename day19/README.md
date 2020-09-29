@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day19 Google Sheets-判斷Sheet存在與否並自動創建
+## Day19 Google Sheets-你在文件迷路了嗎？手把手帶你找文件，今天先來搞定Sheet
 
 >如果說爬蟲是在鍛鍊你分析網頁的能力，那麼Google Sheets就是在教你閱讀官方文件的技巧  
 
@@ -252,4 +252,4 @@
 📖 參考資源
 ----
 [callback、Promise 和 async/await 那些事兒](https://noob.tw/js-async/)
-### [Day20 Google Sheets-將爬蟲資料寫入](/day20/README.md)
+### [Day20 Google Sheets-匯入爬蟲資料，解放你的繁瑣日常](/day20/README.md)

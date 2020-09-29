@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day20 Google Sheets-將爬蟲資料寫入
+## Day20 Google Sheets-匯入爬蟲資料，解放你的繁瑣日常
 
 🤔 筆者有話先說
 ----
@@ -302,4 +302,4 @@ yarn start
         * 填上IG登入資訊
         * 填上SPREADSHEET_ID
     
-### [Day21 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位](/day21/README.md)
+### [Day21 Google Sheets-咦咦咦？更動了下爬蟲清單怎麼資料塞錯位置了？](/day21/README.md)

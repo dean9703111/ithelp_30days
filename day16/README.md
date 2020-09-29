@@ -125,4 +125,4 @@
 <br>
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
-### [Day17 Google Sheets-起手式，取得寫入Google Sheets的憑證(credentials)](/day17/README.md)
+### [Day17 Google Sheets-免費儲存資料的好選擇，一起進入省錢起手式](/day17/README.md)

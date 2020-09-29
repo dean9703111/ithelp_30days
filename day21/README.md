@@ -1,6 +1,6 @@
 
 #### [回目錄](../README.md)
-## Day21 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位
+## Day21 Google Sheets-咦咦咦？更動了下爬蟲清單怎麼資料塞錯位置了？
 
 今天所說的內容是在實務上遇到的，你要思考看看在什麼樣的情形下的的Google Sheets表單可能會亂掉(先排除一些惡意操作，因為惡意操作下要解決的問題太多了)
 1. Google Sheets在粉專名稱的欄位被整理過了(有可能是被刪除、上下置換)
@@ -132,4 +132,4 @@ yarn
 在credentials資料夾放上自己的憑證
 yarn start
 ```
-### [Day22 Google Sheets-倒序插入](/day22/README.md)
+### [Day22 Google Sheets-業主：我希望新資料插在最前面](/day22/README.md)

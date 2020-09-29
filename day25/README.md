@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day25 排程永久背景執行?json改了沒反應?
+## Day25 排程-背景執行才是王道！誒？爬蟲清單改了怎麼沒反應?
 
 昨天完成的排程其實有幾個缺點：
 1. 需要把終端機(Terminal)打開觀察是否有執行
@@ -115,4 +115,4 @@ yarn add global forever
 在credentials資料夾放上自己的憑證
 yarn forever
 ```
-### [Day26 windows & mac 手把手排程設定](/day26/README.md)
+### [Day26 排程-重開機後排程不見惹？簡單幾個步驟，從此以後完全自動](/day26/README.md)
