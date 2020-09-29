@@ -42,29 +42,29 @@
     * [Day11 舉一反三，帶你了解IG爬蟲不可忽略細節](/day11/README.md)
     * [Day12 合體吧！用一隻程式搞定FB、IG爬蟲](/day12/README.md)
     * [Day13 refactor-亂糟糟的房間沒人喜歡，程式也是](/day13/README.md)
-    * [Day14 try-catch：你專案的錯誤捕手](/day14/README.md)
-    * [Day15 json-下個月這兩百家品牌麻煩你了](/day15/README.md)
-    * [Day16 優化爬蟲體驗 & 思路分享](/day16/README.md)
+    * [Day14 程式又又又崩潰了嗎？來點try-catch吧](/day14/README.md)
+    * [Day15 json x 爬蟲 = 重複的事情讓機器做](/day15/README.md)
+    * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 同場加碼爬蟲思路分享](/day16/README.md)
 
 * Google Sheets
-    * [Day17 Google Sheets-起手式，取得寫入Google Sheets的憑證(credentials)](/day17/README.md)
-    * [Day18 Google Sheets-搞懂官方範例 & 讀取自己的sheet](/day18/README.md)
-    * [Day19 Google Sheets-判斷Sheet存在與否並自動創建](/day19/README.md)
-    * [Day20 Google Sheets-將爬蟲資料寫入](/day20/README.md)
-    * [Day21 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位](/day21/README.md)
-    * [Day22 Google Sheets-倒序插入](/day22/README.md)
-    * [Day23 Google Sheets-窗口凍結 & 欄位寬度調整](/day23/README.md)
+    * [Day17 Google Sheets-免費儲存資料的好選擇，一起進入省錢起手式](/day17/README.md)
+    * [Day18 Google Sheets-加入版控後被github警告了？官方範例做了什麼？](/day18/README.md)
+    * [Day19 Google Sheets-你在文件迷路了嗎？手把手帶你找文件，今天先來搞定Sheet](/day19/README.md)
+    * [Day20 Google Sheets-匯入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
+    * [Day21 Google Sheets-咦咦咦？更動了下爬蟲清單怎麼資料塞錯位置了？](/day21/README.md)
+    * [Day22 Google Sheets-業主：我希望新資料插在最前面](/day22/README.md)
+    * [Day23 Google Sheets-優化格式，滿足客戶需求](/day23/README.md)
 
 * 自動化
-    * [Day24 排程設定](/day24/README.md)
-    * [Day25 排程永久背景執行?json改了沒反應?](/day25/README.md)
-    * [Day26 windows & mac 手把手排程設定](/day26/README.md)
+    * [Day24 排程-時間一到爬蟲自己動起來](/day24/README.md)
+    * [Day25 排程-背景執行才是王道！誒？爬蟲清單改了怎麼沒反應?](/day25/README.md)
+    * [Day26 排程-重開機後排程不見惹？簡單幾個步驟，從此以後完全自動](/day26/README.md)
 
 * 通知設定
-    * Day27 LINE權杖取得，用POSTMAN測試
-    * Day28 nodejs如何使用https的POST
-    * Day29 重構程式整合訊息，用LINE通知提醒使用者
+    * [Day27 輕鬆上手LINE Notify ＆ 用POSTMAN 來測試 LINE 的api](/day27/README.md)
+    * [Day28 nodejs如何使用https的POST](/day28/README.md)
+    * [Day29 重構程式整合訊息，用LINE通知提醒使用者](/day29/README.md)
 
 * 後話
-    * [Day30 總結](/day/30/README.md)
+    * [Day30 時間只是考驗，心中信念絲毫未減](/day30/README.md)
 
