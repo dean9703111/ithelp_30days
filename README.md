@@ -43,28 +43,28 @@
     * [Day12 合體吧！用一隻程式搞定FB、IG爬蟲](/day12/README.md)
     * [Day13 refactor-亂糟糟的房間沒人喜歡，程式也是](/day13/README.md)
     * [Day14 程式又又又崩潰了嗎？來點try-catch吧](/day14/README.md)
-    * [Day15 json + 爬蟲 = 拯救小編忙碌的一天](/day15/README.md)
+    * [Day15 json x 爬蟲 = 重複的事情讓機器做](/day15/README.md)
     * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 爬蟲還能給我們帶來什麼便利？](/day16/README.md)
 
 * Google Sheets
     * [Day17 Google Sheets-免費儲存資料的好選擇，一起進入省錢起手式](/day17/README.md)
-    * [Day18 Google Sheets-git幹嘛警告我？官方程式到底在做什麼？](/day18/README.md)
-    * [Day19 Google Sheets-你在文件迷路了嗎？處理Sheet的教學到底在哪裡](/day19/README.md)
-    * [Day20 Google Sheets-小編終於等到這一天，匯入爬蟲資料的](/day20/README.md)
-    * [Day21 Google Sheets-每日爬蟲，讓新資料塞入正確的欄位](/day21/README.md)
-    * [Day22 Google Sheets-倒序插入](/day22/README.md)
-    * [Day23 Google Sheets-窗口凍結 & 欄位寬度調整](/day23/README.md)
+    * [Day18 Google Sheets-加入版控後被github警告了？官方範例做了什麼？](/day18/README.md)
+    * [Day19 Google Sheets-你在文件迷路了嗎？讓我手把手帶你找文件，今天先把Sheet搞定](/day19/README.md)
+    * [Day20 Google Sheets-匯入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
+    * [Day21 Google Sheets-咦咦咦？更動了下爬蟲清單怎麼資料塞錯位置了？](/day21/README.md)
+    * [Day22 Google Sheets-業主：我希望新資料插在最前面](/day22/README.md)
+    * [Day23 Google Sheets-優化格式，滿足客戶需求](/day23/README.md)
 
 * 自動化
-    * [Day24 排程設定](/day24/README.md)
-    * [Day25 排程永久背景執行?json改了沒反應?](/day25/README.md)
-    * [Day26 windows & mac 手把手排程設定](/day26/README.md)
+    * [Day24 排程-時間一到爬蟲自己動起來](/day24/README.md)
+    * [Day25 排程-背景執行才是王道！誒？爬蟲清單改了怎麼沒反應?](/day25/README.md)
+    * [Day26 排程-重開機後排程不見惹？簡單幾個步驟，從此以後完全自動](/day26/README.md)
 
 * 通知設定
-    * Day27 LINE權杖取得，用POSTMAN測試
-    * Day28 nodejs如何使用https的POST
-    * Day29 重構程式整合訊息，用LINE通知提醒使用者
+    * [Day27 輕鬆上手LINE Notify ＆ 用POSTMAN 來測試 LINE 的api](/day27/README.md)
+    * [Day28 nodejs如何使用https的POST](/day28/README.md)
+    * [Day29 重構程式整合訊息，用LINE通知提醒使用者](/day29/README.md)
 
 * 後話
-    * [Day30 總結](/day/30/README.md)
+    * [Day30 時間只是考驗，心中信念絲毫未減](/day30/README.md)
 
