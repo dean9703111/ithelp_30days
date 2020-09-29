@@ -250,10 +250,10 @@ crawler()
     ```vim
     yarn start
     ```    
-4. Google會要求你再點一次連結重新取得授權碼，貼上後你會看看線上的Google Sheets是否有如你的設定新增sheets了
+4. Google會要求你再點一次連結重新取得授權碼，貼上後你會看到線上的Google Sheets成功新增sheets了
     ![image](./article_img/terminal.png)  
     ![image](./article_img/googlesheetex.png)
-5. 如果你重複執行指令 `yarn start` 的話就只會回傳已經建立好sheet的id給你，不會再重新建立  
+5. 如果你重複執行指令 `yarn start` ，只會回傳建立好sheet的id給你，不會再重新建立  
     ![image](./article_img/terminal2.png)  
 
 ℹ️ 專案原始碼
