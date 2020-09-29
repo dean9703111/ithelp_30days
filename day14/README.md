@@ -1,9 +1,11 @@
 #### [回目錄](../README.md)
-## Day14 你今天程式崩潰了嗎？來點try-catch吧
+## Day14 程式又又又崩潰了嗎？來點try-catch吧
+
+>你的絕望我懂！
 
 🤔 回憶一下我們之前的應用場景
 ----
-在[Day7 selenium-爬蟲起手式](../day7/README.md)有使用到try-catch來**解決如果抓不到chrome driver的例外事件**，今天我們會更清楚的說明如何**讓try-catch幫助你更高效的debug以及增加程式穩定性**  
+在[Day7 selenium-爬蟲起手式](../day7/README.md)有使用到try-catch來**解決抓不到chrome driver的例外事件**，今天我們會更清楚的說明如何**讓try-catch幫助你更高效的debug以及增加程式穩定性**  
 
 ----
 
@@ -14,7 +16,7 @@
 1.2 專案如果少了try-catch會發生哪些悲劇
 
 ### 2. 在專案中應用try-catch實作
-2.1 **loginInstagram**：確認登入的每個步驟是否順利，並回傳IG登入成功與否
+2.1 **loginInstagram**：確認登入的步驟是否順利
 2.2 **crawlerIG**：利用 **loginInstagram函式** 回傳值判斷是否繼續執行
 2.3 **goFansPage**：確認傳入的參數符合網址規則
 2.4 **getTrace**：確認網頁能抓到追蹤人數的元件
@@ -45,11 +47,11 @@ try {
     3. 把粉專的網址改成不存在的粉專(或是移除的粉專) &rarr; 會因為無法抓到要讀取的元件而崩潰
 
 * 為了避免這些悲劇的發生，try-catch就是我們的好朋友，以下是應用上要注意的地方：  
-    1. **一個try-catch的區塊不要判斷多個不相關的事件**
+    1. **一個try-catch區塊`只判斷一件事有沒有做好`**
         * 與[上一篇重構](/day13/README.md)提到的概念類似，一個函式專注做好一件事，try-catch也是專注在確認這一件事執行時有沒有發生意外
-    2. **除了系統自行吐出的exception以外，建議你也要加上console.error('我在哪個步驟錯了')**
+    2. **除了系統自行吐出的exception以外，建議你也要`加上console.error`('我在哪個步驟錯了')**
         * 在程式結構龐大且長時間執行的狀態下，系統吐出的exception有時多到你眼花，這時你撰寫的console.error可以幫助你對發生錯誤的位置快速定位
-    3. **程式需要設計中斷邏輯避免進入無窮的等待**
+    3. **程式需要設計`中斷邏輯避`免進入無窮的等待**
         * 我們在抓網頁元件時用了wait...until的結構，如果我們沒有設定最多等待幾秒，你等到天荒地老，因為他永遠停在try的區塊出不去，所以try-catch也幫不了你
     4. **透過例外處理減少多餘的步驟**
         * 像是Instagram我們一定要登入後才能爬蟲，所以我們就可以設定當登入失敗時(讓函式return false)不會執行後續步驟
@@ -58,7 +60,7 @@ try {
 實踐出真知，下面以 `crawlerIG.js` 裡面的函式為範例
 
 ### 2.1 loginInstagram
-* **讓程式執行時卡住的操作**
+* **調整參數讓程式GG**
     1. 把IG的登入網址改成非網址格式的字串(如：'error')
         * 程式會crash
     2. 把IG的登入網址改成其他網址
@@ -97,7 +99,7 @@ try {
             }
         }
         ```
-* **確認有測試是否抓到錯誤**
+* **GOTCHA！捕獲野生錯誤**
     1. 將IG登入網址改為錯誤字串
         ```js
         //const web = 'https://www.instagram.com/accounts/login';
@@ -135,7 +137,7 @@ async function crawlerIG (driver) {
 ```
 
 ### 2.3 goFansPage
-* **讓程式執行時卡住的操作**
+* **調整參數讓程式GG**
     * 將傳入的**web_url**改成非網址格式的字串(如：'error_page')
         * 程式會crash
 * **解決方式**
@@ -152,7 +154,7 @@ async function crawlerIG (driver) {
             }
         }
         ```
-* **確認有測試是否抓到錯誤**
+* **GOTCHA！捕獲野生錯誤**
     * 將IG帳號網址改為錯誤字串
         ```js
         //const fanpage = "https://www.instagram.com/baobaonevertell/"
@@ -162,7 +164,7 @@ async function crawlerIG (driver) {
         ![image](./article_img/err_ig_terminal5.png)       
         
 ### 2.4 getTrace
-* **讓程式執行時卡住的操作**
+* **調整參數讓程式GG**
     * 上一步goFansPage的函式導向的並非Instagram帳號網址，或者該IG帳號不存在時
         * 找不到網頁上追蹤人數的元件，程式會無限期等待
         ![image](./article_img/err_instagram.png)        
@@ -187,7 +189,7 @@ async function crawlerIG (driver) {
             }
         }
         ```
-* **確認有測試是否抓到錯誤**
+* **GOTCHA！捕獲野生錯誤**
     * 將IG帳號網址改為不存在帳號的網址(或是無關網址)
         ```js
         //const fanpage = "https://www.instagram.com/baobaonevertell/"
@@ -220,4 +222,4 @@ async function crawlerIG (driver) {
 1. [談談 JavaScript 中的錯誤處理 Error Handling](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
-### [Day15 json-不是工程師也能快速理解的格式，今天靠他批量爬蟲](/day15/README.md)
+### [Day15 json + 爬蟲 = 拯救小編忙碌的一天](/day15/README.md)

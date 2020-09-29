@@ -43,7 +43,7 @@
     * [Day12 合體吧！用一隻程式搞定FB、IG爬蟲](/day12/README.md)
     * [Day13 refactor-亂糟糟的房間沒人喜歡，程式也是](/day13/README.md)
     * [Day14 程式又又又崩潰了嗎？來點try-catch吧](/day14/README.md)
-    * [Day15 json + 爬蟲 = 省去小編大量時間](/day15/README.md)
+    * [Day15 json + 爬蟲 = 拯救小編忙碌的一天](/day15/README.md)
     * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 爬蟲還能給我們帶來什麼便利？](/day16/README.md)
 
 * Google Sheets
