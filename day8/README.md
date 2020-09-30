@@ -42,7 +42,12 @@
         2. selenium-webdriver
             * 基本上他是一個無論是什麼網頁都能夠爬蟲的工具了，我認為非常適合新手使用
             * 工具執行時會開啟一個網頁，然後模擬人類真實的操作每個步驟，所以效率相對差
-            * 所見即所得，看得到的資訊都能夠抓下來，學習起來非常容易且直覺，所以這是本專案最後選擇的工具
+            * 所見即所得，看得到的資訊都能夠抓下來，學習起來非常容易且直覺，所以這是`本專案最後選擇的工具`
+        3. Puppeteer(邦友補充)
+            * 操作邏輯與 selenium-webdriver 非常類似
+            * 預設附帶 Chronium 瀏覽器，不會有瀏覽器匹配問題(但是只能用這個瀏覽器QQ)
+            * 只能使用 Node.js 撰寫，不像 selenium-webdriver 有多種語言的 binding
+
 
 🔧 使用selenium-webdriver開啟瀏覽器
 ----
@@ -189,6 +194,7 @@ openCrawlerWeb()//打開爬蟲網頁
 📖 參考資源
 ----
 1. [\[JS\] 談談 JavaScript 中的錯誤處理 Error Handling](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
+2. [為什麼用 (或不用) Puppeteer](https://michaelchen.tech/puppeteer/why-or-why-not-puppeteer/)
 <br>
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
