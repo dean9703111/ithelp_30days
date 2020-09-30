@@ -222,4 +222,4 @@ async function crawlerIG (driver) {
 1. [談談 JavaScript 中的錯誤處理 Error Handling](https://pjchender.blogspot.com/2017/12/js-error-handling.html)
 
 >*免責聲明:文章技術僅抓取公開數據作爲研究，任何組織和個人不得以此技術盜取他人智慧財產、造成網站損害，否則一切后果由該組織或個人承擔。作者不承擔任何法律及連帶責任！*
-### [Day15 json x 爬蟲 = 重複的事情讓機器做](/day15/README.md)
+### [Day15 json x 爬蟲 = 生命應該浪費在美好的事情上，瑣事直接自動化](/day15/README.md)
