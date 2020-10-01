@@ -1,7 +1,7 @@
 #### [回目錄](../README.md)
 ## Day20 Google Sheets-寫入爬蟲資料，跟 Copy & Paste 的日子說掰掰
 
-爬蟲是一個技術，他將網頁的數據收集下來
+>爬蟲是一個技術，他將網頁的數據收集下來
 Google Sheets是一個容器，他可以儲存資料並將資料以不同面向做展示
 `爬蟲 Ｘ Google Sheets ＝ 你要學習的技術整合`
 
@@ -12,7 +12,7 @@ Google Sheets是一個容器，他可以儲存資料並將資料以不同面向�
 1.2 組合回傳的資訊：以 `crawlerFB` 為範例
 
 ### 2. 以主程式當橋樑，將爬蟲資料傳遞到`updateGoogleSheets`
-2.1 用主程式傳遞爬蟲資料
+2.1 用`主程式`傳遞爬蟲資料
 2.2 改寫 `updateGoogleSheets` 函式來接收並處理爬蟲資料
 
 ### 3. 將FB、IG粉專爬蟲資料寫入各自的Sheet
@@ -34,7 +34,7 @@ Google Sheets是一個容器，他可以儲存資料並將資料以不同面向�
   3. 追蹤日期
 * 可能會遇到的問題：
   1. 重複名稱的粉專
-        * 解決方案：粉專名稱有可能重名，但是粉專網址是唯一值，所以使用`粉專名稱+粉專網址作為key`就能解決這個問題，同時也方便使用者可以點擊連結直接前往粉專
+        * 解決方案：粉專名稱有可能重名，但是`粉專網址是唯一值`，所以使用`粉專名稱+粉專網址作為key`就能解決這個問題，同時也方便使用者可以點擊連結直接前往粉專
 * 總結：
   1. 因為追蹤的FB、IG粉專數量很多，所以 **crawlerFB、crawlerIG** 這兩個函式回傳的最外層用陣列(array)包起來
   2. 根據Google Sheets所需的資料，每個粉專的物件(object)需要有以下內容：
@@ -43,9 +43,10 @@ Google Sheets是一個容器，他可以儲存資料並將資料以不同面向�
         3. 追蹤人數(trace)
 
 ### 1.2 組合回傳的資訊：以 `crawlerFB` 為範例
-* `在 try-catch 的後面加上 finally`，finally 代表在 try-catch 結束後會執行的任務，忘記的可以回到[Day14 try-catch-finally 基礎語法說明](/day14/README.md)複習喔
-* 在 finally 才把粉專物件存入 result_array 是因為無論這個粉專爬蟲成功或是失敗我們都要記錄他的數據
+* 在 try-catch 的後面加上 finally，在 finally 階段才把粉專物件存入 result_array 是因為`無論這個粉專爬蟲成功或是失敗我們都要記錄他的數據`
+    >finally 代表在 try-catch 結束後會執行的任務，忘記的可以回到[Day14 try-catch-finally 基礎語法說明](/day14/README.md)複習喔
 * 當全部粉專爬蟲完成後 return 這個儲存所有粉專資訊的 result_array
+
 ```js
 async function crawlerFB (driver) {
     const isLogin = await loginFacebook(driver)
@@ -83,8 +84,8 @@ async function crawlerFB (driver) {
 ----
 
 # 2. 以主程式當橋樑，將爬蟲資料傳遞到`updateGoogleSheets`
-### 2.1 用主程式傳遞爬蟲資料
-主程式在收到 crawlerIG、crawlerFB 回傳的 result_array 後提供給 updateGoogleSheets 當參數
+### 2.1 用`主程式`傳遞爬蟲資料
+主程式在收到 crawlerIG、crawlerFB 回傳的爬蟲資訊後提供給 updateGoogleSheets 當參數
 ```js
 async function crawler () {
     const driver = initDrive();
@@ -156,36 +157,38 @@ async function writeSheet (title, result_array, auth) {
 ```
 
 
-### 3.2 在官方文件尋找 **寫入Sheet** 的範例
-1. 有了昨天的經驗我們可以很容易找到今天所需的資源，像我們這次要做的是**寫入Sheet**，在首頁我們便能找到[Basic Writing](https://developers.google.com/sheets/api/samples/writing)
+### 3.2 在官方文件尋找 `寫入Sheet` 的範例
+1. 有了`昨天的經驗`我們可以很容易找到今天所需的資源，在範例首頁的大標題[Basic Writing](https://developers.google.com/sheets/api/samples/writing)就符合今天的需求
   ![image](./article_img/googledoc.png)
-2. 在閱讀標題時我原本覺得[Append Values](https://developers.google.com/sheets/api/samples/writing#append_values)是最好的選擇，但發現他只能插入列(row)，與我們插入欄(col)的需求不符，所以最後選擇使用[Write a single range](https://developers.google.com/sheets/api/samples/writing#write_a_single_range)來對spreadsheet做更新
+2. 在閱讀 **Basic Writing** 描述時有兩個標題吸引我的注意
+    * [Append Values](https://developers.google.com/sheets/api/samples/writing#append_values)：在閱讀標題時我原本覺得是最好的選擇，但發現他只能插入列(row)，與我們插入欄(col)的需求不符
+    * [Write a single range](https://developers.google.com/sheets/api/samples/writing#write_a_single_range)：在開頭便提供了一個連結，並說`這個方法能寫入指定Sheet範圍內的資料`
   ![image](./article_img/googledoc2.png)
-3. 跟著文件繼續前進，他建議我們使用[Method: spreadsheets.values.update](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)來做spreadsheets內容的更新，下面我把官方文件翻譯了一下，讓大家更清楚使用的方法
-  ```js
-  let title = '你的sheet title'
-  //Google Sheets能吃的array格式範例
-  let array = [['test1'],['test2'],['test3'],['test4']]
-  async function writeSheet (title, array, auth) {//auth為憑證通過後取得
-    const sheets = google.sheets({ version: 'v4', auth });
-    const request = {
-      spreadsheetId: process.env.SPREADSHEET_ID,
-      valueInputOption: "USER_ENTERED",//寫入格式的分類有：INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
-      range: [
-        `'${title}'!A:A`//title是sheet的標題，A:A是能寫入的範圍
-      ],
-      resource: {
-        values: array
-      }
+3. 接著你可以用`Try this API`來確認[Method: spreadsheets.values.update](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)是否能正確更新Sheet的內容，相關操作方式[昨天的文章](/day19/README.md)有示範，這裡就不再贅述了，下面我把官方範例翻譯了一下，讓大家更清楚使用的方法
+    ```js
+    let title = '你的sheet title'
+    //Google Sheets能吃的array格式範例
+    let array = [['test1'],['test2'],['test3'],['test4']]
+    async function writeSheet (title, array, auth) {//auth為憑證通過後取得
+        const sheets = google.sheets({ version: 'v4', auth });
+        const request = {
+        spreadsheetId: process.env.SPREADSHEET_ID,
+        valueInputOption: "USER_ENTERED",//寫入格式的分類有：INPUT_VALUE_OPTION_UNSPECIFIED|RAW|USER_ENTERED
+        range: [
+            `'${title}'!A:A`//title是sheet的標題，A:A是能寫入的範圍
+        ],
+        resource: {
+            values: array
+        }
+        }
+        try {
+        await sheets.spreadsheets.values.update(request);//執行後即完成Google Sheets更新
+        console.log(`updated ${title} title`);
+        } catch (err) {
+        console.error(err);
+        }
     }
-    try {
-      await sheets.spreadsheets.values.update(request);//執行後即完成Google Sheets更新
-      console.log(`updated ${title} title`);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  ```
+    ```
 
 
 ### 3.3 第一欄寫入title(粉專名稱)：`writeTitle`
@@ -213,7 +216,7 @@ try {
 
 
 ### 3.4 取得Sheet最後一欄的空白欄位：`getLastCol`
-* 在這個函式中我們取得了目標Sheet的內容，詳細的文件請參考[官方說明](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchGet)
+* 在這個函式中我們取得了目標Sheet的第一列來做分析，詳細的文件請參考[官方說明](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchGet)
 * 同事我們也需要用函式 `toColumnName` 來把取得的欄位名稱轉換為英文，這樣Google Sheets才知道要寫入的欄位
 ```js
 async function getLastCol (title, auth) {
