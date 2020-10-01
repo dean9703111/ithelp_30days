@@ -23,7 +23,7 @@
 ----
 1. 取得google sheeet憑證(credentials)
 2. 在專案加入官方提供的範例程式做測試
-3. 將有權限存取Google Sheets的檔案加入.gitignore列表
+3. 將Google Sheets的憑證、授權檔加入.gitignore列表
 
 ----
 
@@ -189,7 +189,7 @@
             const TOKEN_PATH = 'tools/google_sheets/token.json';
             ```
 
-# 3. 將有權限存取Google Sheets的檔案加入.gitignore列表
+# 3. 將Google Sheets的憑證、授權檔加入.gitignore列表
 我想應該不會有人想把藏寶庫的鑰匙跟權杖公開讓大家使用吧?如果你不小心把 `credentials.json、token.json` 兩個檔案加入版控就等於把你Google Sheets的權限送給別人了，所以你要調整.gitignore如下：
 ```
 node_modules
