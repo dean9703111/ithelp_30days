@@ -7,7 +7,7 @@
 ----
 在我們跟著官方步驟完成後，有哪些需要注意的事情
 1. **我們安裝了什麼套件?**
-    * 如果你有用git版控在做這份專案，`你應該會收到git給你的警告通知`，今天會說明如何閱讀這個通知並解決他  
+    * 如果你有用github版控在做這份專案，`你應該會收到github給你的警告通知`，今天會說明如何閱讀這個通知並解決他  
 2. **官方的範例程式在做什麼?**
     * 會教你如何觀察官方的範例程式，知道他運行的邏輯，`學會改寫，拒絕只當copycat`
 
@@ -15,7 +15,7 @@
 
 🏆 今日目標
 ----
-### 1. 了解git警告通知的原因並處理
+### 1. 了解github警告通知的原因並處理
 
 ### 2. 改寫官方範例讀取自己指定的Google Sheets
 2.1 分析官方範例程式
@@ -24,12 +24,11 @@
 
 ----
 
-# 1. 了解git警告通知的原因並處理
-* 昨天雖然我們按照官方給的範例完成了，但你把 code 上傳到 git 後應該會收到 git 給你的警告通知
+# 1. 了解github警告通知的原因並處理
+* 昨天雖然我們按照官方給的範例完成了，但你把 code 上傳到 github 後應該會收到警告通知如下
     ![image](./article_img/github_alerts.png)
-    1. 我們先點開被標注 **high severity(高嚴重性)** 的通知
+    1. 我們先點開 **high severity(高嚴重性)** 的通知，閱讀後發現這是`相依套件版本過低造成的警告`
         ![image](./article_img/github_alert_detail.png)
-        你會發現這裡面是相依套件版本過低所造成的警告
     2. 接著我們以 **node-forge** 為關鍵字在 **yarn.lock** 檔案裡面搜尋，發現真的版本過低
         ![image](./article_img/day17_yarnLock.png)
     3. 同時發現這個套件是跟 **google** 有關聯性的，一路順藤摸瓜往上查會發現根源就是昨天安裝的 **googleapis** 這個套件
@@ -67,7 +66,7 @@
     3. **程式哪裏呼叫了listMajors這個function** &rarr; *authorize(JSON.parse(content), listMajors)*
     4. `程式的根源`：**要先要取得憑證才能執行authorize(授權)** &rarr; *fs.readFile('tools/google_sheets/credentials.json'...)*
 
-* 根據上面的分析我們可以知道對Google Sheets的處理都在 `listMajors` 這個函式，裡面有兩個參數我們要特別注意：  
+* 根據上面的架構分析，我們先觀察輸出console.log()的函式： `listMajors`，裡面有兩個參數我們要特別注意：  
     1. **spreadsheetId**：你的Google Sheets id
     2. **range**：你指定讀取的範圍
 
@@ -88,8 +87,9 @@
     ```js
     spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'  
     ```
-    就會發現他是在網址 https://docs.google.com/spreadsheets/d/ `1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms` /edit 的這個位置
-3. 我們建立好 Google Sheets 後就把 spreadsheetId 替換成自己的(實際網頁位置如下圖紅框處)  
+    就會發現這個參數在官方網址中間：
+    docs.google.com/spreadsheets/d/ `1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms` /edit 
+3. 我們建立好 Google Sheets 後`把 spreadsheetId 替換成自己的`(實際網頁位置如下圖紅框處)  
     ![image](./article_img/googlesheet_url.png)  
     ```js
     spreadsheetId: process.env.SPREADSHEET_ID

@@ -116,7 +116,7 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
   }
 }
 
-async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還沒被建立，就新增
+async function getFBIGSheet (auth) {// 取得FB粉專、IG帳號的Sheet資訊
   const sheets = [//我們Google Sheets需要的sheet
     { title: 'FB粉專', id: null },
     { title: 'IG帳號', id: null }
