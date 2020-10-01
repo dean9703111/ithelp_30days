@@ -133,7 +133,8 @@ async function getFBIGSheet (auth) {// 取得FB粉專、IG帳號的Sheet資訊
 
 async function writeSheet (title, result_array, auth) {
   // 先在第一欄寫入title(粉專名稱)
-  let title_array = result_array.map(fanpage => [fanpage.title]);
+  let title_array = result_array.map(fanpage => [`=HYPERLINK("${fanpage.url}","${fanpage.title}")`]);
+  
   // 填上名稱
   title_array.unshift([title])//unshift是指插入陣列開頭
   await writeTitle(title, title_array, auth)

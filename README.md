@@ -50,7 +50,7 @@
     * [Day17 Google Sheets-免費儲存資料的好選擇，一起進入省錢起手式](/day17/README.md)
     * [Day18 Google Sheets-加入版控後被github警告了？官方範例做了什麼？](/day18/README.md)
     * [Day19 Google Sheets-你在文件迷路了嗎？手把手帶你找文件，今天先來搞定Sheet](/day19/README.md)
-    * [Day20 Google Sheets-匯入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
+    * [Day20 Google Sheets-寫入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
     * [Day21 Google Sheets-咦咦咦？更動了下爬蟲清單怎麼資料塞錯位置了？](/day21/README.md)
     * [Day22 Google Sheets-業主：我希望新資料插在最前面](/day22/README.md)
     * [Day23 Google Sheets-優化格式，滿足客戶需求](/day23/README.md)

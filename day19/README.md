@@ -177,7 +177,7 @@ async function addSheet (title, auth) {//新增一個sheet到指定的Google She
 
 # 4. 重新架構Google Sheets程式
 ### 4.1 建立外部函式模組：`updateGoogleSheets`
-別忘記我們學習Google Sheets是為了匯入爬蟲的資料，所以要建立一個給主程式`用來更新Google Sheets的外部函式模組`，我們先讓這個函式完成今天的需求吧
+別忘記我們學習Google Sheets是為了寫入爬蟲的資料，所以要建立一個給主程式`用來更新Google Sheets的外部函式模組`，我們先讓這個函式完成今天的需求吧
 1. 取得Google Sheets授權：`getAuth`
 2. 取得FB粉專、IG帳號的sheet資訊：`getFBIGSheet`
 ```js
@@ -285,4 +285,4 @@ crawler()
 📖 參考資源
 ----
 [callback、Promise 和 async/await 那些事兒](https://noob.tw/js-async/)
-### [Day20 Google Sheets-匯入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
+### [Day20 Google Sheets-寫入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
