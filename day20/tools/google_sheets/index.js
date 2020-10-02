@@ -106,7 +106,7 @@ async function addSheet (title, auth) {//新增一個sheet到指定的Google She
   }
 }
 
-async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還沒被建立，就新增
+async function getFBIGSheet (auth) {// 取得FB粉專、IG帳號的Sheet資訊
   const sheets = [//我們Google Sheets需要的sheet
     { title: 'FB粉專', id: null },
     { title: 'IG帳號', id: null }
@@ -133,7 +133,8 @@ async function getFBIGSheet (auth) {// 確認Sheet是否都被建立，如果還
 
 async function writeSheet (title, result_array, auth) {
   // 先在第一欄寫入title(粉專名稱)
-  let title_array = result_array.map(fanpage => [fanpage.title]);
+  let title_array = result_array.map(fanpage => [`=HYPERLINK("${fanpage.url}","${fanpage.title}")`]);
+  
   // 填上名稱
   title_array.unshift([title])//unshift是指插入陣列開頭
   await writeTitle(title, title_array, auth)
@@ -236,7 +237,7 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
     // 寫入各自的Sheet
     await writeSheet('FB粉專', fb_result_array, auth)
     await writeSheet('IG帳號', ig_result_array, auth)
-    console.log('成功更新Google Sheets');
+    console.log(`成功更新Google Sheets：https://docs.google.com/spreadsheets/d/${process.env.SPREADSHEET_ID}`);
   } catch (err) {
     console.error('更新Google Sheets失敗');
     console.error(err);

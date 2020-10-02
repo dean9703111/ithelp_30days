@@ -1,4 +1,8 @@
-const fanpage_array = require('../fanspages/ig.json');
+let fanpage_array = require('../fanspages/ig.json');
+//過濾掉重複的粉專頁面，減少資源浪費
+fanpage_array = fanpage_array.filter((fanpage, index, self) =>
+    index === self.findIndex(f => f.url === fanpage.url)
+)
 const ig_username = process.env.IG_USERNAME
 const ig_userpass = process.env.IG_PASSWORD
 const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能

@@ -1,10 +1,14 @@
-const fanpage_array = require('../fanspages/fb.json');
+let fanpage_array = require('../fanspages/fb.json');
+//過濾掉重複的粉專頁面，減少資源浪費
+fanpage_array = fanpage_array.filter((fanpage, index, self) =>
+    index === self.findIndex(f => f.url === fanpage.url)
+)
 const fb_username = process.env.FB_USERNAME
 const fb_userpass = process.env.FB_PASSWORD
 const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
-exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
 // FB有經典版以及新版的區分，兩者的爬蟲路徑不同，我們藉由函式取得各自的路徑
 const { fb_head_path, fb_trace_path } = getCrawlerPath();
+exports.crawlerFB = crawlerFB;//讓其他程式在引入時可以使用這個函式
 
 function getCrawlerPath () {
     if (process.env.FB_VERSION === 'new') {//如果是新版FB

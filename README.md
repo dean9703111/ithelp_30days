@@ -43,14 +43,14 @@
     * [Day12 合體吧！用一隻程式搞定FB、IG爬蟲](/day12/README.md)
     * [Day13 refactor-亂糟糟的房間沒人喜歡，程式也是](/day13/README.md)
     * [Day14 程式又又又崩潰了嗎？來點try-catch吧](/day14/README.md)
-    * [Day15 json x 爬蟲 = 重複的事情讓機器做](/day15/README.md)
-    * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 同場加碼爬蟲思路分享](/day16/README.md)
+    * [Day15 json x 爬蟲 = 瑣事自動化，生命應該浪費在美好的事情上](/day15/README.md)
+    * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 學會爬蟲，之後呢？](/day16/README.md)
 
 * Google Sheets
     * [Day17 Google Sheets-免費儲存資料的好選擇，一起進入省錢起手式](/day17/README.md)
     * [Day18 Google Sheets-加入版控後被github警告了？官方範例做了什麼？](/day18/README.md)
     * [Day19 Google Sheets-你在文件迷路了嗎？手把手帶你找文件，今天先來搞定Sheet](/day19/README.md)
-    * [Day20 Google Sheets-匯入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
+    * [Day20 Google Sheets-寫入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
     * [Day21 Google Sheets-咦咦咦？更動了下爬蟲清單怎麼資料塞錯位置了？](/day21/README.md)
     * [Day22 Google Sheets-業主：我希望新資料插在最前面](/day22/README.md)
     * [Day23 Google Sheets-優化格式，滿足客戶需求](/day23/README.md)
