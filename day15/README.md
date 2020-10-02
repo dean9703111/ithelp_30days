@@ -108,8 +108,8 @@ json 可以包含 `object (物件)` 與 `array (陣列)`
 
 # 2. 讓爬蟲程式讀取json裡面的資料
 ### 2.1 在專案引入json檔案
-* 引入json檔案時請注意相對路徑，建議先用console.log確認是否有正確引入
-* 因為這個檔案是人工撰寫，可能會不小心複製到重複粉專，所以做了個filter來過濾
+* 引入json檔案時請注意相對路徑，建議先用 `console.log` 確認是否有正確引入
+* 因為這個檔案是人工撰寫，可能會不小心複製到重複粉專，所以使用來 `filter過濾`
 ```js
 let fanpage_array = require('../fanspages/ig.json');
 //過濾掉重複的粉專頁面，減少資源浪費
