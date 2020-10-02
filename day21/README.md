@@ -167,7 +167,7 @@ async function writeSheet (title, result_array, auth) {
     ```
 3. 在爬蟲跑完後看看線上的Google Sheets是否有依照你的更改正確寫入
 
-* 下圖是我修改 fb.json 的範例  
+* 下圖是我多次修改 fb.json 後執行爬蟲的結果  
     ![image](./article_img/googlesheets.png)
 
 ----
