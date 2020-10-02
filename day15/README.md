@@ -108,9 +108,14 @@ json 可以包含 `object (物件)` 與 `array (陣列)`
 
 # 2. 讓爬蟲程式讀取json裡面的資料
 ### 2.1 在專案引入json檔案
-引入json檔案時請注意相對路徑，建議先用console.log確認是否有正確引入
+* 引入json檔案時請注意相對路徑，建議先用console.log確認是否有正確引入
+* 因為這個檔案是人工撰寫，可能會不小心複製到重複粉專，所以做了個filter來過濾
 ```js
-const fanpage_array = require('../fanspages/ig.json');
+let fanpage_array = require('../fanspages/ig.json');
+//過濾掉重複的粉專頁面，減少資源浪費
+fanpage_array = fanpage_array.filter((fanpage, index, self) =>
+    index === self.findIndex(f => f.url === fanpage.url)
+)
 console.log(fanpage_array)
 ```
 
@@ -129,7 +134,11 @@ console.log(fanpage_array)
 * 統整後完整程式如下
     #### crawlerIG.js
     ```js
-    const fanpage_array = require('../fanspages/ig.json');
+    let fanpage_array = require('../fanspages/ig.json');
+    //過濾掉重複的粉專頁面，減少資源浪費
+    fanpage_array = fanpage_array.filter((fanpage, index, self) =>
+        index === self.findIndex(f => f.url === fanpage.url)
+    )
     const ig_username = process.env.IG_USERNAME
     const ig_userpass = process.env.IG_PASSWORD
     const { By, until } = require('selenium-webdriver') // 從套件中取出需要用到的功能
