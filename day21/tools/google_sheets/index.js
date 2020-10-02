@@ -11,8 +11,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = 'token.json';
-
+const TOKEN_PATH = 'tools/google_sheets/token.json';
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
  * given callback function.
@@ -78,15 +77,7 @@ async function getSheets (auth) {//取得Google Sheets所有的sheet
   }
 }
 
-function genSheetId (sheet_id_array) {
-  let sheet_id = parseInt(Math.random() * 10000)
-  while (sheet_id_array.includes(sheet_id)) {//如果存在就要在產生一次
-    sheet_id = parseInt(Math.random() * 10000)
-  }
-  return sheet_id
-}
-
-async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的Google Sheets
+async function addSheet (title, auth) {//新增一個sheet到指定的Google Sheets
   const sheets = google.sheets({ version: 'v4', auth });
   const request = {
     // The ID of the spreadsheet
@@ -96,7 +87,6 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
         "addSheet": {//這個request的任務是addSheet
           // 你想給這個sheet的屬性
           "properties": {
-            "sheetId": sheet_id,//必須為數字，且這個欄位是唯一值
             "title": title
           }
         },
@@ -104,8 +94,11 @@ async function addSheet (title, sheet_id, auth) {//新增一個sheet到指定的
     }
   };
   try {
-    await sheets.spreadsheets.batchUpdate(request)
+    const response = (await sheets.spreadsheets.batchUpdate(request)).data;
+    const sheetId = response.replies[0].addSheet.properties.sheetId
     console.log('added sheet:' + title)
+    return sheetId
+
   }
   catch (err) {
     console.log('The API returned an error: ' + err);
@@ -118,10 +111,6 @@ async function getFBIGSheet (auth) {// 取得FB粉專、IG帳號的Sheet資訊
     { title: 'IG帳號', id: null }
   ]
   const online_sheets = await getSheets(auth)//抓目前存在的sheet
-  let sheet_id_array = []
-  online_sheets.forEach(online_sheet => {//抓出已經存在的sheet_id避免產生出一樣的id
-    sheet_id_array.push(online_sheet.properties.sheetId)
-  })
 
   for (sheet of sheets) {
     online_sheets.forEach(online_sheet => {
@@ -131,11 +120,8 @@ async function getFBIGSheet (auth) {// 取得FB粉專、IG帳號的Sheet資訊
     })
     if (sheet.id == null) {//如果該sheet尚未被建立，則建立
       console.log(sheet.title + ':not exsit')
-      let sheet_id = genSheetId(sheet_id_array)
-      sheet_id_array.push(sheet_id)
       try {
-        await addSheet(sheet.title, sheet_id, auth)//如果不存在就會新增該sheet
-        sheet.id = sheet_id
+        sheet.id = await addSheet(sheet.title, auth)//如果不存在就會新增該sheet        
       } catch (e) {
         console.error(e)
       }
@@ -149,15 +135,15 @@ async function writeSheet (title, result_array, auth) {
   let online_title_array = await readTitle(title, auth)
   // 如果json檔有新增的粉專就補到最後面
   result_array.forEach(fanpage => {
-    if (!online_title_array.includes([`=HYPERLINK("${fanpage.url}","${fanpage.title}")`])) {
-      online_title_array.push([`=HYPERLINK("${fanpage.url}","${fanpage.title}")`])
+    if (!online_title_array.includes(`=HYPERLINK("${fanpage.url}","${fanpage.title}")`)) {
+      online_title_array.push(`=HYPERLINK("${fanpage.url}","${fanpage.title}")`)
     }
   });
 
-  // 再寫入trace(追蹤人數)
+  // "粉專名稱+粉專網址"作為寫入追蹤人數欄位的判斷
   let trace_array = []
   online_title_array.forEach(title => {
-    let fanpage = result_array.find(fanpage => fanpage.title == title)
+    let fanpage = result_array.find(fanpage => `=HYPERLINK("${fanpage.url}","${fanpage.title}")` == title)
     if (fanpage) {
       trace_array.push([fanpage.trace])
     } else {
@@ -167,10 +153,10 @@ async function writeSheet (title, result_array, auth) {
   // 抓取當天日期
   const datetime = new Date()
 
-  if (online_title_array[0] !== title) {//如果判定是第一次就會在開頭插入
+  if (online_title_array[0] !== title) {//如果是全新的sheet就會在開頭插入
     online_title_array.unshift(title)
     trace_array.unshift([dateFormat(datetime, "GMT:yyyy/mm/dd")])
-  } else {//如果不是第一次就取代
+  } else {//如果不是全新就取代
     trace_array[0] = [dateFormat(datetime, "GMT:yyyy/mm/dd")]
   }
 
@@ -197,7 +183,7 @@ async function readTitle (title, auth) {
     let values = (await sheets.spreadsheets.values.batchGet(request)).data.valueRanges[0].values;
     if (values) {//如果沒資料values會是undefine，所以我們只在有資料時塞入
       title_array = values.map(value => value[0]);
-      // title_array = values
+     
     }
     // console.log(title_array)
     return title_array
@@ -275,7 +261,7 @@ async function writeTrace (title, trace_array, lastCol, auth) {//填入追蹤者
 function getAuth () {
   return new Promise((resolve, reject) => {
     try {
-      const content = JSON.parse(fs.readFileSync('credentials/googleSheets.json'))
+      const content = JSON.parse(fs.readFileSync('tools/google_sheets/credentials.json'))
       authorize(content, auth => {
         resolve(auth)
       })
@@ -289,13 +275,10 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
   try {
     const auth = await getAuth()
     const sheets = await getFBIGSheet(auth)//取得線上FB、IG的sheet資訊
-    for (sheet of sheets) {
-      if (sheet.title === 'FB粉專') {
-        await writeSheet(sheet.title, sheet.id, fb_result_array, auth)
-      } else if (sheet.title === 'IG帳號') {
-        await writeSheet(sheet.title, sheet.id, ig_result_array, auth)
-      }
-    }
+
+    // 寫入各自的Sheet
+    await writeSheet('FB粉專', fb_result_array, auth)
+    await writeSheet('IG帳號', ig_result_array, auth)
     console.log(`成功更新Google Sheets：https://docs.google.com/spreadsheets/d/${process.env.SPREADSHEET_ID}`);
   } catch (err) {
     console.error('更新Google Sheets失敗');
