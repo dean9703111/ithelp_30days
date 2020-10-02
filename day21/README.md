@@ -119,6 +119,7 @@ async function readTitle (title, auth) {
 }
 ```
 ### 4.2 讓新的爬蟲資料正確寫入Google Sheets：`writeSheet`
+我們依照客戶接受的`解決方案`來調整這隻函式，你可以透過程式碼的備註來了解我改寫的邏輯
 ```js
 async function writeSheet (title, result_array, auth) {
   // 取得線上第一欄的粉專名稱
