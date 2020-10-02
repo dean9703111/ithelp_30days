@@ -145,12 +145,12 @@ async function getFBIGSheet (auth) {// 取得FB粉專、IG帳號的Sheet資訊
 }
 
 async function writeSheet (title, result_array, auth) {
-  // 取得線上的title_array
+  // 取得線上第一欄的粉專名稱
   let online_title_array = await readTitle(title, auth)
-  // 如果json檔有新增的title就加入到online_title_array
+  // 如果json檔有新增的粉專就補到最後面
   result_array.forEach(fanpage => {
-    if (!online_title_array.includes(fanpage.title)) {
-      online_title_array.push(fanpage.title)
+    if (!online_title_array.includes([`=HYPERLINK("${fanpage.url}","${fanpage.title}")`])) {
+      online_title_array.push([`=HYPERLINK("${fanpage.url}","${fanpage.title}")`])
     }
   });
 
@@ -296,7 +296,7 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
         await writeSheet(sheet.title, sheet.id, ig_result_array, auth)
       }
     }
-    console.log('成功更新Google Sheets');
+    console.log(`成功更新Google Sheets：https://docs.google.com/spreadsheets/d/${process.env.SPREADSHEET_ID}`);
   } catch (err) {
     console.error('更新Google Sheets失敗');
     console.error(err);

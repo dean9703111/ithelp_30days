@@ -103,6 +103,7 @@ async function crawler () {
 ### 2.2 改寫 `updateGoogleSheets` 函式來接收並處理爬蟲資料
 * 接受爬蟲回傳的資料：ig_result_array, fb_result_array
 * 新增函式 `writeSheet` 將收到的爬蟲資料寫入對應的 Sheet
+* 最後印出Google Sheets的網址方便查看
 ```js
 async function updateGoogleSheets (ig_result_array, fb_result_array) {
     try {
@@ -114,7 +115,7 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
         // 將爬蟲資料寫入各自的Sheet
         await writeSheet('FB粉專', fb_result_array, auth)
         await writeSheet('IG帳號', ig_result_array, auth)
-        console.log('成功更新Google Sheets');
+        console.log(`成功更新Google Sheets：https://docs.google.com/spreadsheets/d/${process.env.SPREADSHEET_ID}`);
     } catch (err) {
         console.error('更新Google Sheets失敗');
         console.error(err);

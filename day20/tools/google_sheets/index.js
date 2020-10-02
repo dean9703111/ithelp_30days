@@ -237,7 +237,7 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
     // 寫入各自的Sheet
     await writeSheet('FB粉專', fb_result_array, auth)
     await writeSheet('IG帳號', ig_result_array, auth)
-    console.log('成功更新Google Sheets');
+    console.log(`成功更新Google Sheets：https://docs.google.com/spreadsheets/d/${process.env.SPREADSHEET_ID}`);
   } catch (err) {
     console.error('更新Google Sheets失敗');
     console.error(err);

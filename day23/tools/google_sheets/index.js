@@ -153,8 +153,8 @@ async function writeSheet (title, sheet_id, result_array, auth) {
   let online_title_array = await readTitle(title, auth)
   // 如果json檔有新增的title就加入到online_title_array
   result_array.forEach(fanpage => {
-    if (!online_title_array.includes(fanpage.title)) {
-      online_title_array.push(fanpage.title)
+    if (!online_title_array.includes([`=HYPERLINK("${fanpage.url}","${fanpage.title}")`])) {
+      online_title_array.push([`=HYPERLINK("${fanpage.url}","${fanpage.title}")`])
     }
   });
 
@@ -230,13 +230,6 @@ async function writeTitle (title, title_array, auth) {//title都是寫入第一�
   }
 }
 
-
-function toColumnName (num) {//Google Sheets無法辨認數字欄位，需轉為英文才能使用
-  for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
-    ret = String.fromCharCode(parseInt((num % b) / a) + 65) + ret;
-  }
-  return ret;
-}
 
 async function writeTrace (title, trace_array, auth) {//填入追蹤者人數
   const sheets = google.sheets({ version: 'v4', auth });
@@ -324,7 +317,7 @@ async function updateGoogleSheets (ig_result_array, fb_result_array) {
         await writeSheet(sheet.title, sheet.id, ig_result_array, auth)
       }
     }
-    console.log('成功更新Google Sheets');
+    console.log(`成功更新Google Sheets：https://docs.google.com/spreadsheets/d/${process.env.SPREADSHEET_ID}`);
   } catch (err) {
     console.error('更新Google Sheets失敗');
     console.error(err);
