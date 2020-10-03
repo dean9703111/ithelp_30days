@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day22 Google Sheets-業主：我希望新資料插在最前面
+## Day22 Google Sheets-業主：我希望新資料插在最前面 & 談需求變更
 
 雖然截至上一篇我們已經完成了專案在Google sheet的基本需求，但是在給業主實際測試的時候常常會多出一些現實面會需要的功能  
 
@@ -88,4 +88,4 @@ yarn
 在credentials資料夾放上自己的憑證
 yarn start
 ```
-### [Day23 Google Sheets-優化格式，滿足客戶需求](/day23/README.md)
+### [Day23 Google Sheets-優化格式，滿足客戶需求 & 談使用者體驗](/day23/README.md)

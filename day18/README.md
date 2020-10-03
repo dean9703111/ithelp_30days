@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day18 Google Sheets-加入版控後被github警告了？官方範例做了什麼？
+## Day18 Google Sheets-加入版控後被github警告了，官方範例做了什麼？
 
 >盡信書不如無書
 

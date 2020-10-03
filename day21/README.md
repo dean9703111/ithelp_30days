@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day21 Google Sheets-BUG！爬蟲資料塞錯位置了 & 與客戶溝通的技巧
+## Day21 Google Sheets-爬蟲資料塞錯位置了! & 與客戶溝通bug的技巧
 
 >客戶的操作跟你想的不一樣
 
@@ -119,7 +119,9 @@ async function readTitle (title, auth) {
 }
 ```
 ### 4.2 讓新的爬蟲資料正確寫入Google Sheets：`writeSheet`
-我們依照客戶接受的`解決方案`來調整這隻函式，你可以透過程式碼的備註來了解我改寫的邏輯
+我們依照客戶接受的`解決方案`來調整這隻函式
+* 將爬蟲json 中新增的粉專`補到 Google Sheets最後面`
+* 追蹤人數用`粉專名稱+粉專網址`來塞入對應的位置
 ```js
 async function writeSheet (title, result_array, auth) {
   // 取得線上第一欄的粉專名稱
@@ -149,7 +151,7 @@ async function writeSheet (title, result_array, auth) {
   } else {//如果不是全新就取代
     trace_array[0] = [dateFormat(datetime, "GMT:yyyy/mm/dd")]
   }
-
+  
   await writeTitle(title, online_title_array.map(title => [title]), auth)
   let lastCol = await getLastCol(title, auth)
   await writeTrace(title, trace_array, lastCol, auth)
@@ -186,4 +188,4 @@ async function writeSheet (title, result_array, auth) {
         * 填上IG登入資訊
         * 填上SPREADSHEET_ID
         
-### [Day22 Google Sheets-業主：我希望新資料插在最前面](/day22/README.md)
+### [Day22 Google Sheets-業主：我希望新資料插在最前面 & 談需求變更](/day22/README.md)
