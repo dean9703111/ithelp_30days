@@ -165,4 +165,4 @@
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 要在tools/google_sheets資料夾放上自己的憑證，今天的程式才能執行喔
 
-### [Day19 Google Sheets-你在文件迷路了嗎？手把手帶你找文件，今天先來搞定Sheet](/day19/README.md)
+### [Day19 Google Sheets-你在文件迷路了嗎？用兩個處理Sheet的範例帶你攻略官方文件](/day19/README.md)
