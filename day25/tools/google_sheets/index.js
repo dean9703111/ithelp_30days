@@ -88,7 +88,11 @@ async function addSheet (title, auth) {//新增一個sheet到指定的Google She
         "addSheet": {//這個request的任務是addSheet
           // 你想給這個sheet的屬性
           "properties": {
-            "title": title
+            "title": title,
+            "gridProperties": {
+              "frozenRowCount": 1,//我將最上面那一列設定為凍結
+              "frozenColumnCount": 1//我將最左邊那一欄設定為凍結
+            },
           }
         },
       }]
