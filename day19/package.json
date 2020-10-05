@@ -5,7 +5,7 @@
   "author": "dean lin",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "googleapis": "39",
+    "googleapis": "59",
     "selenium-webdriver": "^4.0.0-alpha.7"
   },
   "devDependencies": {},

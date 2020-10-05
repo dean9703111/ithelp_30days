@@ -56,7 +56,7 @@
     * [Day23 Google Sheets-優化格式，滿足客戶需求 & 談使用者體驗](/day23/README.md)
 
 * 自動化
-    * [Day24 排程-時間一到爬蟲自己動起來](/day24/README.md)
+    * [Day24 排程-設定鬧鐘讓爬蟲自己動起來](/day24/README.md)
     * [Day25 排程-背景執行才是王道！誒？爬蟲清單改了怎麼沒反應?](/day25/README.md)
     * [Day26 排程-重開機後排程不見惹？簡單幾個步驟，從此以後完全自動](/day26/README.md)
 
