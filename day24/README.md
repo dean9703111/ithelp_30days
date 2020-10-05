@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day24 排程-設定鬧鐘讓爬蟲自己動起來
+## Day24 排程-Cron套件超詳解，讓爬蟲自己動起來
 
 >電腦能夠記住的任務就讓電腦來做吧，把腦容量留給更重要的任務
 
@@ -7,6 +7,7 @@
 ----
 在客戶要求這個功能之前其實我就把他的雛型完成了，`因為我是一個懶人，同時也不是一個記性很好的人`，如果每天都要在某個時間打開專案執行 **yarn start** 然後等數據跑完，這對我來說實在是一件很容易忘記且沒有效率的事情，我認為`電腦可以做到事情那就交給電腦去做`，所以`接下來幾天就來跟大家分享我是如何~~偷懶~~使用排程的`
 
+----
 
 🏆 今日目標
 ----
@@ -110,6 +111,8 @@ constructor(cronTime, onTick, onComplete, start, timezone, context, runOnInit, u
     }, null, true);
     ```
     ![image](./article_img/second.png)
+
+----
 
 # 2. 把排程加入爬蟲
 我們要調整三個檔案來符合爬蟲的需求
@@ -215,6 +218,7 @@ new CronJob({
         * 填上SPREADSHEET_ID
         * 填上爬蟲執行時間(CRONJOB_TIME)
 
-
+📖 參考資源
+----
 1. [Run function in script from command line (Node JS)](https://stackoverflow.com/questions/30782693/run-function-in-script-from-command-line-node-js)
 ### [Day25 排程-背景執行才是王道！誒？爬蟲清單改了怎麼沒反應?](/day25/README.md)

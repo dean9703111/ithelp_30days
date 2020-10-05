@@ -186,4 +186,4 @@ Google Sheets系列文章到這裡告一個段落，接下來我們依照今天�
 📖 參考資源
 ----
 1. [了解使用者體驗 (UX) 的第一堂課](https://designtongue.me/%E4%BA%86%E8%A7%A3%E4%BD%BF%E7%94%A8%E8%80%85%E9%AB%94%E9%A9%97-ux-%E7%9A%84%E7%AC%AC%E4%B8%80%E5%A0%82%E8%AA%B2/)
-### [Day24 排程-設定鬧鐘讓爬蟲自己動起來](/day24/README.md)
+### [Day24 排程-Cron套件超詳解，讓爬蟲自己動起來](/day24/README.md)
