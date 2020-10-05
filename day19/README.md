@@ -276,7 +276,7 @@ crawler()
 ℹ️ 專案原始碼
 ----
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day19)找到喔
-* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day18_sample_code.zip)，你可以用裡面乾淨的環境來實作今天Google Sheets的起手式喔
+* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day18_sample_code.zip)，你可以用裡面乾淨的環境來實作今天Google Sheets的Sheet處理喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 要在tools/google_sheets資料夾放上自己的憑證
     * 調整你.env檔填上SPREADSHEET_ID
@@ -286,4 +286,4 @@ crawler()
 📖 參考資源
 ----
 [callback、Promise 和 async/await 那些事兒](https://noob.tw/js-async/)
-### [Day20 Google Sheets-寫入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
+### [Day20 Google Sheets-寫入爬蟲資料，跟 Copy & Paste 的日子說掰掰](/day20/README.md)
