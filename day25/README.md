@@ -102,11 +102,12 @@ kill [程式的PID]
         ```
         forever restart tools/cron.js
         ```
->  在我的 Node.js 升級到 v14.7 後發現這個套件執行的時候會有警告如下：
+* 執行 forever 時會遇到警告的原因
+    如果你的 Node.js 版本升級到 v14 之後會發現這個套件執行的時候會有警告如下：
     ```
     (node:30512) Warning: Accessing non-existent property 'padLevels' of module exports inside circular dependency
     ```
-    * 這個警告是因為套件中有相依的套件在 node v14 之後不再支援，`但這些警告不影響套件運行`，等作者來修復吧
+    * 這個警告是因為 forever 有相依套件在 node v14 之後不再支援，`但這些警告不影響套件運行`
     * Node.js 的版本更新的非常快速，許多套件都可能在更新後不支援，`所以更新版本後請切記要運行一次確保正常`
     
 ----
