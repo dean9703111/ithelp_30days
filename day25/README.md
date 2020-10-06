@@ -73,7 +73,7 @@ kill [程式的PID]
         ```
         > 如果你沒加上 `--minUptime=1000 --spinSleepTime=1000` 的參數 會有警告如下圖
             ![image](./article_img/foreverstart.png)
-    * **監聽檔案更動自動重啟**
+    * **監聽檔案更動並自動重啟**
         ```vim
         forever --minUptime=1000 --spinSleepTime=1000 -w start tools/cron.js
         ```
@@ -86,12 +86,12 @@ kill [程式的PID]
             chromedriver.exe
             debug.log
             ```
-    * **顯示所有forever程式運行狀態**
+    * **顯示所有運行的狀態**
         ```
         forever list
         ```
         ![image](./article_img/foreverlist.png)
-        * 可以在 logfile 裡面看到排程執行的狀況
+        * 可以在 `logfile` 裡面看到排程執行的狀況
     * **關閉所有排程**
         ```
         forever stopall
@@ -110,6 +110,7 @@ kill [程式的PID]
     * 這個警告是因為 forever 有相依套件在 node v14 之後不再支援，`但這些警告不影響套件運行`
     * Node.js 的版本更新的非常快速，許多套件都可能在更新後不支援，`所以更新版本後請切記要運行一次確保正常`
     
+    >筆者寫這份專案的時候 node 版本才 12.6，沒幾個月就出到 14 版，也許未來某一天有人看到這篇文章的時候 node 版本就破 20 了
 ----
 
 # 3. 在 package.json 中加入驅動 forever 的 scripts
@@ -133,23 +134,6 @@ kill [程式的PID]
 
 ----
 
-專案原始碼
-----
-完整的程式碼在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day24)喔
-你可以整個專案clone下來  
-```
-git clone https://github.com/dean9703111/ithelp_30days/tree/master.git
-```
-如果你已經clone過了，那你每天pull就能取得更新的資料嚕  
-```
-git pull origin master
-cd day24
-yarn
-yarn add global forever
-調整你.env檔填上 FB & IG 登入資訊、SPREADSHEET_ID、爬蟲執行時間
-在credentials資料夾放上自己的憑證
-yarn forever
-```
 ℹ️ 專案原始碼
 ----
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day25)找到喔
@@ -170,4 +154,5 @@ yarn forever
 1. [如果ctrl + c沒法終止怎麼辦?](https://medium.com/mess-up/%E5%A6%82%E6%9E%9Cctrl-c%E6%B2%92%E6%B3%95%E7%B5%82%E6%AD%A2%E6%80%8E%E9%BA%BC%E8%BE%A6-5e720fd66e32)
 2. [Linux 程序管理 ( ps -l / ps aux / ps axjf )](http://puremonkey2010.blogspot.com/2011/02/linux-linux-ps-l-ps-aux-ps-axjf.html)
 3. [[Node.js打造API] 使用forever運行API永遠不停止](https://andy6804tw.github.io/2018/01/17/api-forever/)
+
 ### [Day26 排程-重開機後排程不見惹？簡單幾個步驟，從此以後完全自動](/day26/README.md)
