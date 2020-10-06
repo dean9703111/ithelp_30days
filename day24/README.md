@@ -207,7 +207,7 @@ new CronJob({
 ℹ️ 專案原始碼
 ----
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day24)找到喔
-* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day23_sample_code.zip)，你可以用裡面乾淨的環境來完成業主要求的需求變更吧
+* 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day23_sample_code.zip)，你可以用裡面乾淨的環境來試著加入排程吧
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 要在tools/google_sheets資料夾放上自己的憑證
     * 調整fanspages資料夾內目標爬蟲的粉專網址
@@ -221,4 +221,4 @@ new CronJob({
 📖 參考資源
 ----
 1. [Run function in script from command line (Node JS)](https://stackoverflow.com/questions/30782693/run-function-in-script-from-command-line-node-js)
-### [Day25 排程-背景執行才是王道！誒？爬蟲清單改了怎麼沒反應?](/day25/README.md)
+### [Day25 排程-用forever套件來控管排程，背景執行才是王道！](/day25/README.md)

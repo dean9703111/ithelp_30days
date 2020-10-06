@@ -7,6 +7,8 @@
     "cron": "^1.8.2",
     "dateformat": "^3.0.3",
     "dotenv": "^8.2.0",
+    "forever": "^3.0.2",
+    "global": "^4.4.0",
     "googleapis": "59",
     "selenium-webdriver": "^4.0.0-alpha.7"
   },
@@ -14,7 +16,7 @@
   "scripts": {
     "start": "node  -e 'require(\"./index\").crawler()'",
     "win_start": "node  -e \"require('./index').crawler()\"",
-    "forever":"forever stopall && forever --minUptime=1000 --spinSleepTime=1000 -w start tools/cron.js"
+    "forever": "forever stopall && forever --minUptime=1000 --spinSleepTime=1000 -w start tools/cron.js"
   },
   "main": "index.js",
   "license": "MIT"
