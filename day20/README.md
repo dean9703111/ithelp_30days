@@ -298,4 +298,4 @@ yarn start
         * 填上IG登入資訊
         * 填上SPREADSHEET_ID
     
-### [Day21 Google Sheets-爬蟲資料塞錯位置了! & 與客戶溝通bug的技巧](/day21/README.md)
+### [Day21 Google Sheets-BUG!爬蟲資料塞錯位置 & 專案出包怎麼辦？](/day21/README.md)
