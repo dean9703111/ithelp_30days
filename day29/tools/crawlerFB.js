@@ -28,7 +28,7 @@ async function crawlerFB (driver) {
     const isLogin = await loginFacebook(driver)
     if (isLogin) {//如果登入成功才執行下面的動作
         console.log(`FB開始爬蟲`)
-        let result_array = []
+        let result_array = [], error_title_array = []// 紀錄無法爬蟲的標題
         for (fanpage of fanpage_array) {
             let trace
             try {
@@ -36,6 +36,7 @@ async function crawlerFB (driver) {
                 await driver.sleep((Math.floor(Math.random()*4)+3)*1000)//每個頁面爬蟲停留3~6秒，不要造成別人的伺服器負擔
                 trace = await getTrace(driver, By, until)
                 if (trace === null) {
+                    error_title_array.push(fanpage.title)
                     console.log(`${fanpage.title}無法抓取追蹤人數`)
                 } else {
                     console.log(`${fanpage.title}追蹤人數：${trace}`)
@@ -52,7 +53,7 @@ async function crawlerFB (driver) {
                 })
             }
         }
-        return result_array
+        return { "result_array": result_array, "error_title_array": error_title_array }
     }
 }
 
