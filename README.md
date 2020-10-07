@@ -49,15 +49,15 @@
 * Google Sheets
     * [Day17 Google Sheets-免費儲存資料的好選擇，一起進入省錢起手式](/day17/README.md)
     * [Day18 Google Sheets-加入版控後被github警告了，官方範例做了什麼？](/day18/README.md)
-    * [Day19 Google Sheets-你在文件迷路了嗎？手把手帶你找文件，今天先來搞定Sheet](/day19/README.md)
-    * [Day20 Google Sheets-寫入爬蟲資料，解放你的繁瑣日常](/day20/README.md)
-    * [Day21 Google Sheets-爬蟲資料塞錯位置了! & 與客戶溝通bug的技巧](/day21/README.md)
+    * [Day19 Google Sheets-你在文件迷路了嗎？用兩個處理Sheet的範例帶你攻略官方文件](/day19/README.md)
+    * [Day20 Google Sheets-寫入爬蟲資料，跟 Copy & Paste 的日子說掰掰](/day20/README.md)
+    * [Day21 Google Sheets-BUG!爬蟲資料塞錯位置 & 專案出包怎麼辦？](/day21/README.md)
     * [Day22 Google Sheets-業主：我希望新資料插在最前面 & 談需求變更](/day22/README.md)
     * [Day23 Google Sheets-優化格式，滿足客戶需求 & 談使用者體驗](/day23/README.md)
 
 * 自動化
-    * [Day24 排程-時間一到爬蟲自己動起來](/day24/README.md)
-    * [Day25 排程-背景執行才是王道！誒？爬蟲清單改了怎麼沒反應?](/day25/README.md)
+    * [Day24 排程-Cron套件超詳解，讓爬蟲自己動起來](/day24/README.md)
+    * [Day25 排程-用forever套件來控管排程，背景執行才是王道！](/day25/README.md)
     * [Day26 排程-重開機後排程不見惹？簡單幾個步驟，從此以後完全自動](/day26/README.md)
 
 * 通知設定

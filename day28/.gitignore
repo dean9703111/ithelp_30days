@@ -1,0 +1,7 @@
+node_modules
+.env
+chromedriver.exe
+debug.log
+credentials.json
+token.json
+sh/crawler_cron.sh
