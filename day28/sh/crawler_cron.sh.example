@@ -1,0 +1,3 @@
+# 啟動排程服務
+cd /your_path/FB_IG_crawler
+yarn forever
