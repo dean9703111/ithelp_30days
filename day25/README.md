@@ -64,7 +64,7 @@ kill [程式的PID]
 因為單純使用 cron套件 會讓你遇到開頭所說的各種問題，所以遇到過這個問題的高手們也寫了一個`在 Node.js 中專門管理排程的的套件：forever`，這個套件操作極其簡單，不僅能讓排程在背景穩定執行，還能在終端機的任何位置做管理
 * 首先要請你`全域安裝`這個套件，這樣才能在任何一個位置執行它  
     ```vim
-    yarn add global forever
+    [sudo] npm install forever -g
     ```
 * 基礎指令(以本專案cron.js為範例)
     * **啟動程式**
@@ -102,15 +102,14 @@ kill [程式的PID]
         ```
         forever restart tools/cron.js
         ```
-* 執行 forever 時會遇到警告的原因
-    如果你的 Node.js 版本升級到 v14 之後會發現這個套件執行的時候會有警告如下：
+* 執行 forever 時你可能會遇到警告如下    
     ```
     (node:30512) Warning: Accessing non-existent property 'padLevels' of module exports inside circular dependency
     ```
     * 這個警告是因為 forever 有相依套件在 node v14 之後不再支援，`但這些警告不影響套件運行`
-    * Node.js 的版本更新的非常快速，許多套件都可能在更新後不支援，`所以更新版本後請切記要運行一次確保正常`
-    
-    >筆者寫這份專案的時候 node 版本才 12.6，沒幾個月就出到 14 版，也許未來某一天有人看到這篇文章的時候 node 版本就破 20 了
+    * Node.js 的版本更新的非常快速，許多套件都可能在更新後不支援，**所以更新版本後請切記要運行一次確保正常**
+    * 目前 `Node.js 的 LTS 版本為 12.19.0`，如果你使用這個穩定的版本就不會有這個問題
+
 ----
 
 # 3. 在 package.json 中加入驅動 forever 的 scripts
@@ -147,7 +146,7 @@ kill [程式的PID]
         * 填上IG登入資訊
         * 填上SPREADSHEET_ID
         * 填上爬蟲執行時間(CRONJOB_TIME)
-    * 在終端機下指令 **yarn add global forever** ，讓你在終端機的任何位置都能管控排程
+    * 在終端機下指令 **npm install forever -g** ，讓你在終端機的任何位置都能管控排程
 
 📖 參考資源
 ----

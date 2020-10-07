@@ -39,7 +39,7 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
 <img src="./article_img/nodejs.png" width="120" height="80"/>  
 
 能夠在 server 端運行 JavaScript 的開放原始碼、跨平台 JavaScript 的執行環境。前端工程師的福音  
->筆者安裝的版本：v13.3.0
+>筆者安裝的版本：v12.19.0
 
 ### nvm [官網](https://github.com/nvm-sh/nvm)  
 由於Node.js更新速度是非常快的，而許多套件有Node.js版本的相依性，透過NVM你可以輕鬆切換Node.js版本來符合不同專案的使用環境  
@@ -76,9 +76,9 @@ python是一個很好的語言，但很可惜我對他的鑽研不夠深入
         ```vim
         nvm install [version]
         ```
-        請切記要安裝一個Node.js版本，不然你寫的程式會沒有可以運行的環境
+        請切記要安裝一個Node.js版本(請選用[LTS版本](https://nodejs.org/en/))，不然你寫的程式會沒有可以運行的環境
         ```
-        nvm install 14.7
+        nvm install 12.19.0
         ```
     * 切換Node.js版本
         ```vim

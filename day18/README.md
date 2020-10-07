@@ -48,10 +48,10 @@
         ```
         * 可能遇到的的錯誤
             ![image](./article_img/nvm_error.png)
-        * 在google搜尋 **googleapis export { default as v1 } from './v1.js';** 就能找到問題是出在 node.js 版本上面，輸入指令安裝並套用新版本就能解決嚕
+        * 在google搜尋 **googleapis export { default as v1 } from './v1.js';** 就能找到問題是出在 node.js 版本上面，輸入指令安裝並套用新版本(請選用[LTS版本](https://nodejs.org/en/))就能解決嚕
             ```vim
-            nvm install 14.7
-            nvm use 14.7
+            nvm install 12.19
+            nvm use 12.19
             ```
 
 ----
