@@ -1,12 +1,11 @@
 #### [回目錄](../README.md)
 ## Day26 排程-重開機後排程不見惹？簡單幾個步驟，從此以後完全自動
 
->很少功能可以一次到位，除非你經驗豐富
-
 🤔 為什麼寫這篇文章
 ----
-昨天的教學讓你的排程穩定的在背景執行，但是你重開機在終端機(Terminal)輸入 **forever list** 的指令你會發現程式不見了QQ  
-所以我們要設計一個讓電腦觸發的事件使排程穩定運行，這塊因為 windows 跟 mac 的設定上差異很大，所以我會分開說明  
+昨天的教學讓你的排程穩定的在背景執行，但是你重開機在終端機(Terminal)輸入 **forever list** 的指令你會發現 `forever根本沒有forever`   
+
+為了決這個問題，今天會教你如何在`電腦重啟時觸發 forever 程式`的方法，這塊我會分成 windows 跟 mac 來說明，請大家安心服用
 
 ----
 
@@ -47,7 +46,7 @@
     ![image](./article_img/excutesh.png)
 ### 1.2 將 crawler_cron.sh 設定為可以被執行
 建立的檔案`一開始只有讀寫功能`，我們要將此 .sh 檔案設定為`可以被執行`
-1. 我們先觀察 crawler_cron.sh 的權限
+1. 我們先觀察 **crawler_cron.sh** 的權限
     ```vim
     # 進入資料夾
     cd sh
@@ -107,12 +106,15 @@ windows請打開歷程紀錄否則不會執行該排程
 ![image](./article_img/wintask4.PNG)
 
 ### 2.4 重開機確認 crawler_cron.sh 是否執行
-請注意因為使用的是最高權限執行 yarn forever，所以你在 cmd 裡面用 **forever list** 是看不到的，必須要用**系統管理員身分執行** **cmd** 再輸入指令 **forever list** 才能看的到這個排程
-![image](./article_img/winterminal.png)
-![image](./article_img/winterminal2.png)
+請注意因為使用的是最高權限執行 **yarn forever**，所以你在 cmd 裡面用 **forever list** 是看不到的
+1. 必須要用`系統管理員身分執行 cmd`
+    ![image](./article_img/winterminal.png)
+2. 在這個權限下輸入指令 **forever list** 才能確認是否正常運行    
+    ![image](./article_img/winterminal2.png)
 
 ℹ️ 專案原始碼
 ----
+* 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day26)找到喔
 * 我昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day25_sample_code.zip)，你可已在乾淨的環境試試看排程是不是重開機後依舊存在呢~
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * 要在tools/google_sheets資料夾放上自己的憑證
