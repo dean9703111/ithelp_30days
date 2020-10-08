@@ -108,8 +108,8 @@ windows請打開歷程紀錄否則不會執行該排程
 
 ### 2.4 重開機確認 crawler_cron.sh 是否執行
 請注意因為使用的是最高權限執行 yarn forever，所以你在 cmd 裡面用 **forever list** 是看不到的，必須要用**系統管理員身分執行** **cmd** 再輸入指令 **forever list** 才能看的到這個排程
-![image](./article_img/winterminal.PNG)
-![image](./article_img/winterminal2.PNG)
+![image](./article_img/winterminal.png)
+![image](./article_img/winterminal2.png)
 
 ℹ️ 專案原始碼
 ----
