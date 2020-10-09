@@ -14,7 +14,7 @@ async function combineErrMsg (error_title_array, type) {
 }
 async function lineNotify (time, ig_total_page, fb_total_page, ig_error_title_array, fb_error_title_array) {
     const token = process.env.LINE_TOKEN;
-    // 將錯誤頁面列出來
+    // 將錯誤頁面資訊組合
     const fb_error_msg = await combineErrMsg(fb_error_title_array, "FB")
     const ig_error_msg = await combineErrMsg(ig_error_title_array, "FB")
     let error_msg = fb_error_msg + ig_error_msg
