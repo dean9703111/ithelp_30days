@@ -8,8 +8,8 @@
     "cron": "^1.8.2",
     "dateformat": "^3.0.3",
     "dotenv": "^8.2.0",
+    "form-data": "^3.0.0",
     "googleapis": "59",
-    "querystring": "^0.2.0",
     "selenium-webdriver": "^4.0.0-alpha.7"
   },
   "devDependencies": {},

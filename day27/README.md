@@ -65,19 +65,20 @@
         * **Token**：填入你剛剛在 LINE Notify 申請的權杖
         > ![image](./article_img/POSTMANAuthorization.png)
     * **Body**：
-        * **x-www-form-urlencoded**：
+        * **form-data**：
             key|value|DESCRIPTION
             ---|---|---
-            message|來自寶寶的爬蟲通知|純文字
+            message|來自寶寶的爬蟲通知|純文字(必填)
             stickerPackageId|2|貼圖的PackageId
             stickerId|144|貼圖的Id
+            imageFile|icon.png|電腦上的圖片檔
         > ![image](./article_img/POSTMANBody.png)
         DESCRIPTION 是我對參數描述，實作上可以不避填
         如果你想深入的了解可以參考[官方文件](https://notify-bot.line.me/doc/en/)
 2. 完成 Request 參數填寫後按下 `Send` 發出 LINE 訊息
     * 看到 Response 的結果，status 為 200 代表傳送成功
         ![image](./article_img/POSTMANResponse.png)
-    * 在發行權杖的聊天室中，看到 POSTMAN 傳送的 **訊息、貼圖**
+    * 在發行權杖的聊天室中，看到 POSTMAN 傳送的 **訊息、貼圖、圖片**
         ![image](./article_img/POSTMANMsg.png)
 
 
@@ -103,4 +104,4 @@
 3. [Postman 新手教學](https://tw.alphacamp.co/blog/postman-api-tutorial-for-beginners)
 4. [HTTP 狀態碼一覽表](https://blog.poychang.net/http-status-code/)
 
-### [Day28 為爬蟲加上通知 - 用 xmlhttprequest 發出 LINE 通知](/day26/README.md)
+### [Day28 為爬蟲加上通知 - 用 axois 發出 LINE 通知](/day26/README.md)
