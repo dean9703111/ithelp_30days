@@ -65,11 +65,10 @@
         * **Token**：填入你剛剛在 LINE Notify 申請的權杖
         > ![image](./article_img/POSTMANAuthorization.png)
     * **Body**：
-        * **form-data**：
+        * **x-www-form-urlencoded**：
             key|value|DESCRIPTION
             ---|---|---
             message|來自寶寶的爬蟲通知|純文字
-            imageFile|icon.png|電腦上的圖片檔
             stickerPackageId|2|貼圖的PackageId
             stickerId|144|貼圖的Id
         > ![image](./article_img/POSTMANBody.png)
@@ -78,12 +77,13 @@
 2. 完成 Request 參數填寫後按下 `Send` 發出 LINE 訊息
     * 看到 Response 的結果，status 為 200 代表傳送成功
         ![image](./article_img/POSTMANResponse.png)
-    * 在發行權杖的聊天室中，看到 POSTMAN 傳送的 **訊息、貼圖、圖片**
+    * 在發行權杖的聊天室中，看到 POSTMAN 傳送的 **訊息、貼圖**
         ![image](./article_img/POSTMANMsg.png)
 
 
 ### 2.3 透過 POSTMAN 傳送錯誤參數來了解 HTTP狀態碼的意思
 我們剛剛在 POSTMAN 看到 HTTP狀態碼為 200，接下來我們故意做一些錯誤測試來看看會有什麼樣的 Response
+>請注意並不是每隻 api 都會回傳 status 這個參數，用 HTTP狀態碼判斷最安全
 >![image](./article_img/POSTMANResponse200.png)
 1. 不填寫 LINE Notify 的權杖
     * HTTP狀態碼為 401，代表需要授權才能使用
@@ -103,4 +103,4 @@
 3. [Postman 新手教學](https://tw.alphacamp.co/blog/postman-api-tutorial-for-beginners)
 4. [HTTP 狀態碼一覽表](https://blog.poychang.net/http-status-code/)
 
-### [Day28 LINE權杖取得，用POSTMAN測試](/day26/README.md)
+### [Day28 為爬蟲加上通知 - 用 xmlhttprequest 發出 LINE 通知](/day26/README.md)

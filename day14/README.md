@@ -123,15 +123,19 @@ try {
         ![image](./article_img/err_ig_terminal3.png)
         
 ### 2.2 crawlerIG
-如果 `loginInstagram函式回傳false代表IG登入失敗`，後續爬蟲的動作就不需要執行了
+* 如果 `loginInstagram 函式回傳 false 代表 IG 登入失敗`，後續爬蟲的動作就無需執行
+* 如果 `goFansPage 函式回傳 false 代表該網址無效`，就不需要去取得追蹤人數了
 ```js
 async function crawlerIG (driver) {
     const isLogin = await loginInstagram(driver, By, until)
     if (isLogin) {//如果登入成功才執行下面的動作
         const fanpage = "https://www.instagram.com/baobaonevertell/" // 筆者是寶寶不說的狂熱愛好者
-        await goFansPage(driver, fanpage)
-        const trace = await getTrace(driver)
-        console.log(`IG追蹤人數：${trace}`)
+        const isGoFansPage = await goFansPage(driver, fanpage)
+        if (isGoFansPage) {
+            await driver.sleep(3000)
+            const trace = await getTrace(driver)
+            console.log(`IG追蹤人數：${trace}`)
+        }
     }
 }
 ```
@@ -147,6 +151,7 @@ async function crawlerIG (driver) {
             //登入成功後要前往粉專頁面
             try {
                 await driver.get(web_url)
+                return true
             } catch (e) {
                 console.error('無效的網址')
                 console.error(e)

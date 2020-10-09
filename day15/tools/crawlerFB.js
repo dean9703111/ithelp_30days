@@ -29,9 +29,12 @@ async function crawlerFB (driver) {
     if (isLogin) {//如果登入成功才執行下面的動作
         console.log(`FB開始爬蟲`)
         for (fanpage of fanpage_array) {
-            await goFansPage(driver, fanpage.url)
-            await driver.sleep((Math.floor(Math.random() * 4) + 3) * 1000)//每個頁面爬蟲停留3~6秒，不要造成別人的伺服器負擔
-            const trace = await getTrace(driver)
+            let trace = null
+            const isGoFansPage = await goFansPage(driver, fanpage.url)
+            if (isGoFansPage) {
+                await driver.sleep((Math.floor(Math.random() * 4) + 3) * 1000)//每個頁面爬蟲停留3~6秒，不要造成別人的伺服器負擔
+                trace = await getTrace(driver, By, until)
+            }
             if (trace === null) {
                 console.log(`${fanpage.title}無法抓取追蹤人數`)
             } else {
@@ -70,7 +73,7 @@ async function goFansPage (driver, web_url) {
     //登入成功後要前往粉專頁面
     try {
         await driver.get(web_url)
-
+        return true
     } catch (e) {
         console.error('無效的網址')
         console.error(e)

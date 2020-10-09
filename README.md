@@ -62,8 +62,8 @@
 
 * 通知設定
     * [Day27 為爬蟲加上通知 - 透過 POSTMAN 了解 LINE Notify 如何使用](/day27/README.md)
-    * [Day28 用 xmlhttprequest 發出 LINE 通知](/day28/README.md)
-    * [Day29 重構程式整合訊息，用LINE通知提醒使用者](/day29/README.md)
+    * [Day28 為爬蟲加上通知 - 用 xmlhttprequest 發出 LINE 通知](/day28/README.md)
+    * [Day29 為爬蟲加上通知 - 成功收到 LINE 通知爬蟲摘要訊息，專案大功告成！](/day29/README.md)
 
 * 後話
     * [Day30 時間只是考驗，心中信念絲毫未減](/day30/README.md)
