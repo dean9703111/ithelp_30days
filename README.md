@@ -61,7 +61,7 @@
     * [Day26 排程-重開機後排程不見惹？簡單幾個步驟，從此以後完全自動](/day26/README.md)
 
 * 通知設定
-    * [Day27 爬蟲完成後的通知選擇，透過 POSTMAN 了解 LINE Notify 的使用](/day27/README.md)
+    * [Day27 為爬蟲加上通知 - 透過 POSTMAN 了解 LINE Notify 如何使用](/day27/README.md)
     * [Day28 用 xmlhttprequest 發出 LINE 通知](/day28/README.md)
     * [Day29 重構程式整合訊息，用LINE通知提醒使用者](/day29/README.md)
 

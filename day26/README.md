@@ -135,4 +135,4 @@ windows請打開歷程紀錄否則不會執行該排程
 1. [[LINUX] chmod 檔案權限大統整](https://shian420.pixnet.net/blog/post/344938711-%5Blinux%5D-chmod-%E6%AA%94%E6%A1%88%E6%AC%8A%E9%99%90%E5%A4%A7%E7%B5%B1%E6%95%B4!)
 2. [工作排程器 啟用歷程記錄 原顯示(已停用) windows 2012](https://cjy998.pixnet.net/blog/post/63190869-%E5%B7%A5%E4%BD%9C%E6%8E%92%E7%A8%8B%E5%99%A8-%E5%95%9F%E7%94%A8%E6%AD%B7%E7%A8%8B%E8%A8%98%E9%8C%84-%E5%8E%9F%E9%A1%AF%E7%A4%BA(%E5%B7%B2%E5%81%9C%E7%94%A8)--win)
 
-### [Day26 LINE權杖取得，用POSTMAN測試](/day26/README.md)
+### [Day26 為爬蟲加上通知 - 透過 POSTMAN 了解 LINE Notify 如何使用](/day27/README.md)

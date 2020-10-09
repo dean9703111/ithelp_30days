@@ -1,7 +1,7 @@
 #### [回目錄](../README.md)
-## Day27 幫爬蟲加上通知-透過 POSTMAN 了解 LINE Notify 的使用
+## Day27 為爬蟲加上通知 - 透過 POSTMAN 了解 LINE Notify 如何使用
 
-現在爬蟲已經完全自動化了，接下來幾天我們就來實作爬蟲專案的最後階段：`完成爬蟲後的訊息通知`
+現在爬蟲已經完全自動化了，接下來幾天我們就來實作爬蟲專案的最後階段：`在爬蟲執行完成後發出本次爬蟲的摘要訊息`
 
 在訊息通知這個部分我`選擇使用 LINE Notify` 作為範例，你在了解邏輯後也可以自己改為用 Slack、Wechat、Messager... 等通訊軟體來通知喔
 
@@ -41,11 +41,20 @@
 
 # 2. 使用 POSTMAN 測試 LINE Notify
 ### 2.1 為什麼要先用 POSTMAN 測試 LINE Notify 呢？
-因為筆者的本職學能是後端，為了要驗證自己寫的 api 沒有在唬爛，我們需要有一個工具來驗明正身，`POSTMAN就是就是我們的首選`，因為這工具操作非常容易，用他與前端工程師、App工程師溝通協調也非常有效率
+說明這個問題之前，我們先來探討為什麼 POSTMAN 會這麼被工程師推崇，這裡我以個人經驗歸納成以下幾點：
+1. 對 **後端工程師** 而言，可以向合作夥伴證明自己寫的 api 沒有在唬爛，真的可以 work
+2. 對 **前端工程師、App工程師** 來說，能在串接 api 前先用 POSTMAN 確認後端工程師的 api 真的可以 work
+3. 有了這個工具作輔助，我們就能`將前後端責任歸屬的很清楚`，ex：如果 POSTMAN 上面可以正常 work，那就是前端要去思考自己 api 哪裡沒串好
+4. `工具操作難度極低`，只需要對網路的世界有基礎的認知就能快速上手
 
-而我們先用 POSTMAN 來測試 LINE Notify 最大的好處就是我們`可以在一行程式都不用寫`的狀態下觀察官方的 api 的運行邏輯是否跟說明書寫的一樣（因為筆者遇過有些工具的 api 說明書真的是在唬爛，我現在對官方說明書很沒有安全感ＱＱ）
+所以我們先用 POSTMAN 測試 LINE Notify 的理由是：
+1. 確保 LINE Notify api `執行所需的 Request 參數、Respone的結果與說明書一致`（這點非常重要，因為我看過很多 api 回傳的結構跟說明書完全不一樣）
+2. `在一行程式都不用寫`的狀態下測試所有的可能性
+3. 在 POSTMAN 驗證後就能專心寫程式，因為`如果程式無法發出 LINE 的通知一定是自己的問題`
 
-> **POSTMAN** 在工程師的世界中素有 `API測試神器`之稱，如果你對 POSTMAN 一無所知的話你可以先透過[這篇文章](https://tw.alphacamp.co/blog/postman-api-tutorial-for-beginners)了解一下他是做什麼的
+> #### 補充：
+>* **POSTMAN** 在工程師的世界中素有 `API測試神器`之稱，如果你對 POSTMAN 一無所知的話你可以先透過[這篇文章](https://tw.alphacamp.co/blog/postman-api-tutorial-for-beginners)了解一下他是做什麼的
+>* 他可以直接用 Gmail帳號登入在[網頁使用](https://www.postman.com/)，也能[下載桌面版 App](https://www.postman.com/downloads/)，相同帳號的操作記錄在兩邊會同步
 
 ### 2.2 用 POSTMAN 發出 LINE 的訊息
 1. 設定 Request 的參數
@@ -93,4 +102,5 @@
 2. [LINE Notify API Document](https://notify-bot.line.me/doc/en/)
 3. [Postman 新手教學](https://tw.alphacamp.co/blog/postman-api-tutorial-for-beginners)
 4. [HTTP 狀態碼一覽表](https://blog.poychang.net/http-status-code/)
+
 ### [Day28 LINE權杖取得，用POSTMAN測試](/day26/README.md)
