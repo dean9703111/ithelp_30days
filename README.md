@@ -62,7 +62,7 @@
 
 * 通知設定
     * [Day27 為爬蟲加上通知 - 透過 POSTMAN 了解 LINE Notify 如何使用](/day27/README.md)
-    * [Day28 為爬蟲加上通知 - 用 xmlhttprequest 發出 LINE 通知](/day28/README.md)
+    * [Day28 為爬蟲加上通知 - 用 axois 發出 LINE 通知](/day28/README.md)
     * [Day29 為爬蟲加上通知 - 成功收到 LINE 通知爬蟲摘要訊息，專案大功告成！](/day29/README.md)
 
 * 後話
