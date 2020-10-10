@@ -1,10 +1,14 @@
 #### [回目錄](../README.md)
 ## Day28 為爬蟲加上通知 - 用 axois 發出 LINE 通知
 
-在昨天用 POSTMAN 驗證 LINE Notify 的 api 可以使用後，今天我們就要在專案中增加發出 LINE 通知的功能
+>成功要選人少的路走，套件要選人多的來用
 
-Node.js 中能實現這個目標的套件其實挺多的：[superagent](https://www.npmjs.com/package/superagent)、[got](https://www.npmjs.com/package/got)、[axios](https://www.npmjs.com/package/axios)...，`今天我們採用axios來實現這個需求`，如果你有興趣你也可以使用不同的套件來完成今天的功能
->PS.其實我一開始是用 [xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest) 這個遠古套件完今天功能的
+![/images/emoticon/emoticon19.gif](/images/emoticon/emoticon19.gif)怎麼在 Node.js 中發出 Request 呢？
+----
+在 Node.js 中能實現這個目標的套件其實挺多的：[superagent](https://www.npmjs.com/package/superagent)、[got](https://www.npmjs.com/package/got)、[axios](https://www.npmjs.com/package/axios)...以上這些套件的使用人數都很多請安心服用，`今天我們採用axios來實現這個需求`，如果你有興趣你也可以使用不同的套件來完成今天的功能
+
+> PS.其實我一開始是用 [xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest) 這個遠古套件完這個功能的...但你看過套件介紹後你就知道為什麼我最後放棄它了
+
 ----
 
 🏆 今日目標
@@ -115,7 +119,7 @@ Node.js 中能實現這個目標的套件其實挺多的：[superagent](https://
 
 # 2. 用 axois 發出 LINE 通知
 在對 axois 有基礎了解後我們就把昨日在 POSTMAN 設定 Request 的參數搬移到專案程式吧，`在專案 tools 資料夾內新增 lineNotify.js`，今天我們要用這隻程式發出 LINE 通知
-
+* 因為傳送 data 的資料格式為 form-data ，所以請先下指令 `yarn add form-data` 安裝套件喔
 #### tools/lineNotify.js
 ```js
 const axios = require('axios')
@@ -161,14 +165,14 @@ lineNotify()
 
 🚀 執行程式
 ----
-在專案資料夾的終端機(Terminal)執行指令
-```vim
-node tools/lineNotify.js
-```
-確認印出的 HTTP狀態碼 & 回傳的資料與 POSTMAN 一致
-![image](./article_img/terminal.png)
-如果你的 LINE 收到發出的通知就代表你成功嚕！
-![image](./article_img/lineMsg.png)
+1. 在專案資料夾的終端機(Terminal)執行指令
+    ```vim
+    node tools/lineNotify.js
+    ```
+2. 確認印出的 HTTP狀態碼 & 回傳的資料與 POSTMAN 測試結果一致
+    ![image](./article_img/terminal.png)
+3. 如果你的 LINE 收到發出的通知就代表你成功嚕！
+    ![image](./article_img/lineMsg.png)
 
 ----
 
