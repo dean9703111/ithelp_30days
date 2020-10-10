@@ -84,7 +84,7 @@
 
 ### 2.3 透過 POSTMAN 傳送錯誤參數來了解 HTTP狀態碼的意思
 我們剛剛在 POSTMAN 看到 HTTP狀態碼為 200，接下來我們故意做一些錯誤測試來看看會有什麼樣的 Response
->請注意並不是每隻 api 都會回傳 status 這個參數，用 HTTP狀態碼判斷最安全
+> `請注意並不是每隻 api Response data 中的 status 都等於 HTTP狀態碼`，只是 LINE Notify 剛好是依照這個邏輯顯示，我們可以用它來幫助我們對 HTTP狀態碼的了解
 >![image](./article_img/POSTMANResponse200.png)
 1. 不填寫 LINE Notify 的權杖
     * HTTP狀態碼為 401，代表需要授權才能使用
