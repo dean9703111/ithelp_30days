@@ -14,16 +14,16 @@ async function combineErrMsg (error_title_array, type) {
 }
 async function lineNotify (time, ig_total_page, fb_total_page, ig_error_title_array, fb_error_title_array) {
     const token = process.env.LINE_TOKEN;
-    // 將錯誤頁面資訊組合
+    // 無法爬蟲的FB粉專、IG帳號名稱整合
     const fb_error_msg = await combineErrMsg(fb_error_title_array, "FB")
-    const ig_error_msg = await combineErrMsg(ig_error_title_array, "FB")
+    const ig_error_msg = await combineErrMsg(ig_error_title_array, "IG")
     let error_msg = fb_error_msg + ig_error_msg
 
-    //組合訊息
+    // 組合傳送訊息
     const message =
         `\n\n已完成今日爬蟲排程作業` +
         `\n共費時:${time}` +
-        `\n總計掃描FB粉專: ${fb_total_page} 、IG粉專: ${ig_total_page}` +
+        `\n總計掃描FB粉專: ${fb_total_page} 、IG帳號: ${ig_total_page}` +
         `\nGoogle Sheet: https://docs.google.com/spreadsheets/d/${process.env.SPREADSHEET_ID}` +
         error_msg;
     

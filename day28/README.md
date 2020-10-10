@@ -172,10 +172,28 @@ node tools/lineNotify.js
 
 ----
 
+ℹ️ 專案原始碼
+----
+* 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day28)找到喔
+* 我昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day27_sample_code.zip)，你可以在乾淨的環境為專案加入發出LINE通知的功能
+    * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
+    * 要在tools/google_sheets資料夾放上自己的憑證
+    * 調整fanspages資料夾內目標爬蟲的粉專網址
+    * 調整.env檔
+        * 填上FB登入資訊
+        * 填上FB版本(classic/new)
+        * 填上IG登入資訊
+        * 填上SPREADSHEET_ID
+        * 填上爬蟲執行時間(CRONJOB_TIME)
+    * 在終端機下指令 **npm install forever -g** ，讓你在終端機的任何位置都能管控排程
+    * 在sh資料夾中設定執行排程的shell script
+
+----
+
 📖 參考資源
 ----
 1. [由前端request 的幾種方法](https://medium.com/dot-js/%E7%94%B1%E5%89%8D%E7%AB%AFrequest-%E7%9A%84%E5%B9%BE%E7%A8%AE%E6%96%B9%E6%B3%95-fbf8a0b4023a)
 2. [5 Ways to Make HTTP Requests in Node.js](https://www.twilio.com/blog/2017/08/http-requests-in-node-js.html)
 3. [axios 基本使用 & Config](https://ithelp.ithome.com.tw/articles/10212120)
 
-### [Day29 為爬蟲加上通知 - 成功收到 LINE 通知爬蟲摘要訊息，專案大功告成！](/day26/README.md)
+### [Day29 為爬蟲加上通知 - 成功收到 LINE 通知爬蟲摘要訊息，專案大功告成！](/day29/README.md)
