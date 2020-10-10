@@ -28,7 +28,6 @@ function spendTime (start_time, end_time) {
     const milisecond = end_time.getTime() - start_time.getTime()  //時間差的毫秒數  
     //計算出相差天數  
     const days = Math.floor(milisecond / (24 * 3600 * 1000))
-
     //計算出小時數  
     const leave1 = milisecond % (24 * 3600 * 1000)// 計算天數後剩余的毫秒數  
     const hours = Math.floor(leave1 / (3600 * 1000))
