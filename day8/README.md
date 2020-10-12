@@ -190,6 +190,7 @@ openCrawlerWeb()//打開爬蟲網頁
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day8)找到喔
 * 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day7_sample_code.zip)，你可以用裡面乾淨的環境來實作今天的功能喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
+    * windows需下載與你chrome版本相同的[chrome driver](http://chromedriver.storage.googleapis.com/index.html)放在專案根目錄
 
 📖 參考資源
 ----

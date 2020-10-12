@@ -207,6 +207,7 @@ token.json
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day17)找到喔
 * 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day16_sample_code.zip)，你可以用裡面乾淨的環境來實作今天Google Sheets的起手式喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
+    * windows需下載與你chrome版本相同的[chrome driver](http://chromedriver.storage.googleapis.com/index.html)放在專案根目錄
     * 要在tools/google_sheets資料夾放上自己的憑證，今天的程式才能執行喔
     
 ### [Day18 Google Sheets-加入版控後被github警告了，官方範例做了什麼？](/day18/README.md)

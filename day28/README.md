@@ -3,11 +3,15 @@
 
 >成功要選人少的路走，套件要選人多的來用
 
-![/images/emoticon/emoticon19.gif](/images/emoticon/emoticon19.gif)怎麼在 Node.js 中發出 Request 呢？
+![/images/emoticon/emoticon19.gif](/images/emoticon/emoticon19.gif) 如何選擇 Node.js 中發出 Request 的套件？
 ----
-在 Node.js 中能實現這個目標的套件其實挺多的：[superagent](https://www.npmjs.com/package/superagent)、[got](https://www.npmjs.com/package/got)、[axios](https://www.npmjs.com/package/axios)...以上這些套件的使用人數都很多請安心服用，`今天我們採用axios來實現這個需求`，如果你有興趣你也可以使用不同的套件來完成今天的功能
+雖然眾多的套件都能實現這個目標，但我還是做個簡單的區分：
+1. 古老且沒再更新的套件：[https](https://www.npmjs.com/package/https)、[xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest)、[request](https://github.com/request/request)(這個套件在今年二月宣告廢棄)
+2. 使用人數眾多且持續更新的套件：[superagent](https://www.npmjs.com/package/superagent)、[node-fetch](https://www.npmjs.com/package/node-fetch)、[got](https://www.npmjs.com/package/got)、[axios](https://www.npmjs.com/package/axios)
 
-> PS.其實我一開始是用 [xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest) 這個遠古套件完這個功能的...但你看過套件介紹後你就知道為什麼我最後放棄它了
+原則上選擇`使用人數眾多且持續更新的套件最安全`，因為古老的套件通常文件不齊全且無人維護，如果某一天宣告廢棄你的專案就要大量改寫了
+
+> 本專案採用 `axios` 來實現這個需求，如果你有興趣你也能嘗試不同的套件來完成今天的功能
 
 ----
 
@@ -181,6 +185,7 @@ lineNotify()
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day28)找到喔
 * 我昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day27_sample_code.zip)，你可以在乾淨的環境為專案加入發出LINE通知的功能
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
+    * windows需下載與你chrome版本相同的[chrome driver](http://chromedriver.storage.googleapis.com/index.html)放在專案根目錄
     * 要在tools/google_sheets資料夾放上自己的憑證
     * 調整fanspages資料夾內目標爬蟲的粉專網址
     * 調整.env檔
