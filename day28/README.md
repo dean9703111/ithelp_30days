@@ -194,6 +194,7 @@ lineNotify()
         * 填上IG登入資訊
         * 填上SPREADSHEET_ID
         * 填上爬蟲執行時間(CRONJOB_TIME)
+        * 填上LINE Notify申請的權杖(LINE_TOKEN)
     * 在終端機下指令 **npm install forever -g** ，讓你在終端機的任何位置都能管控排程
     * 在sh資料夾中設定執行排程的shell script
 
