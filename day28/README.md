@@ -1,5 +1,5 @@
 #### [回目錄](../README.md)
-## Day28 為爬蟲加上通知 - 用 axois 發出 LINE 通知
+## Day28 為爬蟲加上通知 - 用 axios 發出 LINE 通知
 
 >成功要選人少的路走，套件要選人多的來用
 
@@ -17,14 +17,14 @@
 
 🏆 今日目標
 ----
-### 1. axois 基礎介紹
+### 1. axios 基礎介紹
 1.1 安裝 / GET / POST 基礎用法
 1.2 請求配置說明
-### 2. 用 axois 發出 LINE 通知 
+### 2. 用 axios 發出 LINE 通知 
 
 ----
 
-# 1. axois 基礎介紹
+# 1. axios 基礎介紹
 
 ### 1.1 安裝 / GET / POST 基礎用法
 * **安裝**
@@ -121,8 +121,8 @@
 
 ----
 
-# 2. 用 axois 發出 LINE 通知
-在對 axois 有基礎了解後我們就把昨日在 POSTMAN 設定 Request 的參數搬移到專案程式吧，`在專案 tools 資料夾內新增 lineNotify.js`，今天我們要用這隻程式發出 LINE 通知
+# 2. 用 axios 發出 LINE 通知
+在對 axios 有基礎了解後我們就把昨日在 POSTMAN 設定 Request 的參數搬移到專案程式吧，`在專案 tools 資料夾內新增 lineNotify.js`，今天我們要用這隻程式發出 LINE 通知
 * 因為傳送 data 的資料格式為 form-data ，所以請先下指令 `yarn add form-data` 安裝套件喔
 #### tools/lineNotify.js
 ```js

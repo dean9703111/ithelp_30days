@@ -104,4 +104,4 @@
 3. [Postman 新手教學](https://tw.alphacamp.co/blog/postman-api-tutorial-for-beginners)
 4. [HTTP 狀態碼一覽表](https://blog.poychang.net/http-status-code/)
 
-### [Day28 為爬蟲加上通知 - 用 axois 發出 LINE 通知](/day28/README.md)
+### [Day28 為爬蟲加上通知 - 用 axios 發出 LINE 通知](/day28/README.md)
