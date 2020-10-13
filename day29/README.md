@@ -232,4 +232,4 @@ async function lineNotify (time, ig_total_page, fb_total_page, ig_error_title_ar
     * 在終端機下指令 **npm install forever -g** ，讓你在終端機的任何位置都能管控排程
     * 在sh資料夾中設定執行排程的shell script
 
-### [Day30 時間只是考驗，心中信念絲毫未減](/day30/README.md)
+### [Day30 完賽心得 - 時間只是考驗，心中信念絲毫未減](/day30/README.md)
