@@ -92,9 +92,13 @@
     * 填上IG登入資訊
     * 填上SPREADSHEET_ID
     * 填上爬蟲執行時間(CRONJOB_TIME)
-    * 填上LINE Notify申請的權杖(LINE_TOKEN)
+    * 填上LINE Notify申請的權杖(LINE_TOKEN)，申請流程請參考[Day27](/day27/README.md) 
 * 在終端機下指令 **yarn start** 執行專案(windows為 **yarn win_start**)
-> 如果想幫專案加上排程請閱讀[Day24](/day24/README.md)～[Day26](/day26/README.md)的文章喔
+> 1. 如果執行失敗請將 `tools/initDrive.js` 下面這行程式註解，讓瀏覽器顯示來確認是哪個步驟出問題了
+>    > ```js
+>    > //options.addArguments('--headless')
+>    > ```
+> 2. 如果想幫專案加上排程請閱讀[Day24](/day24/README.md)～[Day26](/day26/README.md)的文章喔
 
 ----
 
