@@ -42,7 +42,7 @@
     * [Day11 舉一反三，帶你了解IG爬蟲不可忽略細節](/day11/README.md)
     * [Day12 合體吧！用一隻程式搞定FB、IG爬蟲](/day12/README.md)
     * [Day13 refactor-亂糟糟的房間沒人喜歡，程式也是](/day13/README.md)
-    * [Day14 程式又又又崩潰了嗎？來點try-catch吧](/day14/README.md)
+    * [Day14 爬蟲執行時又又又崩潰了嗎？來點 try-catch 吧](/day14/README.md)
     * [Day15 json x 爬蟲 = 瑣事自動化，生命應該浪費在美好的事情上](/day15/README.md)
     * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 學會爬蟲，之後呢？](/day16/README.md)
 
@@ -62,9 +62,9 @@
 
 * 通知設定
     * [Day27 為爬蟲加上通知 - 透過 POSTMAN 了解 LINE Notify 如何使用](/day27/README.md)
-    * [Day28 為爬蟲加上通知 - 用 axois 發出 LINE 通知](/day28/README.md)
+    * [Day28 為爬蟲加上通知 - 用 axios 發出 LINE 通知](/day28/README.md)
     * [Day29 為爬蟲加上通知 - 成功收到 LINE 通知爬蟲摘要訊息，專案大功告成！](/day29/README.md)
 
 * 後話
-    * [Day30 時間只是考驗，心中信念絲毫未減](/day30/README.md)
+    * [Day30 完賽心得 - 時間只是考驗，心中信念絲毫未減](/day30/README.md)
 
