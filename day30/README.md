@@ -84,7 +84,7 @@
 在文章的最後放上這次專案的完整程式碼，你只要下載這個[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day29_sample_code.zip)並依照下方的提示完成設定就能體驗爬蟲的樂趣嚕
 * 在終端機下指令 **yarn** 安裝套件
 * windows需下載與你chrome版本相同的[chrome driver](http://chromedriver.storage.googleapis.com/index.html)放在專案根目錄
-* 要在tools/google_sheets資料夾放上Google sheets的憑證，[申請位置](https://developers.google.com/sheets/api/quickstart/nodejs) 
+* 要在tools/google_sheets資料夾放上Google sheets的憑證，申請流程請參考[Day17](/day17/README.md) 
 * 調整fanspages資料夾內目標爬蟲的粉專網址
 * 調整.env檔
     * 填上FB登入資訊

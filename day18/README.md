@@ -163,6 +163,6 @@
 * 今天的完整程式碼可以在[這裡](https://github.com/dean9703111/ithelp_30days/tree/master/day18)找到喔
 * 我也貼心地把昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day17_sample_code.zip)，你可以用裡面乾淨的環境來改寫Google Sheets的範例喔
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
-    * 要在tools/google_sheets資料夾放上自己的憑證，今天的程式才能執行喔
+    * 在tools/google_sheets資料夾放上自己的憑證，申請流程請參考[Day17](/day17/README.md)，今天的程式才能執行喔
 
 ### [Day19 Google Sheets-你在文件迷路了嗎？用兩個處理Sheet的範例帶你攻略官方文件](/day19/README.md)

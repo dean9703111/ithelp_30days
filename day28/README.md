@@ -186,7 +186,7 @@ lineNotify()
 * 我昨天的把昨天的程式碼打包成[壓縮檔](https://github.com/dean9703111/ithelp_30days/raw/master/sampleCode/day27_sample_code.zip)，你可以在乾淨的環境為專案加入發出LINE通知的功能
     * 請記得在終端機下指令 **yarn** 才會把之前的套件安裝
     * windows需下載與你chrome版本相同的[chrome driver](http://chromedriver.storage.googleapis.com/index.html)放在專案根目錄
-    * 要在tools/google_sheets資料夾放上自己的憑證
+    * 在tools/google_sheets資料夾放上自己的憑證，申請流程請參考[Day17](/day17/README.md)
     * 調整fanspages資料夾內目標爬蟲的粉專網址
     * 調整.env檔
         * 填上FB登入資訊
@@ -194,7 +194,7 @@ lineNotify()
         * 填上IG登入資訊
         * 填上SPREADSHEET_ID
         * 填上爬蟲執行時間(CRONJOB_TIME)
-        * 填上LINE Notify申請的權杖(LINE_TOKEN)
+        * 填上LINE Notify申請的權杖(LINE_TOKEN)，申請流程請參考[Day27](/day27/README.md) 
     * 在終端機下指令 **npm install forever -g** ，讓你在終端機的任何位置都能管控排程
     * 在sh資料夾中設定執行排程的shell script
 
