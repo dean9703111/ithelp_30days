@@ -41,7 +41,7 @@
     * [Day10 關閉干擾爬蟲的彈窗，將FB粉專追蹤數納入囊中](https://ithelp.ithome.com.tw/articles/10243683)
     * [Day11 舉一反三，帶你了解IG爬蟲不可忽略細節](https://ithelp.ithome.com.tw/articles/10243874)
     * [Day12 合體吧！用一隻程式搞定FB、IG爬蟲](https://ithelp.ithome.com.tw/articles/10243941)
-    * [Day13 refactor-亂糟糟的房間沒人喜歡，程式也是](https://ithelp.ithome.com.tw/articles/10243960)
+    * [Day13 重構程式碼，減少歷史業障](https://ithelp.ithome.com.tw/articles/10243960)
     * [Day14 爬蟲執行時又又又崩潰了嗎？來點 try-catch 吧](https://ithelp.ithome.com.tw/articles/10243972)
     * [Day15 json x 爬蟲 = 瑣事自動化，生命應該浪費在美好的事情上](https://ithelp.ithome.com.tw/articles/10244326)
     * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 學會爬蟲，之後呢？](https://ithelp.ithome.com.tw/articles/10244446)
