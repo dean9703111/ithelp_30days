@@ -100,7 +100,7 @@ function checkDriver() {
     try {
         chrome.getDefaultService()//確認是否有預設
     } catch {
-        console.log('找不到預設driver!');
+        console.warn('找不到預設driver!');
         const file_path = '../chromedriver.exe'//'../chromedriver.exe'記得調整成自己的路徑
         console.log(path.join(__dirname, file_path));//請確認印出來日誌中的位置是否與你路徑相同
         if (fs.existsSync(path.join(__dirname, file_path))) {//確認路徑下chromedriver.exe是否存在            
@@ -108,7 +108,7 @@ function checkDriver() {
             chrome.setDefaultService(service);
             console.log('設定driver路徑');
         } else {
-            console.log('無法設定driver路徑');
+            console.error('無法設定driver路徑');
             return false
         }
     }
@@ -120,9 +120,9 @@ async function crawler () {
         return
     }
 
-    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
+    let driver = await new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個browser的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
-    driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
+    await driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
 
     //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
     await loginInstagramGetTrace(driver)

@@ -36,6 +36,7 @@
     * [Day7 gitignore-杜絕上傳錯誤資料，從此不再發生慘痛經驗](https://ithelp.ithome.com.tw/articles/10241730)
 
 * 網頁爬蟲
+<<<<<<< HEAD
     * [Day8 selenium-webdriver：爬蟲起手式，帶你認識所見即所得的爬蟲工具](https://ithelp.ithome.com.tw/articles/10241791)
     * [Day9 爬蟲第一步，FB先登入](https://ithelp.ithome.com.tw/articles/10242625)
     * [Day10 關閉干擾爬蟲的彈窗，將FB粉專追蹤數納入囊中](https://ithelp.ithome.com.tw/articles/10243683)
@@ -45,6 +46,17 @@
     * [Day14 爬蟲執行時又又又崩潰了嗎？來點 try-catch 吧](https://ithelp.ithome.com.tw/articles/10243972)
     * [Day15 json x 爬蟲 = 瑣事自動化，生命應該浪費在美好的事情上](https://ithelp.ithome.com.tw/articles/10244326)
     * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 學會爬蟲，之後呢？](https://ithelp.ithome.com.tw/articles/10244446)
+=======
+    * [Day8 selenium-webdriver：爬蟲起手式，帶你認識所見即所得的爬蟲工具](/day8/README.md)
+    * [Day9 爬蟲第一步，FB先登入](/day9/README.md)
+    * [Day10 關閉干擾爬蟲的彈窗，將FB粉專追蹤數納入囊中](/day10/README.md)
+    * [Day11 舉一反三，帶你了解IG爬蟲不可忽略細節](/day11/README.md)
+    * [Day12 合體吧！用一隻程式搞定FB、IG爬蟲](/day12/README.md)
+    * [Day13 重構程式碼，減少歷史業障](/day13/README.md)
+    * [Day14 爬蟲執行時又又又崩潰了嗎？來點 try-catch 吧](/day14/README.md)
+    * [Day15 json x 爬蟲 = 瑣事自動化，生命應該浪費在美好的事情上](/day15/README.md)
+    * [Day16 不藏私，加上5行程式就能優化爬蟲的小技巧 ＆ 學會爬蟲，之後呢？](/day16/README.md)
+>>>>>>> 12780a5d40a327b4a587829824a908d327cc79d0
 
 * Google Sheets
     * [Day17 Google Sheets-免費儲存資料的好選擇，一起進入省錢起手式](https://ithelp.ithome.com.tw/articles/10244557)
