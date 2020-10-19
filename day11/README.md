@@ -92,10 +92,10 @@
 ### 3.2 設定瀏覽器開啟時的視窗大小
 * 為了避免因為螢幕寬度不一樣造成Xpath不同，所以我們要`設定瀏覽器開啟時的視窗大小`(本專案以寬螢幕作為範例)，這樣才能保證你的爬蟲在不同電腦有一樣的執行結果
     ```js
-    // 建立broswer的類型
-    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();
+    // 建立browser的類型
+    let driver = await new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
-    driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
+    await driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
     ```
 ### 3.3 完成前往IG帳號並取得追蹤人數的程式    
 * 在固定螢幕寬度後，使用Xpath就能穩定的抓出帳號追蹤人數

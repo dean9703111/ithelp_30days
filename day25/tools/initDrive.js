@@ -13,15 +13,15 @@ options.addArguments('--disable-dev-shm-usage')//使用共享內存RAM
 options.addArguments('--disable-gpu')//規避部分chrome gpu bug
 
 
-function initDrive() {
+async function initDrive() {
     if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
         return
     }
 
 
-    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
+    let driver = await new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個browser的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
-    driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
+    await driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
 
     return driver
 }

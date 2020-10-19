@@ -128,7 +128,7 @@ const { updateGoogleSheets } = require("./tools/google_sheets");
 exports.crawler = crawler; //讓其他程式在引入時可以使用這個函式
 
 async function crawler () {
-    const driver = initDrive();
+    const driver = await initDrive();
     if (!driver) {
         return
     }

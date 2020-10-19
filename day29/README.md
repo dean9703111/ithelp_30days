@@ -89,7 +89,7 @@ exports.crawler = crawler;
 
 async function crawler () {
     const start_time = new Date(); // 取得開始時間
-    const driver = initDrive();
+    const driver = await initDrive();
     if (!driver) {
         return
     }

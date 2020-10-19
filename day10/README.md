@@ -55,7 +55,7 @@
 2. 讓chrome瀏覽器會依照這個設定建立
     ```js
     let driver = new webdriver.Builder().forBrowser("chrome").
-        withCapabilities(options).build();// 建立這個broswer的類型
+        withCapabilities(options).build();// 建立這個browser的類型
     ```
 3. **index.js** 加入上面的設定後在終端機(Terminal)執行指令
     ```vim

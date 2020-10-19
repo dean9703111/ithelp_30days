@@ -43,8 +43,8 @@ WebDriverError: element not interactable
 為了幫助讀者能較快掌握程式的邏輯，我根據每個函式所做的功能以及執行步驟列出結構如下：
 * **crawler** : 觸發爬蟲的函式
     1. 檢查Driver是否是設定
-    2. 建立這個broswer的類型
-    3. 設定broswer的視窗大小
+    2. 建立這個browser的類型
+    3. 設定browser的視窗大小
     4. **loginInstagramGetTrace** : 登入IG並取得指定帳號的追蹤人數
         >先執行IG爬蟲是因為有些人登入IG的方式是綁定FB帳號，這會導致我們程式需要判斷更多狀況；而讓IG先爬蟲就能避免這個問題嚕～
         1. 前往IG登入頁，填入登入資訊
@@ -182,9 +182,9 @@ async function crawler () {
         return
     }
 
-    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
+    let driver = await new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個browser的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
-    driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
+    await driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
 
     //因為有些人是用FB帳號登入IG，為了避免增加FB登出的動作，所以採取先對IG進行爬蟲
     await loginInstagramGetTrace(driver)

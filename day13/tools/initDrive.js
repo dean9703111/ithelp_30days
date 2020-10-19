@@ -8,15 +8,15 @@ options.setUserPreferences({ 'profile.default_content_setting_values.notificatio
 const path = require('path');//用於處理文件路徑的小工具
 const fs = require("fs");//讀取檔案用
 
-function initDrive () {
+async function initDrive () {
     if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
         return
     }
 
 
-    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
+    let driver = await new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個browser的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
-    driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
+    await driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
 
     return driver
 }

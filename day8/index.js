@@ -23,13 +23,13 @@ function checkDriver() {
     return true
 }
 
-function openCrawlerWeb() {
+async function openCrawlerWeb() {
 
     if (!checkDriver()) {// 檢查Driver是否是設定，如果無法設定就結束程式
         return
     }
 
-    let driver = new webdriver.Builder().forBrowser("chrome").build();// 建立這個broswer的類型
+    let driver = await new webdriver.Builder().forBrowser("chrome").build();// 建立這個browser的類型
     const web = 'https://www.google.com/';//填寫你想要前往的網站
     driver.get(web)//透國這個driver打開網頁
 }

@@ -40,9 +40,9 @@ async function loginInstagramGetTrace () {
         return
     }
 
-    let driver = new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個broswer的類型
+    let driver = await new webdriver.Builder().forBrowser("chrome").withCapabilities(options).build();// 建立這個browser的類型
     //考慮到ig在不同螢幕寬度時的Xpath不一樣，所以我們要在這裡設定統一的視窗大小
-    driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
+    await driver.manage().window().setRect({ width: 1280, height: 800, x: 0, y: 0 });
     
     const web = 'https://www.instagram.com/accounts/login';//前往IG登入頁面
     await driver.get(web)//在這裡要用await確保打開完網頁後才能繼續動作

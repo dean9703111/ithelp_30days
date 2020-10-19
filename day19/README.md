@@ -228,7 +228,7 @@ const { crawlerIG } = require("./tools/crawlerIG.js");
 const { updateGoogleSheets } = require("./tools/google_sheets");
 
 async function crawler () {
-    // const driver = initDrive();
+    // const driver = await initDrive();
     // if (!driver) {//driver不存在就結束程式
     //     return
     // }

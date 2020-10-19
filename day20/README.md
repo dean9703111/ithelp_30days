@@ -90,7 +90,7 @@ async function crawlerFB (driver) {
 主程式在收到 crawlerIG、crawlerFB 回傳的爬蟲資訊後提供給 updateGoogleSheets 當參數
 ```js
 async function crawler () {
-    const driver = initDrive();
+    const driver = await initDrive();
     if (!driver) {
         return
     }
