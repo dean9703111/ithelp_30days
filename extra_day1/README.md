@@ -10,7 +10,7 @@
 3. 下載 chrome
 4. 下載 chrome driever
 5. 下載專案 & 安裝套件
-6. 調整 .env & 放入 google sheet 憑證
+6. 專案運行環境設定
 7. 執行專案
 
 ------------------------
@@ -125,7 +125,7 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
     ```
 ----
 
-# 6. 調整 .env & 放入 google sheet 憑證
+# 6. 專案運行環境設定
 1. 調整 .env 裡面的參數
     ```
     #填寫自己登入IG的真實資訊(建議開小帳號來實驗，因為帳號使用太頻繁會被官方鎖住)
@@ -150,7 +150,10 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
     ```
 2. 放入 google sheet 憑證
     請在 tools/google_sheets 底下放入對應的 credentials.json、token.json
-
+3. 將 Server 時間設定為台灣時區，這樣 CRONJOB_TIME 設定就不需要換算時間惹
+    ```vim
+    sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime
+    ```
 ----
 
 # 7. 執行專案
